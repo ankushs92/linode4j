@@ -1,5 +1,6 @@
-package in.ankushs.linode4j.model;
+package in.ankushs.linode4j.model.linode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.Data;
  */
 @Data
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Scheduled {
 
     @JsonProperty("day")
@@ -16,9 +18,5 @@ public class Scheduled {
 
     @JsonProperty("window")
     private final String window;
-
-
-
-
 
 }

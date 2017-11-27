@@ -1,5 +1,6 @@
-package in.ankushs.linode4j.model;
+package in.ankushs.linode4j.model.linode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,8 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class LinodeAlert {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Alert {
 
     @JsonProperty(value = "cpu")
     private final Integer cpu;
@@ -25,4 +27,5 @@ public class LinodeAlert {
 
     @JsonProperty(value = "transfer_quota")
     private final Integer transferQuota;
+
 }

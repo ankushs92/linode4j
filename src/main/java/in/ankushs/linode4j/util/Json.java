@@ -19,32 +19,25 @@ public class Json {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    public static <T> T toObject(
-            final String json,
-            final Class<T> clazz
-    ) throws Exception
-    {
+    public static <T> T toObject(final String json, final Class<T> clazz ) throws Exception {
         PreConditions.notNull(clazz, "clazz cannot be null");
         return objectMapper
                    .readValue(json,clazz);
     }
 
-    public static String toJson(final Object object) throws Exception
-    {
+    public static String toJson(final Object object) throws Exception {
         PreConditions.notNull(object, "object cannot be null");
         return objectMapper
                 .writer()
                 .writeValueAsString(object);
     }
 
-    public static String toPrettyJson(final Object object) throws Exception
-    {
+    public static String toPrettyJson(final Object object) throws Exception {
         PreConditions.notNull(object, "object cannot be null");
         return objectMapper
                 .writer()
                 .withDefaultPrettyPrinter()
                 .writeValueAsString(object);
     }
-
 
 }

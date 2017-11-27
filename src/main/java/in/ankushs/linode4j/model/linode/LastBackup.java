@@ -1,5 +1,6 @@
-package in.ankushs.linode4j.model;
+package in.ankushs.linode4j.model.linode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import in.ankushs.linode4j.model.enums.Status;
 import lombok.Builder;
@@ -11,8 +12,9 @@ import java.util.Set;
 /**
  * Created by ankushsharma on 21/11/17.
  */
-@Builder
 @Data
+@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LastBackup {
 
     @JsonProperty("id")
@@ -33,10 +35,17 @@ public class LastBackup {
     @JsonProperty("updated")
     private final LocalDateTime updated;
 
-    @JsonProperty("updated")
+    @JsonProperty("finished")
     private final LocalDateTime finished;
 
     @JsonProperty("configs")
     private final Set<String> configs;
+
+    @JsonProperty("disks")
+    private final Set<Disk> disks;
+
+    //Should be an enum
+    @JsonProperty("availability")
+    private final String availability;
 
 }

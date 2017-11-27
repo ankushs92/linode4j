@@ -1,13 +1,19 @@
 package in.ankushs.linode4j.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import in.ankushs.linode4j.jackson.deserializers.StatusDeserializer;
 import lombok.Getter;
 
 /**
  * Created by ankushsharma on 21/11/17.
  */
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(using = StatusDeserializer.class)
 public enum Status {
 
+    UNKNOWN("unknown","Unknown status"),
     OFFLINE("offline","The Linode is powered off"),
     BOOTING("booting","The Linode is currently booting up."),
     RUNNING("running","The Linode is currently running."),
@@ -29,4 +35,19 @@ public enum Status {
         this.description = description;
     }
 
+    public static Status from(final String string){
+        Status result;
+        switch(string){
+            case "offline" : result = OFFLINE; break;
+            case "booting" : result = BOOTING; break;
+            case "running" : result = RUNNING; break;
+            case "shutting_down" : result = SHUTTING_DOWN; break;
+            case "rebooting" : result = REBOOTING; break;
+            case "provisioning" : result = PROVISIONING; break;
+            case "deleting" : result = DELETING; break;
+            case "migrating" : result = MIGRATING; break;
+            default : result = UNKNOWN;
+        }
+        return result;
+    }
 }
