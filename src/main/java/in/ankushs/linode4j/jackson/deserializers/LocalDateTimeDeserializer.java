@@ -14,12 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
 
     @Override
-    public LocalDateTime deserialize(
-            final JsonParser jsonParser,
-            final DeserializationContext ctxt
-    )
-    throws IOException
-    {
+    public LocalDateTime deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException{
         return LocalDateTime.parse(
                 jsonParser.getText(),
                 DateTimeFormatter.ISO_DATE_TIME

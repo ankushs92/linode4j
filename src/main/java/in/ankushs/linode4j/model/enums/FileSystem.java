@@ -1,7 +1,6 @@
 package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.deserializers.ArchitectureDeserializer;
 import in.ankushs.linode4j.jackson.deserializers.FileSystemDeserializer;
 import lombok.Getter;
 

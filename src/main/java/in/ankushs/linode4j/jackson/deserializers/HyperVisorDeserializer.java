@@ -13,12 +13,7 @@ import java.io.IOException;
 public class HyperVisorDeserializer extends JsonDeserializer<HyperVisor> {
 
     @Override
-    public HyperVisor deserialize(
-            final JsonParser jsonParser,
-            final DeserializationContext ctxt
-    )
-     throws IOException
-    {
+    public HyperVisor deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException{
         return HyperVisor.from(jsonParser.getText());
     }
 }

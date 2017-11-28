@@ -1,8 +1,7 @@
 package in.ankushs.linode4j.api;
 
-import in.ankushs.linode4j.constants.LinodeUrl;
-import in.ankushs.linode4j.model.linode.Linode;
 import in.ankushs.linode4j.model.interfaces.Page;
+import in.ankushs.linode4j.model.linode.Linode;
 import in.ankushs.linode4j.model.linode.LinodePageImpl;
 import in.ankushs.linode4j.util.Json;
 import in.ankushs.linode4j.util.PreConditions;
@@ -13,12 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
-import java.io.IOException;
 import java.util.Objects;
 
-import static in.ankushs.linode4j.constants.LinodeUrl.*;
+import static in.ankushs.linode4j.constants.LinodeUrl.LINODE_INSTANCE;
+import static in.ankushs.linode4j.constants.LinodeUrl.LINODE_INSTANCES;
 
 /**
  * Created by ankushsharma on 22/11/17.
@@ -42,11 +40,7 @@ public final class LinodeApi {
         this.okHttpClient = defaultHttpClient;
     }
 
-    public LinodeApi(
-            final String token,
-            final OkHttpClient okHttpClient
-    )
-    {
+    public LinodeApi(final String token, final OkHttpClient okHttpClient) {
         PreConditions.notEmptyString(token, "token cannot be null or empty");
         PreConditions.notNull(okHttpClient, "okHttpClient cannot be null");
 
@@ -54,14 +48,13 @@ public final class LinodeApi {
         this.okHttpClient = okHttpClient;
     }
 
-    public Page<Linode> getLinodes(final int pageNo)
-    {
+    public Page<Linode> getLinodes(final int pageNo) {
         PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
         val request = new Request
-                            .Builder()
-                                .addHeader("Authorization", "Bearer " +  token)
-                                .url(LINODE_INSTANCES.replace("{page}", String.valueOf(pageNo)))
-                            .build();
+                .Builder()
+                .addHeader("Authorization", "Bearer " + token)
+                .url(LINODE_INSTANCES.replace("{page}", String.valueOf(pageNo)))
+                .build();
 
         LinodePageImpl page = null;
 
@@ -71,8 +64,7 @@ public final class LinodeApi {
                 val json = respBody.string();
                 page = Json.toObject(json, LinodePageImpl.class);
             }
-        }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             log.error("", ex);
         }
 
@@ -80,8 +72,7 @@ public final class LinodeApi {
     }
 
 
-    public Linode getLinodeById(final Integer id)
-    {
+    public Linode getLinodeById(final Integer id) {
         PreConditions.notNull(id, "id cannot be null or empty");
         Linode linode = null;
 
@@ -97,8 +88,7 @@ public final class LinodeApi {
                 val json = respBody.string();
                 linode = Json.toObject(json, Linode.class);
             }
-        }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             log.error("", ex);
         }
 

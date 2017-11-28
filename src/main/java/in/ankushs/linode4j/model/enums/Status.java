@@ -26,11 +26,7 @@ public enum Status {
     private final String code;
     private final String description;
 
-    Status(
-            final String code,
-            final String description
-    )
-    {
+    Status(final String code, final String description){
         this.code = code;
         this.description = description;
     }

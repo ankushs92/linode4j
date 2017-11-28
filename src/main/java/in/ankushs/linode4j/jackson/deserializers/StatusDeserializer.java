@@ -13,12 +13,7 @@ import java.io.IOException;
 public class StatusDeserializer extends JsonDeserializer<Status> {
 
     @Override
-    public Status deserialize(
-            final JsonParser jsonParser,
-            final DeserializationContext ctxt
-    )
-     throws IOException
-    {
+    public Status deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException{
         return Status.from(jsonParser.getText());
     }
 }

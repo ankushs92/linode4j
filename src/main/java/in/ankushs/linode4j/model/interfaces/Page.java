@@ -1,10 +1,5 @@
 package in.ankushs.linode4j.model.interfaces;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-
 import java.util.Set;
 
 /**
@@ -12,5 +7,12 @@ import java.util.Set;
  */
 public interface Page<T> {
 
+    Integer getTotalPages();
+
+    Integer getCurrentPageCount();
+
+    Integer getTotalResults();
+
+    Set<T> getResult();
 
 }
