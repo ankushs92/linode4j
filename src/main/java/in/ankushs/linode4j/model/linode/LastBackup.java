@@ -2,7 +2,7 @@ package in.ankushs.linode4j.model.linode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import in.ankushs.linode4j.model.enums.Status;
+import in.ankushs.linode4j.model.enums.LinodeStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class LastBackup {
     private final String label;
 
     @JsonProperty("status")
-    private final Status status;
+    private final LinodeStatus status;
 
     @JsonProperty("region")
     private final String region;

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.deserializers.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.enums.HyperVisor;
-import in.ankushs.linode4j.model.enums.Status;
+import in.ankushs.linode4j.model.enums.LinodeStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -53,7 +53,7 @@ public class Linode  {
     private final String slug;
 
     @JsonProperty("status")
-    private final Status status;
+    private final LinodeStatus status;
 
     @JsonProperty("updated")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

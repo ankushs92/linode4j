@@ -1,98 +1,44 @@
 package in.ankushs.linode4j.api;
 
+import in.ankushs.linode4j.model.linode.Devices;
 import in.ankushs.linode4j.model.interfaces.Page;
 import in.ankushs.linode4j.model.linode.Linode;
-import in.ankushs.linode4j.model.linode.LinodePageImpl;
-import in.ankushs.linode4j.util.Json;
-import in.ankushs.linode4j.util.PreConditions;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-
-import java.util.Objects;
-
-import static in.ankushs.linode4j.constants.LinodeUrl.LINODE_INSTANCE;
-import static in.ankushs.linode4j.constants.LinodeUrl.LINODE_INSTANCES;
+import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
+import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
+import in.ankushs.linode4j.model.linode.response.LinodeCloneResponse;
+import in.ankushs.linode4j.model.linode.BlockStorageVolume;
 
 /**
  * Created by ankushsharma on 22/11/17.
  */
-@Data
-@Slf4j
-public final class LinodeApi {
+public interface LinodeApi {
 
-    private static final OkHttpClient defaultHttpClient = new OkHttpClient();
+    Page<Linode> getLinodes(int pageNo);
 
-    @Getter(AccessLevel.NONE)
-    private final String token;
+    Linode getLinodeById(int id);
 
-    @Getter(AccessLevel.NONE)
-    private final OkHttpClient okHttpClient;
+    void bootLinode(int linodeId);
 
-    public LinodeApi(final String token) {
-        PreConditions.notEmptyString(token, "token cannot be null or empty");
+    void bootLinode(int linodeId, Integer configId);
 
-        this.token = token;
-        this.okHttpClient = defaultHttpClient;
-    }
+    LinodeCloneResponse cloneLinode(int linodeId, LinodeCloneRequest request);
 
-    public LinodeApi(final String token, final OkHttpClient okHttpClient) {
-        PreConditions.notEmptyString(token, "token cannot be null or empty");
-        PreConditions.notNull(okHttpClient, "okHttpClient cannot be null");
+    void kvmify(int linodeId);
 
-        this.token = token;
-        this.okHttpClient = okHttpClient;
-    }
+    void mutate(int linodeId);
 
-    public Page<Linode> getLinodes(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
-        val request = new Request
-                .Builder()
-                .addHeader("Authorization", "Bearer " + token)
-                .url(LINODE_INSTANCES.replace("{page}", String.valueOf(pageNo)))
-                .build();
+    void rebootLinode(int linodeId);
 
-        LinodePageImpl page = null;
+    void rebootLinode(int linodeId, Integer configId);
 
-        try (val response = okHttpClient.newCall(request).execute()) {
-            val respBody = response.body();
-            if (Objects.nonNull(respBody)) {
-                val json = respBody.string();
-                page = Json.toObject(json, LinodePageImpl.class);
-            }
-        } catch (final Exception ex) {
-            log.error("", ex);
-        }
+    void rebuildLinode(int linodeId, LinodeRebuildRequest request);
 
-        return page;
-    }
+    void rescueLinode(int linodeId, Devices devices);
 
+    void resizeLinode(int linodeId, String type);
 
-    public Linode getLinodeById(final Integer id) {
-        PreConditions.notNull(id, "id cannot be null or empty");
-        Linode linode = null;
+    void shutdownLinode(int linodeId);
 
-        val request = new Request
-                .Builder()
-                .addHeader("Authorization", "Bearer " + token)
-                .url(LINODE_INSTANCE.replace("{id}", String.valueOf(id)))
-                .build();
-
-        try (val response = okHttpClient.newCall(request).execute()) {
-            val respBody = response.body();
-            if (Objects.nonNull(respBody)) {
-                val json = respBody.string();
-                linode = Json.toObject(json, Linode.class);
-            }
-        } catch (final Exception ex) {
-            log.error("", ex);
-        }
-
-        return linode;
-    }
+    Page<BlockStorageVolume> getBlockStorageVolumes(int linodeId);
 }
 

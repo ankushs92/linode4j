@@ -1,23 +1,21 @@
-package in.ankushs.linode4j.model.linode;
+package in.ankushs.linode4j.model.image;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.deserializers.LocalDateTimeDeserializer;
-import in.ankushs.linode4j.model.enums.LinodeStatus;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
- * Created by ankushsharma on 27/11/17.
+ * Created by ankushsharma on 29/11/17.
  */
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Snapshot {
+public class Image {
 
     @JsonProperty("id")
     private final Integer id;
@@ -25,15 +23,15 @@ public class Snapshot {
     @JsonProperty("label")
     private final String label;
 
+    @JsonProperty("description")
+    private final String description;
+
+    //NOTE : This should be an enum. Linode's documentation is missing these enum types.
     @JsonProperty("status")
-    private final LinodeStatus status;
+    private final String status;
 
-    //Should be an enum
-    @JsonProperty("type")
-    private final String type;
-
-    @JsonProperty("region")
-    private final String region;
+    @JsonProperty("filesystem")
+    private final String filesystem;
 
     @JsonProperty("created")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -43,18 +41,14 @@ public class Snapshot {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private final LocalDateTime updated;
 
-    @JsonProperty("finished")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private final LocalDateTime finished;
+    //NOTE : This should be an enum. Linode's documentation is missing these enum types.
+    @JsonProperty("type")
+    private final String type;
 
-    @JsonProperty("configs")
-    private final Set<String> configs;
+    @JsonProperty("label")
+    private final String label;
 
-    @JsonProperty("disks")
-    private final Set<Disk> disks;
-
-    //Should be an enum
-    @JsonProperty("availability")
-    private final String availability;
+    @JsonProperty("label")
+    private final String label;
 
 }

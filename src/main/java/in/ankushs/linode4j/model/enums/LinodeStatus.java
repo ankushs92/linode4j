@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = StatusDeserializer.class)
-public enum Status {
+public enum LinodeStatus {
 
     UNKNOWN("unknown","Unknown status"),
     OFFLINE("offline","The Linode is powered off"),
@@ -26,13 +26,13 @@ public enum Status {
     private final String code;
     private final String description;
 
-    Status(final String code, final String description){
+    LinodeStatus(final String code, final String description){
         this.code = code;
         this.description = description;
     }
 
-    public static Status from(final String string){
-        Status result;
+    public static LinodeStatus from(final String string){
+        LinodeStatus result;
         switch(string){
             case "offline" : result = OFFLINE; break;
             case "booting" : result = BOOTING; break;
