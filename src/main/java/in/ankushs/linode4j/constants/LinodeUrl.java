@@ -9,4 +9,6 @@ public class LinodeUrl {
     public static final String LINODE_INSTANCES = BASE_URL_V4 + "/linode/instances?page={page}";
     public static final String LINODE_INSTANCE = BASE_URL_V4 + "/linode/instances/{id}";
 
+    public static final String INVOICES = BASE_URL_V4 + "/account/invoices?page={page}";
+
 }

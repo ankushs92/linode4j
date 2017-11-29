@@ -21,11 +21,14 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Linode  {
 
+    @JsonProperty("id")
+    private final Integer id;
+
     @JsonProperty("alerts")
-    private final Set<Alert> alerts;
+    private final Alert alerts;
 
     @JsonProperty("backups")
-    private final Set<Backup> backups;
+    private final Backup backups;
 
     @JsonProperty("created")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

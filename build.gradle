@@ -19,10 +19,10 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
-    compile('org.projectlombok:lombok:1.16.10')
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.2'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.2'
 
     compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.9.1'
 

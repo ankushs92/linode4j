@@ -1,9 +1,11 @@
-package in.ankushs.linode4j.model.image;
+package in.ankushs.linode4j.model.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.deserializers.LocalDateTimeDeserializer;
+import in.ankushs.linode4j.model.enums.EventAction;
+import in.ankushs.linode4j.model.enums.EventStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,23 +17,37 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Image {
+public class AccountEvent {
 
     @JsonProperty("id")
     private final Integer id;
 
-    @JsonProperty("label")
-    private final String label;
+    @JsonProperty("entity")
+    private final EventEntity entity;
 
-    @JsonProperty("description")
-    private final String description;
+    @JsonProperty("action")
+    private final EventAction action;
 
-    //NOTE : This should be an enum. Linode's documentation is missing these enum types.
+    @JsonProperty("username")
+    private final String username;
+
     @JsonProperty("status")
-    private final String status;
+    private final EventStatus status;
 
-    @JsonProperty("filesystem")
-    private final String filesystem;
+    @JsonProperty("percent_complete")
+    private final Integer percentComplete;
+
+    @JsonProperty("rate")
+    private final String rate;
+
+    @JsonProperty("time_remaining")
+    private final String timeRemaining;
+
+    @JsonProperty("seen")
+    private final Boolean hasBeenSeen;
+
+    @JsonProperty("read")
+    private final Boolean hasBeenRead;
 
     @JsonProperty("created")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -41,15 +57,5 @@ public class Image {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private final LocalDateTime updated;
 
-    //NOTE : This should be an enum. Linode's documentation is missing these enum types.
-    @JsonProperty("type")
-    private final String type;
-
-    @JsonProperty("is_public")
-    private final Boolean isPublic;
-
-    @JsonProperty("last_used")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private final LocalDateTime lastUsed;
 
 }

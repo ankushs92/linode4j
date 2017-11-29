@@ -1,12 +1,15 @@
 package in.ankushs.linode4j.api;
 
-import in.ankushs.linode4j.model.linode.Devices;
+import in.ankushs.linode4j.model.account.AccountEvent;
+import in.ankushs.linode4j.model.account.Invoice;
+import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
+import in.ankushs.linode4j.model.linode.BlockStorageVolume;
+import in.ankushs.linode4j.model.linode.Devices;
 import in.ankushs.linode4j.model.linode.Linode;
 import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeCloneResponse;
-import in.ankushs.linode4j.model.linode.BlockStorageVolume;
 
 /**
  * Created by ankushsharma on 22/11/17.
@@ -39,6 +42,22 @@ public interface LinodeApi {
 
     void shutdownLinode(int linodeId);
 
-    Page<BlockStorageVolume> getBlockStorageVolumes(int linodeId);
+    Page<BlockStorageVolume> getBlockStorageVolumesByLinodeId(int linodeId);
+
+    Image getImageById(int imageId);
+
+    Page<Image> getImages(int pageNo);
+
+    void deleteImage(int imageId);
+
+    Page<AccountEvent> getAccountEvents(int pageNo);
+
+    AccountEvent getAccountEventById(int accountEventId);
+
+    void markAccountEventAsRead(int accountEventId);
+
+    void markAccountEventsAsSeen(int accountEventId);
+
+    Page<Invoice> getInvoices(int pageNo);
 }
 

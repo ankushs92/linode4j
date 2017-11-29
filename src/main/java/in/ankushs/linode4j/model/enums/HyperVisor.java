@@ -2,7 +2,8 @@ package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.deserializers.StatusDeserializer;
+import in.ankushs.linode4j.jackson.deserializers.HyperVisorDeserializer;
+import in.ankushs.linode4j.util.Strings;
 import lombok.Getter;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = StatusDeserializer.class)
+@JsonDeserialize(using = HyperVisorDeserializer.class)
 public enum HyperVisor {
 
     UNKNOWN("unknown"),
@@ -23,12 +24,17 @@ public enum HyperVisor {
         this.code = code;
     }
 
-    public static HyperVisor from(final String string){
+    public static HyperVisor from(final String code){
         HyperVisor result;
-        switch(string){
-            case "xen" : result = XEN; break;
-            case "kvm" : result = KVM; break;
-            default : result = UNKNOWN;
+        if(!Strings.hasText(code)){
+            result = UNKNOWN;
+        }
+        else{
+            switch(code){
+                case "xen" : result = XEN; break;
+                case "kvm" : result = KVM; break;
+                default : result = UNKNOWN;
+            }
         }
         return result;
     }

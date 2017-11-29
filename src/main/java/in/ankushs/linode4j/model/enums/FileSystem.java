@@ -2,6 +2,7 @@ package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.deserializers.FileSystemDeserializer;
+import in.ankushs.linode4j.util.Strings;
 import lombok.Getter;
 
 /**
@@ -24,17 +25,20 @@ public enum FileSystem {
         this.description = description;
     }
 
-    public static FileSystem from(final String string){
+    public static FileSystem from(final String code){
         FileSystem result;
-
-        switch(string){
-            case "raw" : result = RAW; break;
-            case "swap" : result = SWAP; break;
-            case "ext3" : result = EXT3; break;
-            case "ext4" : result = EXT4; break;
-            case "initrd" : result = INITRD; break;
-            default : result = UNKNOWN;
-
+        if(!Strings.hasText(code)){
+            result = UNKNOWN;
+        }
+        else{
+            switch(code){
+                case "raw" : result = RAW; break;
+                case "swap" : result = SWAP; break;
+                case "ext3" : result = EXT3; break;
+                case "ext4" : result = EXT4; break;
+                case "initrd" : result = INITRD; break;
+                default : result = UNKNOWN;
+            }
         }
         return result;
     }

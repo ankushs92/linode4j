@@ -2,6 +2,7 @@ package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.deserializers.ArchitectureDeserializer;
+import in.ankushs.linode4j.util.Strings;
 import lombok.Getter;
 
 /**
@@ -20,12 +21,17 @@ public enum Architecture {
         this.description = description;
     }
 
-    public static Architecture from(final String string){
+    public static Architecture from(final String code){
         Architecture result;
-        switch(string){
-            case "x86_64" : result = X86_64; break;
-            case "i386" : result = i386; break;
-            default : result = UNKNOWN;
+        if(!Strings.hasText(code)){
+            result = UNKNOWN;
+        }
+        else{
+            switch(code){
+                case "x86_64" : result = X86_64; break;
+                case "i386" : result = i386; break;
+                default : result = UNKNOWN;
+            }
         }
         return result;
     }
