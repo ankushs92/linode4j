@@ -22,23 +22,27 @@ Here is what you need to do to get the token :
 
 Create an instance of `LinodeApiClient` to interact with Linode.
 
-1. Get Linodes
-
 ```java
     final String token = "YOUR_TOKEN";
     //Connect with Linode
     final LinodeApiClient linodeClient = new LinodeApiClient(oauthToken);
+    
+```
 
-    //For GET requests that return collection of objects, Linode requires a page no parameter
+**Node** Refer to the [Pagination](https://developers.linode.com/v4/pagination) guide to understand how linode implements pagination. A GET request for a collection of objects(for example, a collection of linodes registered with your account) returns the collection along with paging parameters.
+The default page size is 25. When requesting for collection of objects, it is mandatory to pass in a `pageNo`.
+To view the first 25 collections, therefore, set pageNo = 1 
+ 
+1. Get Linodes
+
+```java
     final int pageNo = 1;
-    final Page<Linode> pagedLinodes = linodeClient.getLinodes(pageNo);
+    final Page<Linode> paginatedLinodes = linodeClient.getLinodes(pageNo);
 
     //Get the linode
-    final Set<Linode> linodes = pagedLinodes.getContent();
+    final Set<Linode> linodes = paginatedLinodes.getContent();
     System.out.println(linodes);
-    System.out.println(pagedLinodes.getCurrentPageCount());
-    System.out.println(pagedLinodes.getTotalPages());
-    System.out.println(pagedLinodes.getTotalResults());
-
-
+    System.out.println(paginatedLinodes.getCurrentPageCount());
+    System.out.println(paginatedLinodes.getTotalPages());
+    System.out.println(paginatedLinodes.getTotalResults());
 ```
