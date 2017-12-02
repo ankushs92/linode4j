@@ -27,6 +27,6 @@ public class ImagePageImpl implements Page<Image> {
     private final Integer totalResults;
 
     @JsonProperty("data")
-    private final Set<Image> result;
+    private final Set<Image> content;
 
 }

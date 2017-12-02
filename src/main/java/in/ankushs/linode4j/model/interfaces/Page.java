@@ -13,6 +13,6 @@ public interface Page<T> {
 
     Integer getTotalResults();
 
-    Set<T> getResult();
+    Set<T> getContent();
 
 }

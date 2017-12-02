@@ -27,6 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 import java.util.Objects;
+import java.util.Set;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
@@ -72,7 +73,7 @@ public class LinodeApiClient implements LinodeApi {
 
     @Override
     public Linode getLinodeById(final int id) {
-        val url = LINODE_INSTANCE.replace("{id}", String.valueOf(id));
+        val url = LINODE_BY_ID.replace("{linode_id}", String.valueOf(id));
         val httpMethod = HttpMethod.GET;
 
         return (Linode) executeReq(url, httpMethod, Linode.class);
@@ -282,5 +283,25 @@ public class LinodeApiClient implements LinodeApi {
             log.error("", ex);
         }
         return result;
+    }
+
+
+    public static void main(String[] args) {
+        //Your OAuth token
+        final String oauthToken = "e5081e9845c8f2ebad90e85393c1848841dacc5af395d2dbd6020f2b28a0fa08";
+
+        //Connect with Linode
+        final LinodeApiClient linodeClient = new LinodeApiClient(oauthToken);
+
+        //For GET requests that return collection of objects, Linode requires a page no parameter
+        final int pageNo = 1;
+        final Page<Linode> pagedLinodes = linodeClient.getLinodes(2);
+
+        //Get the linode
+        final Set<Linode> linodes = pagedLinodes.getContent();
+        System.out.println(pagedLinodes.getCurrentPageCount());
+        System.out.println(pagedLinodes.getTotalPages());
+        System.out.println(pagedLinodes.getTotalResults());
+        System.out.println(linodes);
     }
 }

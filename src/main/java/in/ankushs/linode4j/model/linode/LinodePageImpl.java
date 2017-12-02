@@ -26,6 +26,6 @@ public class LinodePageImpl implements Page<Linode> {
     private final Integer totalResults;
 
     @JsonProperty("data")
-    private final Set<Linode> result;
+    private final Set<Linode> content;
 
 }

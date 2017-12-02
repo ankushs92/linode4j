@@ -27,6 +27,6 @@ public class AccountEventPageImpl implements Page<AccountEvent> {
     private final Integer totalResults;
 
     @JsonProperty("data")
-    private final Set<AccountEvent> result;
+    private final Set<AccountEvent> content;
 
 }

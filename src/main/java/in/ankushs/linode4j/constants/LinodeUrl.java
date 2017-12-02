@@ -9,7 +9,7 @@ public class LinodeUrl {
 
     // Linode
     public static final String LINODE_INSTANCES = BASE_URL_V4 + "/linode/instances?page={page}";
-    public static final String LINODE_INSTANCE = BASE_URL_V4 + "/linode/instances/{id}";
+    public static final String LINODE_BY_ID = BASE_URL_V4 + "/linode/instances/{linode_id}";
     public static final String LINODE_BOOT = BASE_URL_V4 + "/linode/instances/{id}/boot";
     public static final String LINODE_CLONE = BASE_URL_V4 + "/linode/instances/{id}/clone";
     public static final String LINODE_KVMIFY = BASE_URL_V4 + "/linode/instances/{id}/kvmify";

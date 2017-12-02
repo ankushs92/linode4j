@@ -26,6 +26,6 @@ public class InvoicePageImpl implements Page<Invoice>  {
     private final Integer totalResults;
 
     @JsonProperty("data")
-    private final Set<Invoice> result;
+    private final Set<Invoice> content;
 
 }
