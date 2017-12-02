@@ -76,4 +76,14 @@ public enum HttpStatusCode {
         this.description = description;
     }
 
+    public static HttpStatusCode from(final int code){
+        HttpStatusCode result = null;
+        for(final HttpStatusCode httpStatusCode : values()){
+            if(httpStatusCode.getCode() == code){
+                result =  httpStatusCode;
+                break;
+            }
+        }
+        return result;
+    }
 }

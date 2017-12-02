@@ -1,9 +1,9 @@
 package in.ankushs.linode4j.api;
 
+import in.ankushs.linode4j.constants.LinodeUrl;
 import in.ankushs.linode4j.exception.LinodeException;
-import in.ankushs.linode4j.model.account.AccountEvent;
-import in.ankushs.linode4j.model.account.Invoice;
-import in.ankushs.linode4j.model.account.InvoicePageImpl;
+import in.ankushs.linode4j.model.account.*;
+import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
 import in.ankushs.linode4j.model.enums.HttpMethod;
 import in.ankushs.linode4j.model.enums.HttpStatusCode;
 import in.ankushs.linode4j.model.image.Image;
@@ -25,11 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
-
 
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
@@ -79,16 +76,6 @@ public class LinodeApiClient implements LinodeApi {
         val httpMethod = HttpMethod.GET;
 
         return (Linode) executeReq(url, httpMethod, Linode.class);
-    }
-
-    @Override
-    public Page<Invoice> getInvoices(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
-
-        val url = INVOICES.replace("{page}", String.valueOf(pageNo));
-        val httpMethod = HttpMethod.GET;
-
-        return (InvoicePageImpl) executeReq(url, httpMethod, InvoicePageImpl.class);
     }
 
 
@@ -158,28 +145,43 @@ public class LinodeApiClient implements LinodeApi {
         return null;
     }
 
+    //~~~ Images ~~~~~
     @Override
     public Image getImageById(final int imageId) {
+        val url = IMAGE_BY_ID.replace("{image_id}", String.valueOf(imageId));
+        val httpMethod = HttpMethod.GET;
 
-        return null;
+        return (Image) executeReq(url, httpMethod, Image.class);
     }
 
     @Override
     public Page<Image> getImages(final int pageNo) {
         PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
-        return null;
+        val url = IMAGES.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return (ImagePageImpl) executeReq(url, httpMethod, ImagePageImpl.class);
     }
 
     @Override
     public void deleteImage(final int imageId) {
+        val url = IMAGE_BY_ID.replace("{image_id}", String.valueOf(imageId));
+        val httpMethod = HttpMethod.DELETE;
 
+        executeReq(url, httpMethod, Void.TYPE);
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~
 
     @Override
     public Page<AccountEvent> getAccountEvents(final int pageNo) {
         PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
-        return null;
+
+        val url = ACCOUNTS.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return (AccountEventPageImpl) executeReq(url, httpMethod, AccountEventPageImpl.class);
     }
 
     @Override
@@ -191,6 +193,38 @@ public class LinodeApiClient implements LinodeApi {
     public void markAccountEventAsRead(final int accountEventId) {
 
     }
+
+    @Override
+    public Page<Invoice> getInvoices(final int pageNo) {
+        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+
+        return null;
+    }
+
+    @Override
+    public InvoiceItem getInvoiceItemByInvoiceId(int invoiceId) {
+        return null;
+    }
+
+    @Override
+    public Page<AccountNotification> getAccountNotifications(int pageNo) {
+        return null;
+    }
+
+    @Override
+    public Page<OAuthClient> getOAuthClients(int pageNo) {
+        return null;
+    }
+
+    @Override
+    public void createOAuthClient(final OAuthClientRequest request) {
+        PreConditions.notNull(request, "OAuthClientRequest cannot be null");
+
+        PreConditions.notEmptyString(request.getRedirectUri(), "redirectUri cannot be null or empty");
+        PreConditions.notEmptyString(request.getLabel(), "label cannot be null or empty");
+
+    }
+
 
     @Override
     public void markAccountEventsAsSeen(final int accountEventId) {
@@ -213,11 +247,11 @@ public class LinodeApiClient implements LinodeApi {
 
         log.trace("Request details : Authorization {} ; url {}", token, url);
         val request = new Request
-                .Builder()
-                    .addHeader("Authorization", "Bearer " + token)
-                    .addHeader("Content-Type","application/json;utf-8")
-                    .url(url)
-                .build();
+                            .Builder()
+                                .addHeader("Authorization", "Bearer " + token)
+                                .addHeader("Content-Type","application/json;utf-8")
+                                .url(url)
+                            .build();
 
         Object result = null;
         try (val response = okHttpClient.newCall(request).execute()) {
@@ -226,7 +260,7 @@ public class LinodeApiClient implements LinodeApi {
             //We'll be getting a JSON response in any case, even if linode returns an error Http code
             //If our response body is null, we set json to an empty string
             val json = Objects.nonNull(respBody)? respBody.string() : Strings.EMPTY;
-            log.debug("JSON returned from Linode {}", json);
+            log.debug("JSON response {}", json);
 
             val statusCode = response.code();
             log.debug("HTTP response code {}", statusCode);
@@ -241,10 +275,12 @@ public class LinodeApiClient implements LinodeApi {
             }
 
         } catch (final Exception ex) {
+
+            if(ex instanceof LinodeException){
+                throw (LinodeException) ex;
+            }
             log.error("", ex);
         }
         return result;
     }
-
-
 }

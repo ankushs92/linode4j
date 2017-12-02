@@ -1,7 +1,7 @@
 package in.ankushs.linode4j.api;
 
-import in.ankushs.linode4j.model.account.AccountEvent;
-import in.ankushs.linode4j.model.account.Invoice;
+import in.ankushs.linode4j.model.account.*;
+import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
 import in.ankushs.linode4j.model.linode.BlockStorageVolume;
@@ -44,11 +44,14 @@ public interface LinodeApi {
 
     Page<BlockStorageVolume> getBlockStorageVolumesByLinodeId(int linodeId);
 
-    Image getImageById(int imageId);
-
+    //~~~~~ Image ~~~~~~
     Page<Image> getImages(int pageNo);
 
+    Image getImageById(int imageId);
+
     void deleteImage(int imageId);
+
+    // ~~~ Account ~~~~~~~~
 
     Page<AccountEvent> getAccountEvents(int pageNo);
 
@@ -59,5 +62,15 @@ public interface LinodeApi {
     void markAccountEventsAsSeen(int accountEventId);
 
     Page<Invoice> getInvoices(int pageNo);
+
+    InvoiceItem getInvoiceItemByInvoiceId(int invoiceId);
+
+    Page<AccountNotification> getAccountNotifications(int pageNo);
+
+    Page<OAuthClient> getOAuthClients(int pageNo);
+
+    void createOAuthClient(OAuthClientRequest request);
+
+    // ~~~~~~~~~~~~~~
 }
 

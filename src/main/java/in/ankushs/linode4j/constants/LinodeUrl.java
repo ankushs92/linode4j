@@ -6,9 +6,40 @@ package in.ankushs.linode4j.constants;
 public class LinodeUrl {
 
     public static final String BASE_URL_V4 = "https://api.linode.com/v4";
+
+    // Linode
     public static final String LINODE_INSTANCES = BASE_URL_V4 + "/linode/instances?page={page}";
     public static final String LINODE_INSTANCE = BASE_URL_V4 + "/linode/instances/{id}";
+    public static final String LINODE_BOOT = BASE_URL_V4 + "/linode/instances/{id}/boot";
+    public static final String LINODE_CLONE = BASE_URL_V4 + "/linode/instances/{id}/clone";
+    public static final String LINODE_KVMIFY = BASE_URL_V4 + "/linode/instances/{id}/kvmify";
+    public static final String LINODE_MUTATE = BASE_URL_V4 + "/linode/instances/{id}/mutate";
+    public static final String LINODE_REBUILD= BASE_URL_V4 + "/linode/instances/{id}/rebuild";
+    public static final String LINODE_RESCUE= BASE_URL_V4 + "/linode/instances/{id}/rescue";
+    public static final String LINODE_RESIZE= BASE_URL_V4 + "/linode/instances/{id}/resize";
+    public static final String LINODE_VOLUMES = BASE_URL_V4 + "/linode/instances/{id}/volumes";
 
-    public static final String INVOICES = BASE_URL_V4 + "/account/invoices?page={page}";
+
+    //Backups
+    public static final String BACKUPS = BASE_URL_V4 + "/linode/instances/{linode_id}/backups";
+    public static final String BACKUP_RESTORE = BASE_URL_V4 + "/linode/instances/{linode_id}/backups/{backup_id}/restore";
+    public static final String BACKUP_CANCEL = BASE_URL_V4 + "/linode/instances/{linode_id}/backups/cancel";
+    public static final String BACKUP_ENABLE = BASE_URL_V4 + "/linode/instances/{linode_id}/backups/enable";
+
+    //Configs
+    public static final String CONFIGS = BASE_URL_V4 + "/linode/instances/{linode_id}/configs";
+    public static final String CONFIGS_BY_ID = BASE_URL_V4 + "/linode/instances/{linode_id}/configs/{config_id}";
+
+    //Disk
+
+    //Image
+    public static final String IMAGES = BASE_URL_V4 + "/images?page={page}";
+    public static final String IMAGE_BY_ID = BASE_URL_V4 + "/images/{image_id}";
+
+
+    //Account
+    public static final String ACCOUNTS = BASE_URL_V4 + "/account/events?page={page}";
+    public static final String ACCOUNT_BY_ID = BASE_URL_V4 + "/account/events/{account_id}";
+
 
 }

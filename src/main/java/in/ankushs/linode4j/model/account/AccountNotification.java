@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.deserializers.LocalDateTimeDeserializer;
-import in.ankushs.linode4j.model.enums.InvoiceItemType;
+import in.ankushs.linode4j.model.enums.NotificationType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,29 +16,17 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InvoiceItem {
+public class AccountNotification {
 
-    @JsonProperty("to")
+    @JsonProperty("when")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private final LocalDateTime startedOn;
-
-    @JsonProperty("from")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private final LocalDateTime endedOn;
+    private final LocalDateTime dateTime;
 
     @JsonProperty("type")
-    private final InvoiceItemType type;
+    private final NotificationType type;
 
-    @JsonProperty("amount")
-    private final Integer amount;
+    @JsonProperty("entity")
+    private final EventEntity entity;
 
-    @JsonProperty("unitprice")
-    private final Integer unitPrice;
-
-    @JsonProperty("quantity")
-    private final Integer quantity;
-
-    @JsonProperty("label")
-    private final String label;
 
 }
