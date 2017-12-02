@@ -1,8 +1,21 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3"
+    }
+}
+
 group 'in.ankushs.linode4j'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'java'
+apply plugin: "jacoco"
+apply plugin: "com.github.kt3k.coveralls"
 
 sourceCompatibility = 1.8
 
@@ -12,6 +25,7 @@ repositories {
 
 dependencies {
 
+    //
     compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
 
     //logging
@@ -19,8 +33,10 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
+    //Lombok
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
 
+    //Jackson for JSON
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.2'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.2'
 
@@ -30,5 +46,16 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
-
 }
+
+
+jacocoTestReport {
+    group = "Reporting"
+    reports {
+        xml.setEnabled(true)
+        csv.setEnabled(false)
+        html.setEnabled(false)
+        html.destination "${buildDir}/reports/coverage"
+    }
+}
+
