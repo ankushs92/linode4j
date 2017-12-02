@@ -41,5 +41,13 @@ public class LinodeUrl {
     public static final String ACCOUNTS = BASE_URL_V4 + "/account/events?page={page}";
     public static final String ACCOUNT_BY_ID = BASE_URL_V4 + "/account/events/{account_id}";
 
+    //Region
+    public static final String REGIONS = BASE_URL_V4 + "/regions?page={page}";
+    public static final String REGION_BY_ID = BASE_URL_V4 + "/regions/{region_id}";
+
+    //Types
+    public static final String LINODE_TYPES = BASE_URL_V4 + "/linode/types?page={page}";
+    public static final String LINODE_TYPE_BY_ID = BASE_URL_V4 + "/linode/types/{type_id}";
+
 
 }

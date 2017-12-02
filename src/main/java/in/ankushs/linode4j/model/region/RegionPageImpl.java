@@ -1,4 +1,4 @@
-package in.ankushs.linode4j.model.account;
+package in.ankushs.linode4j.model.region;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,12 +9,12 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * Created by ankushsharma on 01/12/17.
+ * Created by ankushsharma on 03/12/17.
  */
-@Builder
 @Data
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountEventPageImpl implements Page<AccountEvent> {
+public class RegionPageImpl implements Page<Region> {
 
     @JsonProperty("pages")
     private final Integer totalPages;
@@ -26,6 +26,6 @@ public class AccountEventPageImpl implements Page<AccountEvent> {
     private final Integer totalResults;
 
     @JsonProperty("data")
-    private final Set<AccountEvent> content;
+    private final Set<Region> content;
 
 }

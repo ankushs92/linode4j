@@ -1,6 +1,5 @@
 package in.ankushs.linode4j.api;
 
-import in.ankushs.linode4j.constants.LinodeUrl;
 import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
 import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
@@ -8,13 +7,14 @@ import in.ankushs.linode4j.model.enums.HttpMethod;
 import in.ankushs.linode4j.model.enums.HttpStatusCode;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
-import in.ankushs.linode4j.model.linode.BlockStorageVolume;
-import in.ankushs.linode4j.model.linode.Devices;
-import in.ankushs.linode4j.model.linode.Linode;
-import in.ankushs.linode4j.model.linode.LinodePageImpl;
+import in.ankushs.linode4j.model.linode.*;
 import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
+import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeCloneResponse;
+import in.ankushs.linode4j.model.region.Region;
+import in.ankushs.linode4j.model.region.RegionPageImpl;
+import in.ankushs.linode4j.util.AuthorizedKeysUtils;
 import in.ankushs.linode4j.util.Json;
 import in.ankushs.linode4j.util.PreConditions;
 import in.ankushs.linode4j.util.Strings;
@@ -23,11 +23,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 import java.util.Objects;
-import java.util.Set;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
@@ -39,6 +40,7 @@ import static in.ankushs.linode4j.constants.LinodeUrl.*;
 public class LinodeApiClient implements LinodeApi {
 
     private static final OkHttpClient defaultHttpClient = new OkHttpClient();
+    private static final MediaType JSON = MediaType.parse("application/json;utf-8");
 
     @Getter(AccessLevel.NONE)
     private final String token;
@@ -68,17 +70,42 @@ public class LinodeApiClient implements LinodeApi {
         val url = LINODE_INSTANCES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (LinodePageImpl) executeReq(url, httpMethod, LinodePageImpl.class);
+        return (LinodePageImpl) executeReq(url, httpMethod, LinodePageImpl.class, null);
     }
 
     @Override
-    public Linode getLinodeById(final int id) {
-        val url = LINODE_BY_ID.replace("{linode_id}", String.valueOf(id));
+    public Linode getLinodeById(final int linodeId) {
+        val url = LINODE_BY_ID.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethod = HttpMethod.GET;
 
-        return (Linode) executeReq(url, httpMethod, Linode.class);
+        return (Linode) executeReq(url, httpMethod, Linode.class, null);
     }
 
+    @Override
+    public void createLinode(final LinodeCreateRequest request) {
+        PreConditions.notNull(request, "LinodeCreateRequest cannot be null");
+
+        val sshKeys = request.getAuthKeys();
+        AuthorizedKeysUtils.validate(sshKeys);
+
+        //We're making a POST request. No need for paging params
+        val url = LINODE_INSTANCES.replace("?page={page}", Strings.EMPTY);
+        val httpMethod = HttpMethod.POST;
+        val jsonReq = Json.toJson(request);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
+    }
+
+    @Override
+    public void deleteLinode(final int linodeId) {
+        val url = LINODE_BY_ID.replace("{linode_id}", String.valueOf(linodeId));
+        val httMethod = HttpMethod.DELETE;
+
+        executeReq(url, httMethod, Void.TYPE, null);
+    }
 
 
     @Override
@@ -146,13 +173,29 @@ public class LinodeApiClient implements LinodeApi {
         return null;
     }
 
+    @Override
+    public Page<LinodeType> getLinodeTypes(final int pageNo) {
+        val url = LINODE_TYPES.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return (LinodeTypePageImpl) executeReq(url, httpMethod, LinodeTypePageImpl.class, null);
+    }
+
+    @Override
+    public LinodeType getLinodeTypeById(final String linodeTypeId) {
+        val url = LINODE_TYPE_BY_ID.replace("{type_id}", linodeTypeId);
+        val httpMethod = HttpMethod.GET;
+
+        return (LinodeType) executeReq(url, httpMethod, LinodeType.class, null);
+    }
+
     //~~~ Images ~~~~~
     @Override
     public Image getImageById(final int imageId) {
         val url = IMAGE_BY_ID.replace("{image_id}", String.valueOf(imageId));
         val httpMethod = HttpMethod.GET;
 
-        return (Image) executeReq(url, httpMethod, Image.class);
+        return (Image) executeReq(url, httpMethod, Image.class, null);
     }
 
     @Override
@@ -162,7 +205,7 @@ public class LinodeApiClient implements LinodeApi {
         val url = IMAGES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (ImagePageImpl) executeReq(url, httpMethod, ImagePageImpl.class);
+        return (ImagePageImpl) executeReq(url, httpMethod, ImagePageImpl.class, null);
     }
 
     @Override
@@ -170,7 +213,7 @@ public class LinodeApiClient implements LinodeApi {
         val url = IMAGE_BY_ID.replace("{image_id}", String.valueOf(imageId));
         val httpMethod = HttpMethod.DELETE;
 
-        executeReq(url, httpMethod, Void.TYPE);
+        executeReq(url, httpMethod, Void.TYPE, null);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~
@@ -182,7 +225,7 @@ public class LinodeApiClient implements LinodeApi {
         val url = ACCOUNTS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (AccountEventPageImpl) executeReq(url, httpMethod, AccountEventPageImpl.class);
+        return (AccountEventPageImpl) executeReq(url, httpMethod, AccountEventPageImpl.class, null);
     }
 
     @Override
@@ -226,11 +269,30 @@ public class LinodeApiClient implements LinodeApi {
 
     }
 
-
     @Override
     public void markAccountEventsAsSeen(final int accountEventId) {
 
     }
+
+
+    @Override
+    public Page<Region> getRegions(final int pageNo) {
+        val url = REGIONS.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return (RegionPageImpl) executeReq(url, httpMethod, RegionPageImpl.class, null);
+    }
+
+    @Override
+    public Region getRegionById(final String regionId) {
+        PreConditions.notEmptyString(regionId, "regionId cannot be null");
+
+        val url = REGION_BY_ID.replace("{region_id}", regionId);
+        val httpMethod = HttpMethod.GET;
+
+        return (Region) executeReq(url, httpMethod, Region.class, null);
+    }
+
 
     private static boolean okResponse(final int statusCode){
         return statusCode == HttpStatusCode.OK.getCode();
@@ -239,25 +301,46 @@ public class LinodeApiClient implements LinodeApi {
     private Object executeReq(
             final String url,
             final HttpMethod httpMethod,
-            final Class<?> returnType
+            final Class<?> returnType,
+            final RequestBody requestBody
     )
     {
         PreConditions.notEmptyString(url, "url cannot be null or empty");
         PreConditions.notNull(httpMethod, "httpMethod cannot be null");
         PreConditions.notNull(returnType, "returnType cannot be null or empty");
 
-        log.trace("Request details : Authorization {} ; url {}", token, url);
-        val request = new Request
-                            .Builder()
+        log.debug("Request details : Http Method : {} ; url {}", httpMethod, url);
+
+        //default method is GET
+        val requestBuilder = new Request.Builder()
+                                .addHeader("Connection","Keep-Alive")
                                 .addHeader("Authorization", "Bearer " + token)
                                 .addHeader("Content-Type","application/json;utf-8")
-                                .url(url)
-                            .build();
+                                .url(url);
+
+        //For any request that is not a GET request, we need to prepare a Request Body
+        if(httpMethod.isNotGet()){
+            //We set RequestBody to our HTTP req in case of POST and PUT req
+            if(httpMethod.isPost() || httpMethod.isPut()){
+                if(Objects.nonNull(requestBody)) {
+                    //HttpMethod.GET -> "GET", HttpMethod.POST -> "POST" and so on
+                    requestBuilder.method(httpMethod.name(), requestBody);
+                }
+            }
+            //No need for a Request body in case of DELETE req
+            else{
+                requestBuilder.delete();
+            }
+        }
+
+        //Our values have been set. Build the request
+        val request = requestBuilder.build();
 
         Object result = null;
         try (val response = okHttpClient.newCall(request).execute()) {
             val respBody = response.body();
 
+            log.trace("Headers returned {}", response.headers());
             //We'll be getting a JSON response in any case, even if linode returns an error Http code
             //If our response body is null, we set json to an empty string
             val json = Objects.nonNull(respBody)? respBody.string() : Strings.EMPTY;
@@ -285,23 +368,4 @@ public class LinodeApiClient implements LinodeApi {
         return result;
     }
 
-
-    public static void main(String[] args) {
-        //Your OAuth token
-        final String oauthToken = "e5081e9845c8f2ebad90e85393c1848841dacc5af395d2dbd6020f2b28a0fa08";
-
-        //Connect with Linode
-        final LinodeApiClient linodeClient = new LinodeApiClient(oauthToken);
-
-        //For GET requests that return collection of objects, Linode requires a page no parameter
-        final int pageNo = 1;
-        final Page<Linode> pagedLinodes = linodeClient.getLinodes(2);
-
-        //Get the linode
-        final Set<Linode> linodes = pagedLinodes.getContent();
-        System.out.println(pagedLinodes.getCurrentPageCount());
-        System.out.println(pagedLinodes.getTotalPages());
-        System.out.println(pagedLinodes.getTotalResults());
-        System.out.println(linodes);
-    }
 }

@@ -3,8 +3,7 @@
 ![travis!](https://travis-ci.org/ankushs92/linode4j.svg?branch=master "travis")
 [![Coverage Status](https://coveralls.io/repos/github/ankushs92/linode4j/badge.svg?branch=master)](https://coveralls.io/github/ankushs92/linode4j?branch=master)
 
-linode4j is a Java library for [Linode's V4 REST API](https://developers.linode.com/v4). Currently, it covers almost all endpoints with the exception of
-[Profile](https://developers.linode.com/v4/reference/profile).
+linode4j is a Java library for [Linode's V4 REST API](https://developers.linode.com/v4). 
 
 # Get Token #
 
@@ -33,7 +32,7 @@ Create an instance of `LinodeApiClient` to interact with Linode.
 The default page size is 25. When requesting for collection of objects, it is mandatory to pass in a `pageNo`.
 To view the first 25 collections, therefore, set pageNo = 1 
  
-1. Get Linodes
+For example, here is how you get a paginated list of linodes created by your account:
 
 ```java
     final int pageNo = 1;
@@ -46,3 +45,20 @@ To view the first 25 collections, therefore, set pageNo = 1
     System.out.println(paginatedLinodes.getTotalPages());
     System.out.println(paginatedLinodes.getTotalResults());
 ```
+
+More !
+
+```java
+
+    final Linode linode = linodeClient.
+
+```
+
+
+
+
+# Future work #
+
+Currently, linode4j covers almost all endpoints with the exception of [Profile](https://developers.linode.com/v4/reference/profile).
+Also, searching by fields that have been marked as [filterable](https://developers.linode.com/v4/filtering) is yet to be implemented.
+I'll get to it when I get time. Feel free to send a PR! :)

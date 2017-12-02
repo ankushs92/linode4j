@@ -9,4 +9,21 @@ public enum HttpMethod {
     POST,
     PUT,
     DELETE;
+
+    public boolean isNotGet(){
+        return !(this == GET);
+    }
+
+    public boolean isPost(){
+        return this == POST;
+    }
+
+    public boolean isPut(){
+        return this == PUT;
+    }
+
+    public boolean isDelete(){
+        return this == DELETE;
+    }
+
 }

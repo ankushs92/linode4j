@@ -7,18 +7,27 @@ import in.ankushs.linode4j.model.interfaces.Page;
 import in.ankushs.linode4j.model.linode.BlockStorageVolume;
 import in.ankushs.linode4j.model.linode.Devices;
 import in.ankushs.linode4j.model.linode.Linode;
+import in.ankushs.linode4j.model.linode.LinodeType;
 import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
+import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeCloneResponse;
+import in.ankushs.linode4j.model.region.Region;
 
 /**
  * Created by ankushsharma on 22/11/17.
  */
 public interface LinodeApi {
 
+
+    // ~~~ Linode
     Page<Linode> getLinodes(int pageNo);
 
-    Linode getLinodeById(int id);
+    Linode getLinodeById(int linodeId);
+
+    void createLinode(LinodeCreateRequest request);
+
+    void deleteLinode(int linodeId);
 
     void bootLinode(int linodeId);
 
@@ -43,6 +52,10 @@ public interface LinodeApi {
     void shutdownLinode(int linodeId);
 
     Page<BlockStorageVolume> getBlockStorageVolumesByLinodeId(int linodeId);
+
+    Page<LinodeType> getLinodeTypes(int pageNo);
+
+    LinodeType getLinodeTypeById(String linodeTypeId);
 
     //~~~~~ Image ~~~~~~
     Page<Image> getImages(int pageNo);
@@ -71,6 +84,11 @@ public interface LinodeApi {
 
     void createOAuthClient(OAuthClientRequest request);
 
-    // ~~~~~~~~~~~~~~
+
+    // ~~~~ Region ~~~~
+    Page<Region> getRegions(int pageNo);
+
+    Region getRegionById(String regionId);
+
 }
 
