@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
 import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
-import in.ankushs.linode4j.model.enums.HttpMethod;
-import in.ankushs.linode4j.model.enums.HttpStatusCode;
-import in.ankushs.linode4j.model.enums.HyperVisor;
-import in.ankushs.linode4j.model.enums.LinodeStatus;
+import in.ankushs.linode4j.model.enums.*;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
 import in.ankushs.linode4j.model.linode.*;
@@ -499,14 +496,29 @@ public class LinodeApiClient implements LinodeApi {
         //Get Linodes along with paging parameters
         final Page<Linode> pagedLinodes = api.getLinodes(pageNo);
 
+        //If there are 10 pages, this param signifies the current page we are on
+        final int currentPageCount = pagedLinodes.getCurrentPageCount();
+
+        //The total number of pages. If totalResults = 250, and the default value of objects returned by Linode is 25, then totalPages = (250/25) = 10
+        final int totalPages = pagedLinodes.getTotalPages();
+
+        //Total number of linodes registered with your account
+        final int totalResults = pagedLinodes.getTotalResults();
+
         final Set<Linode> linodes = pagedLinodes.getContent();
 
         //Discover linode properties
         for(final Linode linode : linodes){
             final int id = linode.getId();
 
+            final Backup backup = linode.getBackups();
+
+            //Distribution can be linux/centos, linux/debian etc
+            final String distribution = linode.getDistribution();
+
             //When was the linode created?
             final LocalDateTime createdOn = linode.getCreatedOn();
+            final LocalDateTime updatedOn = linode.getUpdatedOn();
 
             //The alerts set on this linode
             final Alert alerts = linode.getAlerts();
@@ -521,9 +533,42 @@ public class LinodeApiClient implements LinodeApi {
             }
 
             final LinodeStatus status = linode.getStatus();
+            switch(status){
+                case SHUTTING_DOWN : //do stuff
+                case OFFLINE : //do something
+                case MIGRATING :
+                // etc
+            }
             //Etc
         }
 
+        final Page<Region> pagedRegions = api.getRegions(pageNo);
+        final Set<Region> regions = pagedRegions.getContent();
+
+        for(final Region region : regions){
+            //id : us-southeast-1a, ap-south-1a etc
+            final String id = region.getId();
+
+            //country : us, sg etc
+            final String country = region.getCountry();
+        }
+
+        final Page<LinodeType> pagedLinodeTypes = api.getLinodeTypes(pageNo);
+        final Set<LinodeType> types = pagedLinodeTypes.getContent();
+        for(final LinodeType type : types){
+            //For example : g5-standard-4, g5-nanode-1, g5-highmem-8 etc
+            final String id = type.getId();
+
+            final Plan plan = type.getPlan();
+            switch(plan){
+                case NANODE : //the smallest linode
+                case STANDARD : //standard linodes
+                case HIGH_MEMORY : // the new series of high memory linodes
+            }
+
+            final Integer outboundBandwidth = type.getOutboundBandwidth();
+            //and other properties, you get the idea
+        }
     }
 
 
