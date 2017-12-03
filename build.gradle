@@ -9,8 +9,8 @@ buildscript {
     }
 }
 
-group 'in.ankushs.linode4j'
-version '1.0-SNAPSHOT'
+group 'in.ankushs'
+version '1.0'
 
 apply plugin: 'groovy'
 apply plugin: 'java'
@@ -19,6 +19,9 @@ apply plugin: "com.github.kt3k.coveralls"
 apply plugin: 'maven'
 apply plugin: 'signing'
 
+jar{
+	baseName = "linode4j"
+}
 sourceCompatibility = 1.8
 
 repositories {
@@ -30,8 +33,13 @@ task sourcesJar(type: Jar) {
 	from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar) {
+	classifier = 'javadoc'
+	from javadoc
+}
+
 artifacts {
-	archives sourcesJar
+	archives javadocJar, sourcesJar
 }
 
 signing {
@@ -88,22 +96,22 @@ uploadArchives {
 
 		   pom{
 			   project{
-				   name 'Java-DbIP'
-				   description 'A Java library for the DB-IP free city dataset '
+				   name 'linode4j'
+				   description "Java API for Linode's V4 REST API"
 				   packaging 'jar'
-				   url 'https://github.com/ankushs92/Java-DB-IP'
-			       inceptionYear '2016'
+				   url 'https://github.com/ankushs92/linode4j/issues'
+			       inceptionYear '2017'
 
 				   scm {
-					   connection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
-					   developerConnection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
-					   url 'git@github.com:ankushs92/Java-DB-IP.git'
+					   connection 'scm:git:git@github.com:ankushs92/linode4j.git'
+					   developerConnection 'scm:git:git@github.com:ankushs92/linode4j.git'
+					   url 'git@github.com:ankushs92/linode4j.git'
 					 }
 
 				   licenses {
 					   license {
 						 name 'The MIT License'
-						 url 'https://github.com/ankushs92/Java-DB-IP/blob/master/LICENSE.md'
+						 url 'https://github.com/ankushs92/linode4j/blob/master/LICENSE.md'
 					   }
 				   }
 				   developers {
@@ -114,14 +122,11 @@ uploadArchives {
 					}
 				   issueManagement{
 					   system 'Github'
-					   url 'https://github.com/ankushs92/Java-DB-IP/issues'
+					   url 'https://github.com/ankushs92/linode4j/issues'
 
 				   }
 			   }
 		   }
-	       flatDir {
-	           dirs 'repos'
-	   }
     }
   }
 }

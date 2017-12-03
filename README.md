@@ -4,6 +4,23 @@
 
 linode4j is a Java library for [Linode's V4 REST API](https://developers.linode.com/v4). 
 
+# Links
+
+Maven : 
+
+```xml
+<dependency>
+  <groupId>in.ankushs</groupId>
+  <artifactId>linode4j</artifactId>
+  <version>1.0</version>
+</dependency>
+```
+
+Gradle :
+```groovy
+compile('in.ankushs:linode4j:1.0')
+```
+
 # Get Token #
 
 The way to authenticate with Linode is via a [OAuth](https://developers.linode.com/v4/access) token.
@@ -36,102 +53,99 @@ To view the first 25 collections, therefore, set pageNo = 1
 For example, here is how you get a paginated list of linodes created by your account:
 
 ```java
-        final int pageNo = 1;
-        //Get Linodes along with paging parameters
-        final Page<Linode> pagedLinodes = api.getLinodes(pageNo);
+    final int pageNo = 1;
+    //Get Linodes along with paging parameters
+    final Page<Linode> pagedLinodes = api.getLinodes(pageNo);
+    
+    //If there are 10 pages, this param signifies the current page we are on
+    final int currentPageCount = pagedLinodes.getCurrentPageCount();
+    
+    //The total number of pages. If totalResults = 250, and the default value of objects returned by Linode is 25, then totalPages = (250/25) = 10
+    final int totalPages = pagedLinodes.getTotalPages();
+    
+    //Total number of linodes registered with your account
+    final int totalResults = pagedLinodes.getTotalResults();
+
+    final Set<Linode> linodes = pagedLinodes.getContent();
+
+    //Discover linode properties
+    for(final Linode linode : linodes){
+        final int id = linode.getId();
+
+        //When was the linode created?
+        final LocalDateTime createdOn = linode.getCreatedOn();
+
+        //The alerts set on this linode
+        final Alert alerts = linode.getAlerts();
+
+        final Set<String> publicIps = linode.getIpv4Addresses();
+        final String linodeIpv6 = linode.getIpv6Address();
         
-        //If there are 10 pages, this param signifies the current page we are on
-        final int currentPageCount = pagedLinodes.getCurrentPageCount();
-        
-        //The total number of pages. If totalResults = 250, and the default value of objects returned by Linode is 25, then totalPages = (250/25) = 10
-        final int totalPages = pagedLinodes.getTotalPages();
-        
-        //Total number of linodes registered with your account
-        final int totalResults = pagedLinodes.getTotalResults();
-
-        final Set<Linode> linodes = pagedLinodes.getContent();
-
-        //Discover linode properties
-        for(final Linode linode : linodes){
-            final int id = linode.getId();
-
-            //When was the linode created?
-            final LocalDateTime createdOn = linode.getCreatedOn();
-
-            //The alerts set on this linode
-            final Alert alerts = linode.getAlerts();
-
-            final Set<String> publicIps = linode.getIpv4Addresses();
-            final String linodeIpv6 = linode.getIpv6Address();
-            
-            final HyperVisor hyperVisor = linode.getHyperVisor();
-            if(hyperVisor == HyperVisor.KVM) {
-                // DO SOMETHING
-            }
-            
-            final LinodeStatus status = linode.getStatus();
-            switch(status){
-                case SHUTTING_DOWN : // do stuff
-                case OFFLINE : //do something
-                case MIGRATING : //your linode is migrating, don't panic!
-                // etc
-            }
-            //Other fields
+        final HyperVisor hyperVisor = linode.getHyperVisor();
+        if(hyperVisor == HyperVisor.KVM) {
+            // DO SOMETHING
         }
+        
+        final LinodeStatus status = linode.getStatus();
+        switch(status){
+            case SHUTTING_DOWN : // do stuff
+            case OFFLINE : //do something
+            case MIGRATING : //your linode is migrating, don't panic!
+            // etc
+        }
+        //Other fields
+    }
 ```
 
 To create a Linode, you must provide the api with `region` and `linodeType` . Let's query Linode for  regions and types available to us.
 
 ```java
+    final Page<Region> pagedRegions = api.getRegions(pageNo);
+    final Set<Region> regions = pagedRegions.getContent();
 
-        final Page<Region> pagedRegions = api.getRegions(pageNo);
-        final Set<Region> regions = pagedRegions.getContent();
+    for(final Region region : regions){
+        //id : us-southeast-1a, ap-south-1a etc
+        final String id = region.getId();
 
-        for(final Region region : regions){
-            //id : us-southeast-1a, ap-south-1a etc
-            final String id = region.getId();
+        //country : us, sg etc
+        final String country = region.getCountry();
+    }
 
-            //country : us, sg etc
-            final String country = region.getCountry();
+    final Page<LinodeType> pagedLinodeTypes = api.getLinodeTypes(pageNo);
+    final Set<LinodeType> types = pagedLinodeTypes.getContent();
+    for(final LinodeType type : types){
+        //For example : g5-standard-4, g5-nanode-1, g5-highmem-8 etc
+        final String id = type.getId();
+
+        final Plan plan = type.getPlan();
+        switch(plan){
+            case NANODE : //the smallest linode
+            case STANDARD : //standard linodes
+            case HIGH_MEMORY : // the new series of high memory linodes
         }
-
-        final Page<LinodeType> pagedLinodeTypes = api.getLinodeTypes(pageNo);
-        final Set<LinodeType> types = pagedLinodeTypes.getContent();
-        for(final LinodeType type : types){
-            //For example : g5-standard-4, g5-nanode-1, g5-highmem-8 etc
-            final String id = type.getId();
-
-            final Plan plan = type.getPlan();
-            switch(plan){
-                case NANODE : //the smallest linode
-                case STANDARD : //standard linodes
-                case HIGH_MEMORY : // the new series of high memory linodes
-            }
-            
-            final Integer outboundBandwidth = type.getOutboundBandwidth();
-            //and other properties, you get the idea
-        }
-
+        
+        final Integer outboundBandwidth = type.getOutboundBandwidth();
+        //and other properties, you get the idea
+    }
 ```
 
 Onward to creating and deleting our linode. To create **any** object from linode4j, you'll need to use the [Builder Design Pattern](https://www.google.co.in/search?q=Builder+design+pattern&oq=Builder+design+pattern+&aqs=chrome..69i57j69i60l3.3686j0j9&sourceid=chrome&ie=UTF-8)
 ```java
-         final String usSouthwest = "us-southeast-1a";
-         final String nanodeType = "g5-nanode-1";
-         final LinodeCreateRequest createRequest = LinodeCreateRequest
-                 .builder()
-                     .region(usSouthwest) //REQUIRED
-                     .type(nanodeType) //REQUIRED
-                     .backupsEnabled(false) //false by default
-                     .rootPass("SET_YOUR_PASSWORD") // password for your linode
-                 .build();
-         
-         api.createLinode(createRequest);
-         
-         //Assuming a fictional linode id
-         final int linodeId = 1234; 
-         api.deleteLinode(linodeId);
-
+     final String usSouthwest = "us-southeast-1a";
+     final String nanodeType = "g5-nanode-1";
+     final LinodeCreateRequest createRequest = LinodeCreateRequest
+             .builder()
+                 .region(usSouthwest) //REQUIRED
+                 .type(nanodeType) //REQUIRED
+                 .backupsEnabled(false) //false by default
+                 .rootPass("SET_YOUR_PASSWORD") // password for your linode
+             .build();
+     
+     api.createLinode(createRequest);
+     
+     //Assuming a fictional linode id
+     final int linodeId = 1234; 
+     api.deleteLinode(linodeId);
 ```
 
 # Handling errors #
@@ -141,11 +155,11 @@ to indicate error. In such a case, linode4j would throw `LinodeException`, which
  
 ```java
 //Same code as above
-try{
-    api.createLinode(createRequest);
-}
-catch(final LinodeException ex){
-    log.error("", ex);
-}
+    try{
+        api.createLinode(createRequest);
+    }
+    catch(final LinodeException ex){
+        log.error("", ex);
+    }
 ``` 
 
