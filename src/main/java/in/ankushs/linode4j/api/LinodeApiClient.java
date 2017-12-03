@@ -3,8 +3,8 @@ package in.ankushs.linode4j.api;
 import com.google.common.collect.ImmutableMap;
 import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
-import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
-import in.ankushs.linode4j.model.enums.*;
+import in.ankushs.linode4j.model.enums.HttpMethod;
+import in.ankushs.linode4j.model.enums.HttpStatusCode;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
 import in.ankushs.linode4j.model.linode.*;
@@ -28,7 +28,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -65,6 +64,10 @@ public class LinodeApiClient implements LinodeApi {
 
         this.token = token;
         this.okHttpClient = okHttpClient;
+    }
+
+    private static boolean okResponse(final int statusCode) {
+        return statusCode == HttpStatusCode.OK.getCode();
     }
 
     @Override
@@ -113,7 +116,6 @@ public class LinodeApiClient implements LinodeApi {
 
         executeReq(url, httMethod, Void.TYPE, null);
     }
-
 
     @Override
     public void bootLinode(final int linodeId) {
@@ -253,7 +255,7 @@ public class LinodeApiClient implements LinodeApi {
 
     @Override
     public void resizeLinode(final int linodeId, final String linodeType) {
-        PreConditions.notEmptyString(linodeType , "linodeType cannot be null");
+        PreConditions.notEmptyString(linodeType, "linodeType cannot be null");
 
         val url = LINODE_RESIZE.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethod = HttpMethod.POST;
@@ -324,6 +326,7 @@ public class LinodeApiClient implements LinodeApi {
         return (ImagePageImpl) executeReq(url, httpMethod, ImagePageImpl.class, null);
     }
 
+
     @Override
     public void deleteImage(final int imageId) {
         val url = IMAGE_BY_ID.replace("{image_id}", String.valueOf(imageId));
@@ -333,63 +336,92 @@ public class LinodeApiClient implements LinodeApi {
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~
-
     @Override
     public Page<AccountEvent> getAccountEvents(final int pageNo) {
         PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
-        val url = ACCOUNTS.replace("{page}", String.valueOf(pageNo));
+        val url = ACCOUNTS_EVENTS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
         return (AccountEventPageImpl) executeReq(url, httpMethod, AccountEventPageImpl.class, null);
     }
 
     @Override
-    public AccountEvent getAccountEventById(final int id) {
-        return null;
+    public AccountEvent getAccountEventById(final int accountEventId) {
+        val url = ACCOUNT_EVENT_BY_ID.replace("{account_id}", String.valueOf(accountEventId));
+        val httpMethod = HttpMethod.GET;
+
+
+        return (AccountEvent) executeReq(url, httpMethod, AccountEvent.class, null);
     }
 
     @Override
     public void markAccountEventAsRead(final int accountEventId) {
+        val url = ACCOUNT_EVENT_READ.replace("{account_id}", String.valueOf(accountEventId));
+        val httpMethod = HttpMethod.POST;
 
+        val emptyMap = ImmutableMap.of();
+
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
+
+    @Override
+    public void markAccountEventsAsSeen(final int accountEventId) {
+        val url = ACCOUNT_EVENT_SEEN.replace("{account_id}", String.valueOf(accountEventId));
+        val httpMethod = HttpMethod.POST;
+
+        val emptyMap = ImmutableMap.of();
+
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
+    }
+
 
     @Override
     public Page<Invoice> getInvoices(final int pageNo) {
         PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
-        return null;
+        val url = INVOICES.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return (InvoicePageImpl) executeReq(url, httpMethod, InvoicePageImpl.class, null);
     }
 
     @Override
-    public InvoiceItem getInvoiceItemByInvoiceId(int invoiceId) {
-        return null;
+    public Invoice getInvoiceById(final int invoiceId) {
+        val url = INVOICE_BY_ID.replace("{invoice_id}", String.valueOf(invoiceId));
+        val httpMethod = HttpMethod.GET;
+
+        return (Invoice) executeReq(url, httpMethod, Invoice.class, null);
     }
 
     @Override
-    public Page<AccountNotification> getAccountNotifications(int pageNo) {
-        return null;
+    public Page<InvoiceItem> getInvoiceItemsByInvoiceId(final int invoiceId) {
+        val url = INVOICE_ITEMS_BY_ID.replace("{invoice_id}", String.valueOf(invoiceId));
+        val httpMethod = HttpMethod.GET;
+
+        return (InvoiceItemPageImpl) executeReq(url, httpMethod, InvoiceItemPageImpl.class, null);
     }
 
     @Override
-    public Page<OAuthClient> getOAuthClients(int pageNo) {
-        return null;
+    public Page<AccountNotification> getAccountNotifications(final int pageNo) {
+        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+
+        val url = NOTIFICATIONS.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+
+        return (AccountNotificationPageImpl) executeReq(url, httpMethod, AccountNotificationPageImpl.class, null);
     }
-
-    @Override
-    public void createOAuthClient(final OAuthClientRequest request) {
-        PreConditions.notNull(request, "OAuthClientRequest cannot be null");
-
-        PreConditions.notEmptyString(request.getRedirectUri(), "redirectUri cannot be null or empty");
-        PreConditions.notEmptyString(request.getLabel(), "label cannot be null or empty");
-
-    }
-
-    @Override
-    public void markAccountEventsAsSeen(final int accountEventId) {
-
-    }
-
 
     @Override
     public Page<Region> getRegions(final int pageNo) {
@@ -409,11 +441,6 @@ public class LinodeApiClient implements LinodeApi {
         return (Region) executeReq(url, httpMethod, Region.class, null);
     }
 
-
-    private static boolean okResponse(final int statusCode){
-        return statusCode == HttpStatusCode.OK.getCode();
-    }
-
     private Object executeReq(
             final String url,
             final HttpMethod httpMethod,
@@ -425,7 +452,7 @@ public class LinodeApiClient implements LinodeApi {
         PreConditions.notNull(httpMethod, "httpMethod cannot be null");
         PreConditions.notNull(returnType, "returnType cannot be null or empty");
 
-        if(httpMethod.isPost() || httpMethod.isPut()){
+        if (httpMethod.isPost() || httpMethod.isPut()) {
             PreConditions.notNull(requestBody, "requestBody cannot be null");
         }
 
@@ -433,20 +460,20 @@ public class LinodeApiClient implements LinodeApi {
 
         //default method is GET
         val requestBuilder = new Request.Builder()
-                                .addHeader("Connection","Keep-Alive")
-                                .addHeader("Content-Type", JSON_MEDIA_TYPE)
-                                .addHeader("Authorization", "Bearer " + token)
-                                .url(url);
+                .addHeader("Connection", "Keep-Alive")
+                .addHeader("Content-Type", JSON_MEDIA_TYPE)
+                .addHeader("Authorization", "Bearer " + token)
+                .url(url);
 
         //For any request that is not a GET request, we need to prepare a Request Body
-        if(httpMethod.isNotGet()){
+        if (httpMethod.isNotGet()) {
             //We set RequestBody to our HTTP req in case of POST and PUT req
-            if(httpMethod.isPost() || httpMethod.isPut()){
+            if (httpMethod.isPost() || httpMethod.isPut()) {
                 //HttpMethod.POST -> "POST", HttpMethod.PUT -> "PUT" and so on
                 requestBuilder.method(httpMethod.name(), requestBody);
             }
             //No need for a Request body in case of DELETE req
-            else{
+            else {
                 requestBuilder.delete();
             }
         }
@@ -461,28 +488,175 @@ public class LinodeApiClient implements LinodeApi {
             log.trace("Headers returned {}", response.headers());
             //We'll be getting a JSON response in any case, even if linode returns an error Http code
             //If our response body is null, we set json to an empty string
-            val json = Objects.nonNull(respBody)? respBody.string() : Strings.EMPTY;
+            val json = Objects.nonNull(respBody) ? respBody.string() : Strings.EMPTY;
             log.debug("JSON response {}", json);
 
             val statusCode = response.code();
             log.debug("HTTP response code {}", statusCode);
 
-            if(!okResponse(statusCode)){
+            if (!okResponse(statusCode)) {
                 throw new LinodeException("Error from Linode : " + json);
             }
 
-            if(returnType != Void.TYPE){
+            if (returnType != Void.TYPE) {
                 result = Json.toObject(json, returnType);
                 log.debug("Result {}", result);
             }
 
         } catch (final Exception ex) {
 
-            if(ex instanceof LinodeException){
+            if (ex instanceof LinodeException) {
                 throw (LinodeException) ex;
             }
             log.error("", ex);
         }
         return result;
     }
+
+    public static void main(String[] args) {
+        //Your OAuth token
+        final String oauthToken = "3789d79e4273130570b61f173a3f4bf6b5d8aaddfa00c477e24ed0a668df5351";
+
+        //Connect with Linode
+        final LinodeApiClient api = new LinodeApiClient(oauthToken);
+
+        final int pageNo = 1;
+//        //Get Linodes along with paging parameters
+//        final Page<Linode> pagedLinodes = api.getLinodes(pageNo);
+//
+//        //If there are 10 pages, this param signifies the current page we are on
+//        final int currentPageCount = pagedLinodes.getCurrentPageCount();
+//
+//        //The total number of pages. If totalResults = 250, and the default value of objects returned by Linode is 25, then totalPages = (250/25) = 10
+//        final int totalPages = pagedLinodes.getTotalPages();
+//
+//        //Total number of linodes registered with your account
+//        final int totalResults = pagedLinodes.getTotalResults();
+//
+//        final Set<Linode> linodes = pagedLinodes.getContent();
+//
+//        //Discover linode properties
+//        for(final Linode linode : linodes){
+//            final int id = linode.getId();
+//
+//            final Backup backup = linode.getBackups();
+//
+//            //Distribution can be linux/centos, linux/debian etc
+//            final String distribution = linode.getDistribution();
+//
+//            //When was the linode created?
+//            final LocalDateTime createdOn = linode.getCreatedOn();
+//            final LocalDateTime updatedOn = linode.getUpdatedOn();
+//
+//            //The alerts set on this linode
+//            final Alert alerts = linode.getAlerts();
+//
+//            final Set<String> publicIps = linode.getIpv4Addresses();
+//
+//            final String linodeIpv6 = linode.getIpv6Address();
+//
+//            final HyperVisor hyperVisor = linode.getHyperVisor();
+//            if(hyperVisor == HyperVisor.KVM) {
+//                // DO SOMETHING
+//            }
+//
+//            final LinodeStatus status = linode.getStatus();
+//            switch(status){
+//                case SHUTTING_DOWN : //do stuff
+//                case OFFLINE : //do something
+//                case MIGRATING :
+//                    // etc
+//            }
+//            //Etc
+//        }
+//
+//        final Page<Region> pagedRegions = api.getRegions(pageNo);
+//        final Set<Region> regions = pagedRegions.getContent();
+//
+//        for(final Region region : regions){
+//            //id : us-southeast-1a, ap-south-1a etc
+//            final String id = region.getId();
+//
+//            //country : us, sg etc
+//            final String country = region.getCountry();
+//        }
+//
+//        final Page<LinodeType> pagedLinodeTypes = api.getLinodeTypes(pageNo);
+//        final Set<LinodeType> types = pagedLinodeTypes.getContent();
+//        for(final LinodeType type : types){
+//            //For example : g5-standard-4, g5-nanode-1, g5-highmem-8 etc
+//            final String id = type.getId();
+//
+//            final Plan plan = type.getPlan();
+//            switch(plan){
+//                case NANODE : //the smallest linode
+//                case STANDARD : //standard linodes
+//                case HIGH_MEMORY : // the new series of high memory linodes
+//            }
+//
+//            final Integer outboundBandwidth = type.getOutboundBandwidth();
+//            //and other properties, you get the idea
+//        }
+//        final String usSouthwest = "us-southeast-1a";
+//        final String nanodeType = "g5-nanode-1";
+//        final LinodeCreateRequest createRequest = LinodeCreateRequest
+//                .builder()
+//                .region(usSouthwest) //REQUIRED
+//                .type(nanodeType) //REQUIRED
+//                .backupsEnabled(false) //false by default
+//                .rootPass("SET_YOUR_PASSWORD") // password for your linode
+//                .build();
+//
+//        api.createLinode(createRequest);
+//
+//        //Assuming a fictional linode id
+//        final int linodeId = 1234;
+//        api.deleteLinode(linodeId);
+
+//        final Page<AccountEvent> pagedAccEvents = api.getAccountEvents(pageNo);
+//        final Set<AccountEvent> accountEvents = pagedAccEvents.getContent();
+//
+//        for(final AccountEvent accountEvent : accountEvents){
+//            final EventAction action = accountEvent.getAction();
+//            //different sorts of actions
+//            switch (action){
+//                case DISK_CREATE:
+//                case LINODE_BOOT:
+//                case BACKUPS_ENABLE:
+//                case LINODE_REBUILD:
+//                //etc
+//            }
+//            final Integer id = accountEvent.getId();
+//        }
+//        final Integer accId = 513210;
+//        final AccountEvent accountEvent = api.getAccountEventById(accId);
+//        System.out.println(accountEvent);
+
+        final Page<Invoice> pagedInvoice = api.getInvoices(pageNo);
+        final Set<Invoice> invoices = pagedInvoice.getContent();
+
+        for(final Invoice invoice : invoices){
+            final Integer id = invoice.getId();
+            System.out.println(id);
+        }
+
+        final Integer invoiceId = 9507781;
+        final Invoice invoice = api.getInvoiceById(invoiceId);
+        System.out.println(invoice);
+
+        final Page<InvoiceItem> pagedItems = api.getInvoiceItemsByInvoiceId(invoiceId);
+        final Set<InvoiceItem> items = pagedItems.getContent();
+
+        for(final InvoiceItem item : items){
+            System.out.println(item);
+        }
+
+        final Page<AccountNotification> pagedNotifications = api.getAccountNotifications(pageNo);
+        final Set<AccountNotification> notifications = pagedNotifications.getContent();
+
+        for(final AccountNotification notification : notifications){
+            System.out.println(notification);
+        }
+    }
+
 }

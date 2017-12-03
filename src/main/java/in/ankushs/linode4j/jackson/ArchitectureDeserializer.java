@@ -16,4 +16,5 @@ public class ArchitectureDeserializer extends JsonDeserializer<Architecture> {
     public Architecture deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException{
         return Architecture.from(jsonParser.getText());
     }
+
 }

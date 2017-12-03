@@ -1,7 +1,9 @@
 package in.ankushs.linode4j.api;
 
-import in.ankushs.linode4j.model.account.*;
-import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
+import in.ankushs.linode4j.model.account.AccountEvent;
+import in.ankushs.linode4j.model.account.AccountNotification;
+import in.ankushs.linode4j.model.account.Invoice;
+import in.ankushs.linode4j.model.account.InvoiceItem;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
 import in.ankushs.linode4j.model.linode.BlockStorageVolume;
@@ -20,7 +22,7 @@ import in.ankushs.linode4j.model.region.Region;
 public interface LinodeApi {
 
 
-    // ~~~ Linode Endpoints ~~
+    // Linodes
     Page<Linode> getLinodes(int pageNo);
 
     Linode getLinodeById(int linodeId);
@@ -57,17 +59,12 @@ public interface LinodeApi {
 
     LinodeType getLinodeTypeById(String linodeTypeId);
 
-
-
-
     //~~~~~ Image ~~~~~~
     Page<Image> getImages(int pageNo);
 
     Image getImageById(int imageId);
 
     void deleteImage(int imageId);
-
-
 
 
     // ~~~ Account ~~~~~~~~
@@ -82,23 +79,18 @@ public interface LinodeApi {
 
     Page<Invoice> getInvoices(int pageNo);
 
-    InvoiceItem getInvoiceItemByInvoiceId(int invoiceId);
+    Invoice getInvoiceById(int invoiceId);
+
+    Page<InvoiceItem> getInvoiceItemsByInvoiceId(int invoiceId);
+
 
     Page<AccountNotification> getAccountNotifications(int pageNo);
-
-    Page<OAuthClient> getOAuthClients(int pageNo);
-
-    void createOAuthClient(OAuthClientRequest request);
 
 
     // ~~~~ Region ~~~~
     Page<Region> getRegions(int pageNo);
 
     Region getRegionById(String regionId);
-
-
-    // ~~~~ Networking ~~~~~~
-
 
 
 }

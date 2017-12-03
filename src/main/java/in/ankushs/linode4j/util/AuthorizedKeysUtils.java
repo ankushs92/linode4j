@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import in.ankushs.linode4j.exception.LinodeException;
 import lombok.val;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,16 +14,7 @@ public class AuthorizedKeysUtils {
 
     private AuthorizedKeysUtils(){}
 
-    protected static final Set<String> ACCEPTABLE_TYPES = ImmutableSet.copyOf(
-                    new HashSet<String>(
-                            Arrays.asList(
-                                    "ssh-dss",
-                                    "ssh-rsa",
-                                    "ecdsa-sha2-nistp",
-                                    "ssh-ed25519")
-                    )
-    );
-
+    protected static final Set<String> ACCEPTABLE_TYPES = ImmutableSet.of("ssh-dss", "ssh-rsa", "ecdsa-sha2-nistp", "ssh-ed25519");
 
     public static void validate(final Set<String> keys){
         if(Objects.nonNull(keys) && !keys.isEmpty()){

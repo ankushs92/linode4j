@@ -114,7 +114,7 @@ To create a Linode, you must provide the api with `region` and `linodeType` . Le
 
 ```
 
-Onward to creating and deleting our linode.
+Onward to creating and deleting our linode. To create **any** object from linode4j, you'll need to use the [Builder Design Pattern](https://www.google.co.in/search?q=Builder+design+pattern&oq=Builder+design+pattern+&aqs=chrome..69i57j69i60l3.3686j0j9&sourceid=chrome&ie=UTF-8)
 ```java
          final String usSouthwest = "us-southeast-1a";
          final String nanodeType = "g5-nanode-1";

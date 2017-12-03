@@ -40,8 +40,18 @@ public class LinodeUrl {
 
 
     //Account
-    public static final String ACCOUNTS = BASE_URL_V4 + "/account/events?page={page}";
-    public static final String ACCOUNT_BY_ID = BASE_URL_V4 + "/account/events/{account_id}";
+    public static final String ACCOUNTS_EVENTS = BASE_URL_V4 + "/account/events?page={page}";
+    public static final String ACCOUNT_EVENT_BY_ID = BASE_URL_V4 + "/account/events/{account_id}";
+    public static final String ACCOUNT_EVENT_READ = BASE_URL_V4 + "/account/events/{account_id}/read";
+    public static final String ACCOUNT_EVENT_SEEN= BASE_URL_V4 + "/account/events/{account_id}/seen";
+
+    //Invoices
+    public static final String INVOICES = BASE_URL_V4 + "/account/invoices?page={page}";
+    public static final String INVOICE_BY_ID = BASE_URL_V4 + "/account/invoices/{invoice_id}";
+    public static final String INVOICE_ITEMS_BY_ID = BASE_URL_V4 + "/account/invoices/{invoice_id}/items";
+
+    //Notifications
+    public static final String NOTIFICATIONS = BASE_URL_V4 + "/account/notifications?page={page}";
 
     //Region
     public static final String REGIONS = BASE_URL_V4 + "/regions?page={page}";
