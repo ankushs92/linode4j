@@ -76,6 +76,7 @@ For example, here is how you get a paginated list of linodes created by your acc
                 case MIGRATING : //your linode is migrating, don't panic!
                 // etc
             }
+            //Other fields
         }
 ```
 
@@ -119,10 +120,10 @@ Onward to creating and deleting our linode.
          final String nanodeType = "g5-nanode-1";
          final LinodeCreateRequest createRequest = LinodeCreateRequest
                  .builder()
-                 .region(usSouthwest) //REQUIRED
-                 .type(nanodeType) //REQUIRED
-                 .backupsEnabled(false) //false by default
-                 .rootPass("SET_YOUR_PASSWORD") // password for your linode
+                     .region(usSouthwest) //REQUIRED
+                     .type(nanodeType) //REQUIRED
+                     .backupsEnabled(false) //false by default
+                     .rootPass("SET_YOUR_PASSWORD") // password for your linode
                  .build();
          
          api.createLinode(createRequest);
