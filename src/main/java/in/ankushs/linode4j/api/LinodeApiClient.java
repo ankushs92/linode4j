@@ -1,5 +1,7 @@
 package in.ankushs.linode4j.api;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
 import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
@@ -28,6 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
@@ -110,13 +113,32 @@ public class LinodeApiClient implements LinodeApi {
 
     @Override
     public void bootLinode(final int linodeId) {
+        val url = LINODE_BOOT.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethod = HttpMethod.POST;
+        val emptyMap = ImmutableMap.of();
 
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
     @Override
     public void bootLinode(final int linodeId, final Integer configId) {
         PreConditions.notNull(configId, "configId cannot be null");
 
+        val url = LINODE_BOOT.replace("{linode_id}", String.valueOf(linodeId));
+        val singletonMap = ImmutableMap.of("config_id", String.valueOf(configId));
+        val httpMethod = HttpMethod.POST;
+
+        val jsonReq = Json.toJson(singletonMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
     @Override
