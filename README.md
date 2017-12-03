@@ -133,8 +133,18 @@ Onward to creating and deleting our linode.
 
 ```
 
-# Future work #
+# Handling errors #
 
-Currently, linode4j covers almost all endpoints with the exception of [Profile](https://developers.linode.com/v4/reference/profile).
-Also, searching by fields that have been marked as [filterable](https://developers.linode.com/v4/filtering) is yet to be implemented.
-I'll get to it when I get time. Feel free to send a PR! :)
+First, go through [this](https://developers.linode.com/v4/errors) guide. Following RESTFUL principles, Linode returns Http 4xx or 5xx error code
+to indicate error. In such a case, linode4j would throw `LinodeException`, which extends RuntimeException(thus sparing you them checked exceptions).
+ 
+```java
+//Same code as above
+try{
+    api.createLinode(createRequest);
+}
+catch(final LinodeException ex){
+    log.error("", ex);
+}
+``` 
+
