@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.enums.HyperVisor;
 import in.ankushs.linode4j.model.enums.LinodeStatus;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,6 @@ import java.util.Set;
 /**
  * Created by ankushsharma on 21/11/17.
  */
-@Builder
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Linode  {

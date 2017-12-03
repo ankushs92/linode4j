@@ -12,7 +12,7 @@ import in.ankushs.linode4j.model.linode.*;
 import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
-import in.ankushs.linode4j.model.linode.response.LinodeCloneResponse;
+import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.region.RegionPageImpl;
 import in.ankushs.linode4j.util.AuthorizedKeysUtils;
@@ -40,8 +40,10 @@ import static in.ankushs.linode4j.constants.LinodeUrl.*;
 @Slf4j
 public class LinodeApiClient implements LinodeApi {
 
+    private static final String JSON_MEDIA_TYPE = "application/json;utf-8";
+    private static final MediaType JSON = MediaType.parse(JSON_MEDIA_TYPE);
+
     private static final OkHttpClient defaultHttpClient = new OkHttpClient();
-    private static final MediaType JSON = MediaType.parse("application/json;utf-8");
 
     @Getter(AccessLevel.NONE)
     private final String token;
@@ -88,6 +90,9 @@ public class LinodeApiClient implements LinodeApi {
 
         val sshKeys = request.getAuthKeys();
         AuthorizedKeysUtils.validate(sshKeys);
+
+        PreConditions.notEmptyString(request.getRegion(), "region is a required field for creating linode. It cannot be null or empty");
+        PreConditions.notEmptyString(request.getType(), "type is a required field for creating linode. It cannot be null or empty");
 
         //We're making a POST request. No need for paging params
         val url = LINODE_INSTANCES.replace("?page={page}", Strings.EMPTY);
@@ -140,57 +145,147 @@ public class LinodeApiClient implements LinodeApi {
     }
 
     @Override
-    public LinodeCloneResponse cloneLinode(final int linodeId, final LinodeCloneRequest request) {
+    public void cloneLinode(final int linodeId, final LinodeCloneRequest request) {
         PreConditions.notNull(request, "request cannot be null");
-        return null;
+
+        val url = LINODE_CLONE.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethpd = HttpMethod.POST;
+
+        val jsonReq = Json.toJson(request);
+        log.debug("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethpd, Void.TYPE, reqBody);
     }
 
     @Override
-    public void kvmify(final int linodeId) {
+    public void kvmifyLinode(final int linodeId) {
+        val url = LINODE_KVMIFY.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethpd = HttpMethod.POST;
+        val emptyMap = ImmutableMap.of();
 
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethpd, Void.TYPE, reqBody);
     }
 
     @Override
-    public void mutate(final int linodeId) {
+    public void mutateLinode(final int linodeId) {
+        val url = LINODE_MUTATE.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethpd = HttpMethod.POST;
+        val emptyMap = ImmutableMap.of();
+
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethpd, Void.TYPE, reqBody);
 
     }
 
     @Override
     public void rebootLinode(final int linodeId) {
+        val url = LINODE_REBOOT.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethod = HttpMethod.POST;
+        val emptyMap = ImmutableMap.of();
 
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
     @Override
     public void rebootLinode(final int linodeId, final Integer configId) {
         PreConditions.notNull(configId, "configId cannot be null");
+
+        val url = LINODE_REBOOT.replace("{linode_id}", String.valueOf(linodeId));
+        val singletonMap = ImmutableMap.of("config_id", String.valueOf(configId));
+        val httpMethod = HttpMethod.POST;
+
+        val jsonReq = Json.toJson(singletonMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
     @Override
-    public void rebuildLinode(final int linodeId, final LinodeRebuildRequest request) {
+    public LinodeRebuildResponse rebuildLinode(final int linodeId, final LinodeRebuildRequest request) {
         PreConditions.notNull(request, "request cannot be null");
+        PreConditions.notEmptyString(request.getDistribution(), "distribution is a required param. It cannot be null or empty");
+        PreConditions.notEmptyString(request.getRootPassword(), "rootPassword is a required param. It cannot be null or empty");
 
+        val url = LINODE_REBUILD.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethod = HttpMethod.POST;
+
+        val jsonReq = Json.toJson(request);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        return (LinodeRebuildResponse) executeReq(url, httpMethod, LinodeRebuildResponse.class, reqBody);
     }
 
     @Override
     public void rescueLinode(final int linodeId, final Devices devices) {
+        PreConditions.notNull(devices, "devices cannot be null");
 
+        val url = LINODE_RESCUE.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethod = HttpMethod.POST;
+
+        val jsonReq = Json.toJson(devices);
+        log.debug("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
     @Override
-    public void resizeLinode(final int linodeId, final String type) {
-        PreConditions.notEmptyString(type , "type cannot be null");
+    public void resizeLinode(final int linodeId, final String linodeType) {
+        PreConditions.notEmptyString(linodeType , "linodeType cannot be null");
 
+        val url = LINODE_RESIZE.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethod = HttpMethod.POST;
+        val singletonMap = ImmutableMap.of("type", linodeType);
+
+        val jsonReq = Json.toJson(singletonMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
     @Override
     public void shutdownLinode(final int linodeId) {
+        val url = LINODE_SHUTDOWN.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethod = HttpMethod.POST;
+        val emptyMap = ImmutableMap.of();
 
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
     @Override
     public Page<BlockStorageVolume> getBlockStorageVolumesByLinodeId(final int linodeId) {
+        val url = LINODE_VOLUMES.replace("{linode_id}", String.valueOf(linodeId));
+        val httpMethod = HttpMethod.GET;
 
-        return null;
+        return (BlockStorageVolumePageImpl) executeReq(url, httpMethod, BlockStorageVolumePageImpl.class, null);
     }
 
     @Override
@@ -329,23 +424,25 @@ public class LinodeApiClient implements LinodeApi {
         PreConditions.notNull(httpMethod, "httpMethod cannot be null");
         PreConditions.notNull(returnType, "returnType cannot be null or empty");
 
+        if(httpMethod.isPost() || httpMethod.isPut()){
+            PreConditions.notNull(requestBody, "requestBody cannot be null");
+        }
+
         log.debug("Request details : Http Method : {} ; url {}", httpMethod, url);
 
         //default method is GET
         val requestBuilder = new Request.Builder()
                                 .addHeader("Connection","Keep-Alive")
+                                .addHeader("Content-Type", JSON_MEDIA_TYPE)
                                 .addHeader("Authorization", "Bearer " + token)
-                                .addHeader("Content-Type","application/json;utf-8")
                                 .url(url);
 
         //For any request that is not a GET request, we need to prepare a Request Body
         if(httpMethod.isNotGet()){
             //We set RequestBody to our HTTP req in case of POST and PUT req
             if(httpMethod.isPost() || httpMethod.isPut()){
-                if(Objects.nonNull(requestBody)) {
-                    //HttpMethod.GET -> "GET", HttpMethod.POST -> "POST" and so on
-                    requestBuilder.method(httpMethod.name(), requestBody);
-                }
+                //HttpMethod.POST -> "POST", HttpMethod.PUT -> "PUT" and so on
+                requestBuilder.method(httpMethod.name(), requestBody);
             }
             //No need for a Request body in case of DELETE req
             else{

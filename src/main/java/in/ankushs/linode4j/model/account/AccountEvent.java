@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.enums.EventAction;
 import in.ankushs.linode4j.model.enums.EventStatus;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
  * Created by ankushsharma on 29/11/17.
  */
 @Data
-@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountEvent {
 

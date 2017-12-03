@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.enums.LinodeStatus;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import java.util.Set;
  * Created by ankushsharma on 27/11/17.
  */
 @Data
-@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Snapshot {
 

@@ -1,19 +1,20 @@
 package in.ankushs.linode4j.model.linode.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import in.ankushs.linode4j.model.linode.Distribution;
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.Set;
 
 /**
  * Created by ankushsharma on 29/11/17.
  */
+@Data
 @Builder
 public class LinodeRebuildRequest {
 
-    @JsonProperty("distribution")
-    private final Distribution distribution;
+    @JsonProperty(value = "distribution", required = true)
+    private final String distribution;
 
     @JsonProperty("image")
     private final Integer image;

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.enums.BlockStorageVolumeStatus;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 /**
  * Created by ankushsharma on 29/11/17.
  */
-@Builder
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BlockStorageVolume {

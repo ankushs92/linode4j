@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.enums.FileSystem;
 import in.ankushs.linode4j.model.enums.LinodeStatus;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
  * Created by ankushsharma on 27/11/17.
  */
 @Data
-@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Disk {
 

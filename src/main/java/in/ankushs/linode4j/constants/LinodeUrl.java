@@ -14,9 +14,11 @@ public class LinodeUrl {
     public static final String LINODE_CLONE = BASE_URL_V4 + "/linode/instances/{linode_id}/clone";
     public static final String LINODE_KVMIFY = BASE_URL_V4 + "/linode/instances/{linode_id}/kvmify";
     public static final String LINODE_MUTATE = BASE_URL_V4 + "/linode/instances/{linode_id}/mutate";
+    public static final String LINODE_REBOOT = BASE_URL_V4 + "/linode/instances/{linode_id}/reboot";
     public static final String LINODE_REBUILD= BASE_URL_V4 + "/linode/instances/{linode_id}/rebuild";
     public static final String LINODE_RESCUE= BASE_URL_V4 + "/linode/instances/{linode_id}/rescue";
     public static final String LINODE_RESIZE= BASE_URL_V4 + "/linode/instances/{linode_id}/resize";
+    public static final String LINODE_SHUTDOWN = BASE_URL_V4 + "/linode/instances/{linode_id}/shutdown";
     public static final String LINODE_VOLUMES = BASE_URL_V4 + "/linode/instances/{linode_id}/volumes";
 
 

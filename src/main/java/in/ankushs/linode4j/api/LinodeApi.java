@@ -11,7 +11,7 @@ import in.ankushs.linode4j.model.linode.LinodeType;
 import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
-import in.ankushs.linode4j.model.linode.response.LinodeCloneResponse;
+import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
 import in.ankushs.linode4j.model.region.Region;
 
 /**
@@ -20,7 +20,7 @@ import in.ankushs.linode4j.model.region.Region;
 public interface LinodeApi {
 
 
-    // ~~~ Linode
+    // ~~~ Linode Endpoints ~~
     Page<Linode> getLinodes(int pageNo);
 
     Linode getLinodeById(int linodeId);
@@ -33,21 +33,21 @@ public interface LinodeApi {
 
     void bootLinode(int linodeId, Integer configId);
 
-    LinodeCloneResponse cloneLinode(int linodeId, LinodeCloneRequest request);
+    void cloneLinode(int linodeId, LinodeCloneRequest request);
 
-    void kvmify(int linodeId);
+    void kvmifyLinode(int linodeId);
 
-    void mutate(int linodeId);
+    void mutateLinode(int linodeId);
 
     void rebootLinode(int linodeId);
 
     void rebootLinode(int linodeId, Integer configId);
 
-    void rebuildLinode(int linodeId, LinodeRebuildRequest request);
+    LinodeRebuildResponse rebuildLinode(int linodeId, LinodeRebuildRequest request);
 
     void rescueLinode(int linodeId, Devices devices);
 
-    void resizeLinode(int linodeId, String type);
+    void resizeLinode(int linodeId, String linodeType);
 
     void shutdownLinode(int linodeId);
 
