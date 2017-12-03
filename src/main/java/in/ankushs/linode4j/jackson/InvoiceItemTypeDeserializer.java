@@ -1,4 +1,4 @@
-package in.ankushs.linode4j.jackson.deserializers;
+package in.ankushs.linode4j.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

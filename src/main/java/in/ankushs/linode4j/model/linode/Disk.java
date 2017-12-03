@@ -3,7 +3,7 @@ package in.ankushs.linode4j.model.linode;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.deserializers.LocalDateTimeDeserializer;
+import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.enums.FileSystem;
 import in.ankushs.linode4j.model.enums.LinodeStatus;
 import lombok.Builder;

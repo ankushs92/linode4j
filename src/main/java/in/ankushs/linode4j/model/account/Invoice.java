@@ -3,7 +3,7 @@ package in.ankushs.linode4j.model.account;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.deserializers.LocalDateTimeDeserializer;
+import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import lombok.Builder;
 import lombok.Data;
 

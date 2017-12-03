@@ -1,7 +1,7 @@
 package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.deserializers.BlockStorageVolumeStatusDeserializer;
+import in.ankushs.linode4j.jackson.BlockStorageVolumeStatusDeserializer;
 import in.ankushs.linode4j.util.Strings;
 import lombok.Getter;
 

@@ -1,26 +1,13 @@
 package in.ankushs.linode4j.jackson
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
 import groovy.json.JsonBuilder
 import in.ankushs.BaseSpec
-import in.ankushs.linode4j.jackson.deserializers.ArchitectureDeserializer
 import in.ankushs.linode4j.model.enums.Architecture
 
 /**
  * Created by ankushsharma on 03/12/17.
  */
 class ArchitectureDeserializerSpec extends BaseSpec {
-
-    private ObjectMapper mapper
-    def jsonParser
-    def deserializationCtx
-
-    def setup(){
-        mapper = new ObjectMapper()
-        mapper.enable(SerializationFeature.INDENT_OUTPUT)
-        deserializationCtx = mapper.getDeserializationContext()
-    }
 
     def "Testing out various enum values "(){
         given :

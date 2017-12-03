@@ -2,7 +2,7 @@ package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.deserializers.HyperVisorDeserializer;
+import in.ankushs.linode4j.jackson.HyperVisorDeserializer;
 import in.ankushs.linode4j.util.Strings;
 import lombok.Getter;
 

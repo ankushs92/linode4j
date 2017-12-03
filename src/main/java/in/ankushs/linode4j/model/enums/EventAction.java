@@ -1,7 +1,7 @@
 package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.deserializers.EventEntityDeserializer;
+import in.ankushs.linode4j.jackson.EventActionDeserializer;
 import in.ankushs.linode4j.util.Strings;
 import lombok.Getter;
 
@@ -9,7 +9,7 @@ import lombok.Getter;
  * Created by ankushsharma on 29/11/17.
  */
 @Getter
-@JsonDeserialize(using = EventEntityDeserializer.class)
+@JsonDeserialize(using = EventActionDeserializer.class)
 public enum EventAction {
 
     UNKNOWN,
