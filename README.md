@@ -68,7 +68,12 @@ For example, here is how you get a paginated list of linodes created by your acc
             }
             
             final LinodeStatus status = linode.getStatus();
-            //Etc
+            switch(status){
+                case SHUTTING_DOWN : // do stuff
+                case OFFLINE : //do something
+                case MIGRATING : //your linode is migrating, don't panic!
+                // etc
+            }
         }
 ```
 
