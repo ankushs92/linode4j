@@ -16,6 +16,8 @@ apply plugin: 'groovy'
 apply plugin: 'java'
 apply plugin: "jacoco"
 apply plugin: "com.github.kt3k.coveralls"
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 
@@ -23,9 +25,22 @@ repositories {
     mavenCentral()
 }
 
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives sourcesJar
+}
+
+signing {
+	sign configurations.archives
+}
+
+
 dependencies {
 
-    //
     compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
 
     //logging
@@ -59,3 +74,54 @@ jacocoTestReport {
     }
 }
 
+
+uploadArchives {
+    repositories {
+	   mavenDeployer{
+		   beforeDeployment{MavenDeployment deployment->
+			   signing.signPom(deployment)
+		   }
+
+		   repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+			   authentication(userName: ossrhUsername, password: ossrhPassword)
+			 }
+
+		   pom{
+			   project{
+				   name 'Java-DbIP'
+				   description 'A Java library for the DB-IP free city dataset '
+				   packaging 'jar'
+				   url 'https://github.com/ankushs92/Java-DB-IP'
+			       inceptionYear '2016'
+
+				   scm {
+					   connection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
+					   developerConnection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
+					   url 'git@github.com:ankushs92/Java-DB-IP.git'
+					 }
+
+				   licenses {
+					   license {
+						 name 'The MIT License'
+						 url 'https://github.com/ankushs92/Java-DB-IP/blob/master/LICENSE.md'
+					   }
+				   }
+				   developers {
+					   developer {
+						 name 'Ankush Sharma'
+						 email 'ankush20058@gmail.com'
+					   }
+					}
+				   issueManagement{
+					   system 'Github'
+					   url 'https://github.com/ankushs92/Java-DB-IP/issues'
+
+				   }
+			   }
+		   }
+	       flatDir {
+	           dirs 'repos'
+	   }
+    }
+  }
+}
