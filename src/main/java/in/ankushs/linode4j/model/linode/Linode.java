@@ -30,7 +30,7 @@ public class Linode  {
 
     @JsonProperty("created")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private final LocalDateTime created;
+    private final LocalDateTime createdOn;
 
     @JsonProperty("region")
     private final String region;
@@ -58,7 +58,7 @@ public class Linode  {
 
     @JsonProperty("updated")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private final LocalDateTime updated;
+    private final LocalDateTime updatedOn;
 
     @JsonProperty("hypervisor")
     private final HyperVisor hyperVisor;

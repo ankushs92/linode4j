@@ -6,6 +6,8 @@ import in.ankushs.linode4j.model.account.*;
 import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
 import in.ankushs.linode4j.model.enums.HttpMethod;
 import in.ankushs.linode4j.model.enums.HttpStatusCode;
+import in.ankushs.linode4j.model.enums.HyperVisor;
+import in.ankushs.linode4j.model.enums.LinodeStatus;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
 import in.ankushs.linode4j.model.linode.*;
@@ -29,7 +31,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
@@ -484,5 +488,43 @@ public class LinodeApiClient implements LinodeApi {
         }
         return result;
     }
+    public static void main(String[] args) {
+        //Your OAuth token
+        final String oauthToken = "e5081e9845c8f2ebad90e85393c1848841dacc5af395d2dbd6020f2b28a0fa08";
+
+        //Connect with Linode
+        final LinodeApiClient api = new LinodeApiClient(oauthToken);
+
+        final int pageNo = 1;
+        //Get Linodes along with paging parameters
+        final Page<Linode> pagedLinodes = api.getLinodes(pageNo);
+
+        final Set<Linode> linodes = pagedLinodes.getContent();
+
+        //Discover linode properties
+        for(final Linode linode : linodes){
+            final int id = linode.getId();
+
+            //When was the linode created?
+            final LocalDateTime createdOn = linode.getCreatedOn();
+
+            //The alerts set on this linode
+            final Alert alerts = linode.getAlerts();
+
+            final Set<String> publicIps = linode.getIpv4Addresses();
+
+            final String linodeIpv6 = linode.getIpv6Address();
+
+            final HyperVisor hyperVisor = linode.getHyperVisor();
+            if(hyperVisor == HyperVisor.KVM) {
+                // DO SOMETHING
+            }
+
+            final LinodeStatus status = linode.getStatus();
+            //Etc
+        }
+
+    }
+
 
 }

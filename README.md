@@ -34,26 +34,41 @@ To view the first 25 collections, therefore, set pageNo = 1
 For example, here is how you get a paginated list of linodes created by your account:
 
 ```java
-    final int pageNo = 1;
-    final Page<Linode> paginatedLinodes = linodeClient.getLinodes(pageNo);
+        final int pageNo = 1;
+        //Get Linodes along with paging parameters
+        final Page<Linode> pagedLinodes = api.getLinodes(pageNo);
 
-    //Get the linode
-    final Set<Linode> linodes = paginatedLinodes.getContent();
-    System.out.println(linodes);
-    System.out.println(paginatedLinodes.getCurrentPageCount());
-    System.out.println(paginatedLinodes.getTotalPages());
-    System.out.println(paginatedLinodes.getTotalResults());
+        final Set<Linode> linodes = pagedLinodes.getContent();
+
+        //Discover linode properties
+        for(final Linode linode : linodes){
+            final int id = linode.getId();
+
+            //When was the linode created?
+            final LocalDateTime createdOn = linode.getCreatedOn();
+
+            //The alerts set on this linode
+            final Alert alerts = linode.getAlerts();
+
+            final Set<String> publicIps = linode.getIpv4Addresses();
+            final String linodeIpv6 = linode.getIpv6Address();
+            
+            final HyperVisor hyperVisor = linode.getHyperVisor();
+            if(hyperVisor == HyperVisor.KVM) {
+                // DO SOMETHING
+            }
+            
+            final LinodeStatus status = linode.getStatus();
+            //Etc
+        }
 ```
 
-More !
+Here is how you create a Linode:
 
 ```java
 
-    final Linode linode = linodeClient.
 
 ```
-
-
 
 
 # Future work #

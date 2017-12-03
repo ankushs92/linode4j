@@ -57,12 +57,18 @@ public interface LinodeApi {
 
     LinodeType getLinodeTypeById(String linodeTypeId);
 
+
+
+
     //~~~~~ Image ~~~~~~
     Page<Image> getImages(int pageNo);
 
     Image getImageById(int imageId);
 
     void deleteImage(int imageId);
+
+
+
 
     // ~~~ Account ~~~~~~~~
 
@@ -89,6 +95,11 @@ public interface LinodeApi {
     Page<Region> getRegions(int pageNo);
 
     Region getRegionById(String regionId);
+
+
+    // ~~~~ Networking ~~~~~~
+
+
 
 }
 
