@@ -2,13 +2,12 @@ package in.ankushs.linode4j.jackson
 
 import groovy.json.JsonBuilder
 import in.ankushs.BaseSpec
-import in.ankushs.linode4j.model.enums.EventAction
 import in.ankushs.linode4j.model.enums.EventStatus
 
 /**
  * Created by ankushsharma on 03/12/17.
  */
-class EventStatusSpec extends BaseSpec{
+class EventStatusDeserializerSpec extends BaseSpec{
 
     def "Testing out various enum values "(){
         given :

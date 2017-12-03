@@ -1,7 +1,7 @@
 package in.ankushs.linode4j.model.enums;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import in.ankushs.linode4j.jackson.OauthClientStatusDeserializer;
+import in.ankushs.linode4j.jackson.OAuthClientStatusDeserializer;
 import in.ankushs.linode4j.util.Strings;
 import lombok.Getter;
 
@@ -9,7 +9,7 @@ import lombok.Getter;
  * Created by ankushsharma on 30/11/17.
  */
 @Getter
-@JsonDeserialize(using = OauthClientStatusDeserializer.class)
+@JsonDeserialize(using = OAuthClientStatusDeserializer.class)
 public enum OAuthClientStatus {
 
     UNKNOWN("Unknown"),

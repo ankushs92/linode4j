@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum NotificationType {
 
     UNKNOWN("Unknown"),
-    IMPORTANT_TICET("There is a ticket open on your account that requires your attention."),
+    IMPORTANT_TICKET("There is a ticket open on your account that requires your attention."),
     ABUSE_TICKET("There is an abuse-related ticket on your account that requires your attention."),
     OUTAGE("There is a known outage impacting one or more of your services."),
     PENDING_MIGRATION("There is a migration queued for one of your Linodes that you must initiate."),
@@ -36,14 +36,14 @@ public enum NotificationType {
         }
         else{
             switch(code){
-                case "important_ticket" : result = IMPORTANT_TICET; break;
-                case "abuse_ticket" : result = IMPORTANT_TICET; break;
-                case "outage" : result = IMPORTANT_TICET; break;
-                case "pending_migration" : result = IMPORTANT_TICET; break;
-                case "scheduled_migration" : result = IMPORTANT_TICET; break;
-                case "outstanding_balance" : result = IMPORTANT_TICET; break;
-                case "xsa" : result = IMPORTANT_TICET; break;
-                case "scheduled_reboot" : result = IMPORTANT_TICET; break;
+                case "important_ticket" : result = IMPORTANT_TICKET; break;
+                case "abuse_ticket" : result = ABUSE_TICKET; break;
+                case "outage" : result = OUTAGE; break;
+                case "pending_migration" : result = PENDING_MIGRATION; break;
+                case "scheduled_migration" : result = SCHEDULED_MIGRATION; break;
+                case "outstanding_balance" : result = OUTSTANDING_BALANCE; break;
+                case "xsa" : result = XSA; break;
+                case "scheduled_reboot" : result = SCHEDULED_REBOOT; break;
                 default : result = UNKNOWN; break;
             }
         }
