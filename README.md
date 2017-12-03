@@ -27,7 +27,9 @@ Create an instance of `LinodeApiClient` to interact with Linode.
     
 ```
 
-**Node** Refer to the [Pagination](https://developers.linode.com/v4/pagination) guide to understand how linode implements pagination. A GET request for a collection of objects(for example, a collection of linodes registered with your account) returns the collection along with paging parameters.
+**Note** 
+
+Refer to the [Pagination](https://developers.linode.com/v4/pagination) guide to understand how linode implements pagination. A GET request for a collection of objects(for example, a collection of linodes registered with your account) returns the collection along with paging parameters.
 The default page size is 25. When requesting for collection of objects, it is mandatory to pass in a `pageNo`.
 To view the first 25 collections, therefore, set pageNo = 1 
  
@@ -111,6 +113,25 @@ To create a Linode, you must provide the api with `region` and `linodeType` . Le
 
 ```
 
+Onward to creating and deleting our linode.
+```java
+         final String usSouthwest = "us-southeast-1a";
+         final String nanodeType = "g5-nanode-1";
+         final LinodeCreateRequest createRequest = LinodeCreateRequest
+                 .builder()
+                 .region(usSouthwest) //REQUIRED
+                 .type(nanodeType) //REQUIRED
+                 .backupsEnabled(false) //false by default
+                 .rootPass("SET_YOUR_PASSWORD") // password for your linode
+                 .build();
+         
+         api.createLinode(createRequest);
+         
+         //Assuming a fictional linode id
+         final int linodeId = 1234; 
+         api.deleteLinode(linodeId);
+
+```
 
 # Future work #
 

@@ -569,7 +569,20 @@ public class LinodeApiClient implements LinodeApi {
             final Integer outboundBandwidth = type.getOutboundBandwidth();
             //and other properties, you get the idea
         }
+        final String usSouthwest = "us-southeast-1a";
+        final String nanodeType = "g5-nanode-1";
+        final LinodeCreateRequest createRequest = LinodeCreateRequest
+                .builder()
+                .region(usSouthwest) //REQUIRED
+                .type(nanodeType) //REQUIRED
+                .backupsEnabled(false) //false by default
+                .rootPass("SET_YOUR_PASSWORD") // password for your linode
+                .build();
+
+        api.createLinode(createRequest);
+
+        //Assuming a fictional linode id
+        final int linodeId = 1234;
+        api.deleteLinode(linodeId);
     }
-
-
 }
