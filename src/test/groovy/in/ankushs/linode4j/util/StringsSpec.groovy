@@ -7,11 +7,20 @@ import in.ankushs.BaseSpec
  */
 class StringsSpec extends BaseSpec{
 
-    def "throw exception when null is passed"(){
-        when :
-            PreConditions.notNull(null , "this shouldn't be null")
+    def "Does String have text?"(){
 
-        then :
-            thrown(IllegalArgumentException)
+        when:
+            def result = Strings.hasText(str)
+
+        then:
+            result == expectedResult
+
+        where:
+            str |  expectedResult
+            "A" | true
+            null | false
+            " "  | false
+            ""  | false
+            " trim " | true
     }
 }

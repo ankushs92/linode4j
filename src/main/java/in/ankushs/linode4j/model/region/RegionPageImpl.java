@@ -16,16 +16,16 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegionPageImpl implements Page<Region> {
 
-    @JsonProperty("pages")
+    @JsonProperty(value = "pages", required = true)
     private final Integer totalPages;
 
-    @JsonProperty("page")
+    @JsonProperty(value = "page", required = true)
     private final Integer currentPageCount;
 
-    @JsonProperty("results")
+    @JsonProperty(value = "results", required = true)
     private final Integer totalResults;
 
-    @JsonProperty("data")
+    @JsonProperty(value = "data", required = true)
     private final Set<Region> content;
 
 }

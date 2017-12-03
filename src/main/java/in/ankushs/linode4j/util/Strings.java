@@ -27,20 +27,4 @@ public class Strings {
         }
         return false;
     }
-
-    /*
-    * Uses a StringBuilder to build an array of objects. The value returned in the Object's toString method is considered
-    * If a null is passed in the array, it is simply ignored
-    * */
-    public static <T> String build(final T... array){
-        PreConditions.notNull(array, "array cannot be null");
-        val sb = new StringBuilder();
-        for(val object : array){
-            if(Objects.nonNull(object)){
-                sb.append(object.toString());
-            }
-        }
-        return sb.toString();
-    }
-
 }

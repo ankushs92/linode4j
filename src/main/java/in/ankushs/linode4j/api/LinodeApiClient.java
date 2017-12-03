@@ -1,7 +1,6 @@
 package in.ankushs.linode4j.api;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
 import in.ankushs.linode4j.model.account.request.OAuthClientRequest;
@@ -30,7 +29,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
