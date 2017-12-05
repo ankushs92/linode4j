@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 27/11/17.
  */
-public class StatusDeserializer extends JsonDeserializer<LinodeStatus> {
+public final class StatusDeserializer extends JsonDeserializer<LinodeStatus> {
 
     @Override
     public LinodeStatus deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException{

@@ -17,7 +17,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Linode  {
+public final class Linode  {
 
     @JsonProperty("id")
     private final Integer id;

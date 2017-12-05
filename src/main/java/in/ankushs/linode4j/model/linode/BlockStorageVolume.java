@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BlockStorageVolume {
+public final class BlockStorageVolume {
 
     @JsonProperty("id")
     private final Integer id;

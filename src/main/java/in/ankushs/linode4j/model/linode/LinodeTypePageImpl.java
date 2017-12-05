@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LinodeTypePageImpl implements Page<LinodeType> {
+public final class LinodeTypePageImpl implements Page<LinodeType> {
 
     @JsonProperty("pages")
     private final Integer totalPages;

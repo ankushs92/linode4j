@@ -8,7 +8,7 @@ import lombok.Data;
  * Created by ankushsharma on 03/12/17.
  */
 @Data
-public class Sdh implements LinuxDevice {
+public final class Sdh implements LinuxDevice {
 
     @JsonProperty("disk_id")
     private final Integer diskId;
@@ -20,7 +20,5 @@ public class Sdh implements LinuxDevice {
         this.diskId = diskId;
         this.volumeId = volumeId;
     }
-
-
 
 }

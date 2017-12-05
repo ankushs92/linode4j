@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RegionPageImpl implements Page<Region> {
+public final class RegionPageImpl implements Page<Region> {
 
     @JsonProperty(value = "pages", required = true)
     private final Integer totalPages;

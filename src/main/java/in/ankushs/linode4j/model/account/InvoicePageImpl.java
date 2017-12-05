@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InvoicePageImpl implements Page<Invoice>  {
+public final class InvoicePageImpl implements Page<Invoice>  {
 
     @JsonProperty("pages")
     private final Integer totalPages;

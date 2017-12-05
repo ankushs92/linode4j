@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Specification {
+public final class Specification {
 
     @JsonProperty("disk")
     private final Integer disk;

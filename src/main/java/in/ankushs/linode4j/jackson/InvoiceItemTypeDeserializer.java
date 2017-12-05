@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 30/11/17.
  */
-public class InvoiceItemTypeDeserializer extends JsonDeserializer<InvoiceItemType>{
+public final class InvoiceItemTypeDeserializer extends JsonDeserializer<InvoiceItemType>{
 
     @Override
     public InvoiceItemType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

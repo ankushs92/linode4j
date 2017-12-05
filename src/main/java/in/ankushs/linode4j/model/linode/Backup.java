@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Backup {
+public final class Backup {
 
     @JsonProperty("enabled")
     private final Boolean isEnabled;

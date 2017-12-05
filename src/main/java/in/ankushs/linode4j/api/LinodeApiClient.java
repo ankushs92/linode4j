@@ -37,7 +37,7 @@ import static in.ankushs.linode4j.constants.LinodeUrl.*;
  */
 @Data
 @Slf4j
-public class LinodeApiClient implements LinodeApi {
+public final class LinodeApiClient implements LinodeApi {
 
     private static final String JSON_MEDIA_TYPE = "application/json;utf-8";
     private static final MediaType JSON = MediaType.parse(JSON_MEDIA_TYPE);

@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Price {
+public final class Price {
 
     @JsonProperty("hourly")
     private final Float hourly;

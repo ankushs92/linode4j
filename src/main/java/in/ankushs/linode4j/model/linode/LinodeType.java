@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LinodeType {
+public final class LinodeType {
 
     @JsonProperty("id")
     private final String id;

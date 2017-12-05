@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountEventPageImpl implements Page<AccountEvent> {
+public final class AccountEventPageImpl implements Page<AccountEvent> {
 
     @JsonProperty("pages")
     private final Integer totalPages;

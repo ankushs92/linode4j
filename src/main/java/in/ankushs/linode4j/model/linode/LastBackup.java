@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LastBackup {
+public final class LastBackup {
 
     @JsonProperty("id")
     private final Integer id;

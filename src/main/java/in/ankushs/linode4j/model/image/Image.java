@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Image {
+public final class Image {
 
     @JsonProperty("id")
     private final Integer id;

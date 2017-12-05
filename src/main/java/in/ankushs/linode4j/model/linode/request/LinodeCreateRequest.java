@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Data
 @Builder
-public class LinodeCreateRequest {
+public final class LinodeCreateRequest {
 
     @JsonProperty(value = "region", required = true)
     private final String region;

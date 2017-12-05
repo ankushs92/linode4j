@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LinodeRebuildResponse {
+public final class LinodeRebuildResponse {
 
     @JsonProperty("configs")
     private final Set<LinodeConfig> configs;

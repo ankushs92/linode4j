@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 30/11/17.
  */
-public class OAuthClientStatusDeserializer extends JsonDeserializer<OAuthClientStatus> {
+public final class OAuthClientStatusDeserializer extends JsonDeserializer<OAuthClientStatus> {
 
     @Override
     public OAuthClientStatus deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Distribution {
+public final class Distribution {
 
     @JsonProperty("id")
     private final String id;

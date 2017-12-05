@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LinodeConfig {
+public final class LinodeConfig {
 
     @JsonProperty("id")
     private final String id;

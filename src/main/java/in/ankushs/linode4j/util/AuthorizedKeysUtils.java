@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by ankushsharma on 03/12/17.
  */
-public class AuthorizedKeysUtils {
+public final class AuthorizedKeysUtils {
 
     private AuthorizedKeysUtils(){}
 

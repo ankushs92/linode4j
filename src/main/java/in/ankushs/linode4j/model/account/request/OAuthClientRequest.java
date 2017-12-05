@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class OAuthClientRequest {
+public final class OAuthClientRequest {
 
     @JsonProperty(value = "label", required = true)
     private final String label;
@@ -20,4 +20,9 @@ public class OAuthClientRequest {
     @JsonProperty("public")
     private final Boolean isPublic;
 
+    public static void main(String[] args) {
+        OAuthClientRequest.builder()
+                .label("a")
+                .build();
+    }
 }

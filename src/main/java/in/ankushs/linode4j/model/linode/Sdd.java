@@ -8,7 +8,7 @@ import lombok.Data;
  * Created by ankushsharma on 29/11/17.
  */
 @Data
-public class Sdd implements LinuxDevice {
+public final class Sdd implements LinuxDevice {
 
     @JsonProperty("disk_id")
     private final Integer diskId;

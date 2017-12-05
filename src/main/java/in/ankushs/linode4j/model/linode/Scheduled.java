@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Scheduled {
+public final class Scheduled {
 
     @JsonProperty("day")
     private final String day;

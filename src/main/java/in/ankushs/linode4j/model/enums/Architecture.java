@@ -10,7 +10,8 @@ import lombok.Getter;
  */
 @Getter
 @JsonDeserialize(using = ArchitectureDeserializer.class)
-public enum Architecture {
+public  enum Architecture {
+
     UNKNOWN("Unknown"),
     X86_64("64 bit distribution"),
     i386("32 bit distribution");

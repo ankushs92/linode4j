@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 03/12/17.
  */
-public class VirtualizationModeDeserializer extends JsonDeserializer<VirtualizationMode> {
+public final class VirtualizationModeDeserializer extends JsonDeserializer<VirtualizationMode> {
 
     @Override
     public VirtualizationMode deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {

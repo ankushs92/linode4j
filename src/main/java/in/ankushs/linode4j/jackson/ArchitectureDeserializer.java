@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 27/11/17.
  */
-public class ArchitectureDeserializer extends JsonDeserializer<Architecture> {
+public final class ArchitectureDeserializer extends JsonDeserializer<Architecture> {
 
     @Override
     public Architecture deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException{

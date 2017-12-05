@@ -163,3 +163,14 @@ to indicate error. In such a case, linode4j would throw `LinodeException`, which
     }
 ``` 
 
+# Contribute #
+
+Contributions are welcome, and are subject to the following guidelines:
+
+1. This project relies heavily on Lombok for type inference(`val` keyword), `@Builder` to use Builder design pattern, 
+and `@Data` for getters, equals, hashcode and toString
+
+2. Jackson is used for Json marshalling/unmarshalling. To deserialize enums, create a custom class that extends `JsonDeserializer<T>` and 
+annotate the enum with this class
+
+3. Model classes **must** be immutable

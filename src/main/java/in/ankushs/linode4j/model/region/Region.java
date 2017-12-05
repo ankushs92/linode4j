@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Region {
+public final class Region {
 
     @JsonProperty("id")
     private final String id;

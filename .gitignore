@@ -13,7 +13,9 @@ catalina.*
 WEB-INF/
 /WEB-INF/
 .gpg
+
 gradle.properties
+
 *.rdb
 
 # ini files Â£
@@ -89,3 +91,4 @@ local.properties
  
 # PDT-specific
 .buildpath
+gradle/

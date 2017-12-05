@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 27/11/17.
  */
-public class FileSystemDeserializer extends JsonDeserializer<FileSystem> {
+public final class FileSystemDeserializer extends JsonDeserializer<FileSystem> {
 
     @Override
     public FileSystem deserialize(final JsonParser jsonParser, final DeserializationContext ctxt)throws IOException{

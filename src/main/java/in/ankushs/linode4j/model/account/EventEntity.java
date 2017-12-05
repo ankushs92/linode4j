@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EventEntity {
+public final class EventEntity {
 
     @JsonProperty("id")
     private final Integer id;

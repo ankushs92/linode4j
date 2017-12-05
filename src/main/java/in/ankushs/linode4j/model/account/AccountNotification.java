@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountNotification {
+public final class AccountNotification {
 
     @JsonProperty("when")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

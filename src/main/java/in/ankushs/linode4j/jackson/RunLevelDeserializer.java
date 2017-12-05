@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 03/12/17.
  */
-public class RunLevelDeserializer extends JsonDeserializer<RunLevel> {
+public final class RunLevelDeserializer extends JsonDeserializer<RunLevel> {
 
     @Override
     public RunLevel deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

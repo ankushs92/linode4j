@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Snapshot {
+public final class Snapshot {
 
     @JsonProperty("id")
     private final Integer id;

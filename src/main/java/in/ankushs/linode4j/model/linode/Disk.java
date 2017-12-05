@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Disk {
+public final class Disk {
 
     @JsonProperty("id")
     private final String id;

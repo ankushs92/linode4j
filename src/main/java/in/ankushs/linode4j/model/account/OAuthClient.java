@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OAuthClient {
+public final class OAuthClient {
 
     @JsonProperty("id")
     private final String id;

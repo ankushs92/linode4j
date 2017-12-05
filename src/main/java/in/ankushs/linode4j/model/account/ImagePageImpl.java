@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ImagePageImpl implements Page<Image> {
+public final class ImagePageImpl implements Page<Image> {
 
     @JsonProperty("pages")
     private final Integer totalPages;

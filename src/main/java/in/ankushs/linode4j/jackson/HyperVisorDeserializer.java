@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 27/11/17.
  */
-public class HyperVisorDeserializer extends JsonDeserializer<HyperVisor> {
+public final class HyperVisorDeserializer extends JsonDeserializer<HyperVisor> {
 
     @Override
     public HyperVisor deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException{

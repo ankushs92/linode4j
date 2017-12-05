@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountEvent {
+public final class AccountEvent {
 
     @JsonProperty("id")
     private final Integer id;

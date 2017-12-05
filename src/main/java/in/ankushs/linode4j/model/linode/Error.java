@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Error {
+public final class Error {
 
     @JsonProperty("field")
     private final String field;

@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Created by Ankush on 17/07/17.
  */
-public class Strings {
+public final class Strings {
 
     private Strings(){}
 

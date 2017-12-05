@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InvoiceItem {
+public final class InvoiceItem {
 
     @JsonProperty("to")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

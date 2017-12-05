@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Created by Ankush on 17/07/17.
  */
-public class PreConditions {
+public final class PreConditions {
 
     private PreConditions(){}
 

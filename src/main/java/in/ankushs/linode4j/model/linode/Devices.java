@@ -12,7 +12,7 @@ import lombok.val;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Devices {
+public final class Devices {
 
     @JsonProperty("sda")
     private final Sda sda;

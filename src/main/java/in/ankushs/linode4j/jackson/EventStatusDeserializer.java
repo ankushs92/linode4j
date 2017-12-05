@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 03/12/17.
  */
-public class EventStatusDeserializer extends JsonDeserializer<EventStatus>{
+public final class EventStatusDeserializer extends JsonDeserializer<EventStatus>{
     @Override
     public EventStatus deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
         return EventStatus.from(jsonParser.getText());

@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Alert {
+public final class Alert {
 
     @JsonProperty(value = "cpu")
     private final Integer cpu;

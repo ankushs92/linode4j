@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by ankushsharma on 30/11/17.
  */
-public class NotificationTypeDeserializer extends JsonDeserializer<NotificationType>{
+public final class NotificationTypeDeserializer extends JsonDeserializer<NotificationType>{
 
     @Override
     public NotificationType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {

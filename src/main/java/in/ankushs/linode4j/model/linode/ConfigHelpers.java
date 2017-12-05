@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ConfigHelpers {
+public final class ConfigHelpers {
 
     @JsonProperty("updatedb_disabled")
     private final Boolean isDbUpdateDisabled;

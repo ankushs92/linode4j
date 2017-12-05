@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BlockStorageVolumePageImpl implements Page<BlockStorageVolume> {
+public final class BlockStorageVolumePageImpl implements Page<BlockStorageVolume> {
 
     @JsonProperty("pages")
     private final Integer totalPages;
