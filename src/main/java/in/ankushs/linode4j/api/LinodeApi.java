@@ -4,12 +4,10 @@ import in.ankushs.linode4j.model.account.AccountEvent;
 import in.ankushs.linode4j.model.account.AccountNotification;
 import in.ankushs.linode4j.model.account.Invoice;
 import in.ankushs.linode4j.model.account.InvoiceItem;
+import in.ankushs.linode4j.model.domain.Domain;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
-import in.ankushs.linode4j.model.linode.BlockStorageVolume;
-import in.ankushs.linode4j.model.linode.Devices;
-import in.ankushs.linode4j.model.linode.Linode;
-import in.ankushs.linode4j.model.linode.LinodeType;
+import in.ankushs.linode4j.model.linode.*;
 import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
@@ -59,12 +57,19 @@ public interface LinodeApi {
 
     LinodeType getLinodeTypeById(String linodeTypeId);
 
+    Page<Kernel> getKernels(int pageNo);
+
+    Kernel getKernelById(String id);
+
     //~~~~~ Image ~~~~~~
     Page<Image> getImages(int pageNo);
 
     Image getImageById(int imageId);
 
     void deleteImage(int imageId);
+
+    // ~~~~~ Domain ~~~~~
+    Page<Domain> getDomains(int pageNo);
 
 
     // ~~~ Account ~~~~~~~~

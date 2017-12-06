@@ -3,6 +3,8 @@ package in.ankushs.linode4j.api;
 import com.google.common.collect.ImmutableMap;
 import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
+import in.ankushs.linode4j.model.domain.Domain;
+import in.ankushs.linode4j.model.domain.DomainPageImpl;
 import in.ankushs.linode4j.model.enums.HttpMethod;
 import in.ankushs.linode4j.model.enums.HttpStatusCode;
 import in.ankushs.linode4j.model.image.Image;
@@ -21,6 +23,7 @@ import in.ankushs.linode4j.util.Strings;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import okhttp3.MediaType;
@@ -63,10 +66,6 @@ public final class LinodeApiClient implements LinodeApi {
 
         this.token = token;
         this.okHttpClient = okHttpClient;
-    }
-
-    private static boolean okResponse(final int statusCode) {
-        return statusCode == HttpStatusCode.OK.getCode();
     }
 
     @Override
@@ -306,6 +305,22 @@ public final class LinodeApiClient implements LinodeApi {
         return (LinodeType) executeReq(url, httpMethod, LinodeType.class, null);
     }
 
+    @Override
+    public Page<Kernel> getKernels(final int pageNo) {
+        val url = KERNELS.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return (KernelPageImpl) executeReq(url, httpMethod, KernelPageImpl.class, null);
+    }
+
+    @Override
+    public Kernel getKernelById(final String kernelId) {
+        val url = KERNEL_BY_ID.replace("{kernel_id}", kernelId);
+        val httpMethod = HttpMethod.GET;
+
+        return (Kernel) executeReq(url, httpMethod, Kernel.class, null);
+    }
+
     //~~~ Images ~~~~~
     @Override
     public Image getImageById(final int imageId) {
@@ -332,6 +347,14 @@ public final class LinodeApiClient implements LinodeApi {
         val httpMethod = HttpMethod.DELETE;
 
         executeReq(url, httpMethod, Void.TYPE, null);
+    }
+
+    @Override
+    public Page<Domain> getDomains(final int pageNo) {
+        val url = DOMAINS.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return (DomainPageImpl) executeReq(url, httpMethod, DomainPageImpl.class, null);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~
@@ -375,7 +398,6 @@ public final class LinodeApiClient implements LinodeApi {
         val httpMethod = HttpMethod.POST;
 
         val emptyMap = ImmutableMap.of();
-
         val jsonReq = Json.toJson(emptyMap);
         log.trace("JSON request {}", jsonReq);
 
@@ -503,12 +525,26 @@ public final class LinodeApiClient implements LinodeApi {
             }
 
         } catch (final Exception ex) {
-
             if (ex instanceof LinodeException) {
                 throw (LinodeException) ex;
             }
             log.error("", ex);
         }
         return result;
+    }
+    private static boolean okResponse(final int statusCode) {
+        return statusCode == HttpStatusCode.OK.getCode();
+    }
+
+    public static void main(String[] args) {
+        String token = "e5081e9845c8f2ebad90e85393c1848841dacc5af395d2dbd6020f2b28a0fa08";
+        LinodeApiClient api = new LinodeApiClient("e5081e9845c8f2ebad90e85393c1848841dacc5af395d2dbd6020f2b28a0fa08");
+        api.getKernels(1).getContent().forEach(System.out::println);
+        System.out.println(api.getKernelById("linode/3.0.18-linode43"));
+
+        token = "60861b94531896351b83efd6fbba3c71c09ccb515ddaa34a5850e00e42aabdbe";
+        api = new LinodeApiClient(token);
+        api.getDomains(1).getContent().forEach(System.out::println);
+
     }
 }

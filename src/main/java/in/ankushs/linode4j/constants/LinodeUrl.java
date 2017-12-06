@@ -21,6 +21,12 @@ public final class LinodeUrl {
     public static final String LINODE_SHUTDOWN = BASE_URL_V4 + "/linode/instances/{linode_id}/shutdown";
     public static final String LINODE_VOLUMES = BASE_URL_V4 + "/linode/instances/{linode_id}/volumes";
 
+    //Kernel
+    public static final String KERNELS = BASE_URL_V4 + "/linode/kernels?page={page}";
+    public static final String KERNEL_BY_ID = BASE_URL_V4 + "/linode/kernels/{kernel_id}";
+
+    //Domain
+    public static final String DOMAINS = BASE_URL_V4 + "/domains?page={page}";
 
     //Backups
     public static final String BACKUPS = BASE_URL_V4 + "/linode/instances/{linode_id}/backups";

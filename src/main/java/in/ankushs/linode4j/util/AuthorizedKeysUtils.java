@@ -14,6 +14,7 @@ public final class AuthorizedKeysUtils {
 
     private AuthorizedKeysUtils(){}
 
+    //Declared protected so that it can be used in test classes in /src/main/test
     protected static final Set<String> ACCEPTABLE_TYPES = ImmutableSet.of("ssh-dss", "ssh-rsa", "ecdsa-sha2-nistp", "ssh-ed25519");
 
     public static void validate(final Set<String> keys){
