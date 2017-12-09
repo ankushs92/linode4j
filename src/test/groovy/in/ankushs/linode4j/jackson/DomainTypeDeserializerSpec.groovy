@@ -3,7 +3,6 @@ package in.ankushs.linode4j.jackson
 import groovy.json.JsonBuilder
 import in.ankushs.BaseSpec
 import in.ankushs.linode4j.model.enums.DomainType
-import in.ankushs.linode4j.model.enums.EventStatus
 
 /**
  * Created by ankushsharma on 07/12/17.

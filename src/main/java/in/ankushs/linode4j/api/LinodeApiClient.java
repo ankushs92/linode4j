@@ -23,7 +23,6 @@ import in.ankushs.linode4j.util.Strings;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
-import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import okhttp3.MediaType;
@@ -134,7 +133,7 @@ public final class LinodeApiClient implements LinodeApi {
         PreConditions.notNull(configId, "configId cannot be null");
 
         val url = LINODE_BOOT.replace("{linode_id}", String.valueOf(linodeId));
-        val singletonMap = ImmutableMap.of("config_id", String.valueOf(configId));
+        val singletonMap = ImmutableMap.<String,String>of("config_id", String.valueOf(configId));
         val httpMethod = HttpMethod.POST;
 
         val jsonReq = Json.toJson(singletonMap);
@@ -208,7 +207,7 @@ public final class LinodeApiClient implements LinodeApi {
         PreConditions.notNull(configId, "configId cannot be null");
 
         val url = LINODE_REBOOT.replace("{linode_id}", String.valueOf(linodeId));
-        val singletonMap = ImmutableMap.of("config_id", String.valueOf(configId));
+        val singletonMap = ImmutableMap.<String,String>of("config_id", String.valueOf(configId));
         val httpMethod = HttpMethod.POST;
 
         val jsonReq = Json.toJson(singletonMap);
@@ -477,15 +476,17 @@ public final class LinodeApiClient implements LinodeApi {
             PreConditions.notNull(requestBody, "requestBody cannot be null");
         }
 
-        log.debug("Request details : Http Method : {} ; url {}", httpMethod, url);
+        log.debug("Request details : Http Method : {} ; URL : {}, Req Body : {}", httpMethod, url, requestBody);
 
         //default method is GET
-        val requestBuilder = new Request.Builder()
-                .addHeader("Connection", "Keep-Alive")
-                .addHeader("Content-Type", JSON_MEDIA_TYPE)
-                .addHeader("Authorization", "Bearer " + token)
-                .url(url);
+        val requestBuilder = new Request
+                                    .Builder()
+                                        .addHeader("Connection", "Keep-Alive")
+                                        .addHeader("Content-Type", JSON_MEDIA_TYPE)
+                                        .addHeader("Authorization", "Bearer " + token)
+                                    .url(url);
 
+        //We update RequestBuilder's state
         //For any request that is not a GET request, we need to prepare a Request Body
         if (httpMethod.isNotGet()) {
             //We set RequestBody to our HTTP req in case of POST and PUT req
@@ -536,15 +537,4 @@ public final class LinodeApiClient implements LinodeApi {
         return statusCode == HttpStatusCode.OK.getCode();
     }
 
-    public static void main(String[] args) {
-        String token = "e5081e9845c8f2ebad90e85393c1848841dacc5af395d2dbd6020f2b28a0fa08";
-        LinodeApiClient api = new LinodeApiClient("e5081e9845c8f2ebad90e85393c1848841dacc5af395d2dbd6020f2b28a0fa08");
-        api.getKernels(1).getContent().forEach(System.out::println);
-        System.out.println(api.getKernelById("linode/3.0.18-linode43"));
-
-        token = "60861b94531896351b83efd6fbba3c71c09ccb515ddaa34a5850e00e42aabdbe";
-        api = new LinodeApiClient(token);
-        api.getDomains(1).getContent().forEach(System.out::println);
-
-    }
 }
