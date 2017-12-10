@@ -47,7 +47,7 @@ Linode4j uses OkHttp3 underneath. You can pass your instance of `OkHttpClient` i
 
 ```java
        
-final String oauthToken = "YOUR_TOKEN";inal String oauthToken = "YOUR_TOKEN";
+final String oauthToken = "YOUR_TOKEN";
 final OkHttpClient okHttpClient =  new OkHttpClient().newBuilder()
                                                           .readTimeout(5, TimeUnit.SECONDS)
                                                           .connectionPool(new ConnectionPool(5,5,TimeUnit.MINUTES))
