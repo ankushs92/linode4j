@@ -5,6 +5,7 @@ import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
 import in.ankushs.linode4j.model.domain.Domain;
 import in.ankushs.linode4j.model.domain.DomainPageImpl;
+import in.ankushs.linode4j.model.enums.Architecture;
 import in.ankushs.linode4j.model.enums.HttpMethod;
 import in.ankushs.linode4j.model.enums.HttpStatusCode;
 import in.ankushs.linode4j.model.image.Image;
@@ -31,6 +32,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.util.Objects;
+import java.util.Set;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
@@ -44,12 +46,10 @@ public final class LinodeApiClient implements LinodeApi {
     private static final String JSON_MEDIA_TYPE = "application/json;utf-8";
     private static final MediaType JSON = MediaType.parse(JSON_MEDIA_TYPE);
 
+    //Default implementation is very lightweight
     private static final OkHttpClient defaultHttpClient = new OkHttpClient();
 
-    @Getter(AccessLevel.NONE)
     private final String token;
-
-    @Getter(AccessLevel.NONE)
     private final OkHttpClient okHttpClient;
 
     public LinodeApiClient(final String token) {
@@ -537,4 +537,23 @@ public final class LinodeApiClient implements LinodeApi {
         return statusCode == HttpStatusCode.OK.getCode();
     }
 
+    public static void main(String[] args) {
+        final String oauthToken = "YOUR_TOKEN";
+        //Connect with Linode
+        final LinodeApiClient api = new LinodeApiClient(oauthToken);
+
+        final int pageNo = 1;
+        final Page<Kernel> pagedKernels = api.getKernels(pageNo);
+        final Set<Kernel> kernels = pagedKernels.getContent();
+
+        for(final Kernel kernel : kernels){
+            final Architecture architecture = kernel.getArchitecture();
+            if(architecture == Architecture.X86_64){
+                //64 bit distribution
+            }
+            final boolean isSuitableForKvm = kernel.getIsSuitableForKvm();
+            final boolean isSuitableForXen = kernel.getIsSuitableForXen();
+            //Other fields
+        }
+    }
 }

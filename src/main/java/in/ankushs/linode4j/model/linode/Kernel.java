@@ -31,6 +31,6 @@ public final class Kernel {
     private final Architecture architecture;
 
     @JsonProperty("pvops")
-    private final Boolean suitableForParaVirtualizedOps;
+    private final Boolean isSuitableForParaVirtualizedOps;
 
 }
