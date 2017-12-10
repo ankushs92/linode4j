@@ -43,7 +43,7 @@ final String oauthToken = "YOUR_TOKEN";
 final LinodeApiClient api = new LinodeApiClient(oauthToken);    
 ```
 
-Linode4j uses OkHttp3 underneath. You can pass your instance of `OkHttpClient` if you so with it:
+Linode4j uses OkHttp3 underneath. You can pass your instance of `OkHttpClient` if you so wish:
 
 ```java
        
