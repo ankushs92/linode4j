@@ -105,6 +105,7 @@ for(final Linode linode : linodes){
         case MIGRATING : //your linode is migrating, don't panic!
         // etc
     }
+}
 //Kernel info
 final Page<Kernel> pagedKernels = api.getKernels(pageNo);
 final Set<Kernel> kernels = pagedKernels.getContent();
@@ -119,7 +120,6 @@ for(final Kernel kernel : kernels){
     //Other fields
 }
 
-}
 ```
 
 To create a Linode, you must provide the api with `region` and `linodeType` . Let's query Linode for  regions and types available to us.
