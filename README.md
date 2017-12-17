@@ -194,50 +194,32 @@ to indicate error. In such a case, linode4j would throw `LinodeException`, which
 
 ```java
 Page<Linode> getLinodes(int pageNo);
-
 Linode getLinodeById(int linodeId);
-
 void createLinode(LinodeCreateRequest request);
-
 void deleteLinode(int linodeId);
-
 void bootLinode(int linodeId);
-
 void bootLinode(int linodeId, Integer configId);
-
 void cloneLinode(int linodeId, LinodeCloneRequest request);
-
 void kvmifyLinode(int linodeId);
-
 void mutateLinode(int linodeId);
-
 void rebootLinode(int linodeId);
-
 void rebootLinode(int linodeId, Integer configId);
-
 LinodeRebuildResponse rebuildLinode(int linodeId, LinodeRebuildRequest request);
-
 void rescueLinode(int linodeId, Devices devices);
-
 void resizeLinode(int linodeId, String linodeType);
-
 void shutdownLinode(int linodeId);
-
 Page<BlockStorageVolume> getBlockStorageVolumesByLinodeId(int linodeId);
 ```
 
 2. Linode Types
 ```java
-
 Page<LinodeType> getLinodeTypes(int pageNo);
-
 LinodeType getLinodeTypeById(String linodeTypeId);
 
 ```
 
 3. Kernel
 ```java
-
 Page<LinodeType> getLinodeTypes(int pageNo);
 LinodeType getLinodeTypeById(String linodeTypeId);
 
@@ -246,9 +228,7 @@ LinodeType getLinodeTypeById(String linodeTypeId);
 4. Image
 ```java
 Page<Image> getImages(int pageNo);
-
 Image getImageById(int imageId);
-
 void deleteImage(int imageId);
 
 ```
@@ -258,48 +238,31 @@ void deleteImage(int imageId);
 ```java
 
 Page<AccountEvent> getAccountEvents(int pageNo);
-
 AccountEvent getAccountEventById(int accountEventId);
-
 void markAccountEventAsRead(int accountEventId);
-
 void markAccountEventsAsSeen(int accountEventId);
-
 Page<Invoice> getInvoices(int pageNo);
-
 Invoice getInvoiceById(int invoiceId);
-
 Page<InvoiceItem> getInvoiceItemsByInvoiceId(int invoiceId);
-
 Page<AccountNotification> getAccountNotifications(int pageNo);
-
 ```
 
 6. Regions
 
 ```java
 Page<Region> getRegions(int pageNo);
-
 Region getRegionById(String regionId);
-
 ```
 
 7. Volumes
 ```java
 Page<BlockStorageVolume> getVolumes(int pageNo);
-
 BlockStorageVolume getVolumeById(int volumeId);
-
 void createVolume(BlockStorageVolumeCreateRequest request);
-
 void deleteVolume(int volumeId);
-
 void attachVolumeToLinode(int volumeId, BlockStorageVolumeAttachRequest request);
-
 void cloneVolume(int volumeId, String label);
-
 void detachVolume(int volumeId);
-
 ```
 
 # Contribute #
