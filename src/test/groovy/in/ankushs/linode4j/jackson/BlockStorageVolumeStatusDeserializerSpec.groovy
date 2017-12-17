@@ -33,6 +33,7 @@ class BlockStorageVolumeStatusDeserializerSpec extends BaseSpec {
                 'resizing'                |  BlockStorageVolumeStatus.RESIZING
                 'offline'                 |  BlockStorageVolumeStatus.OFFLINE
                 'random_string'           |  BlockStorageVolumeStatus.UNKNOWN
+                 ''                       |  BlockStorageVolumeStatus.UNKNOWN
 
     }
 

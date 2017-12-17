@@ -32,6 +32,8 @@ class PlanDeserializerSpec extends BaseSpec {
             'nanode'                      |  Plan.NANODE
             'highmem'                     |  Plan.HIGH_MEMORY
             'random_string'               |  Plan.UNKNOWN
+            ''                            |  Plan.UNKNOWN
+
     }
 
 }

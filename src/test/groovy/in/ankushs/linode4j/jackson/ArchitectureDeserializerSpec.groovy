@@ -30,6 +30,7 @@ class ArchitectureDeserializerSpec extends BaseSpec {
             'i386'                |  Architecture.i386
             'x86_64'              |  Architecture.X86_64
             'random_string'       |  Architecture.UNKNOWN
+            ''                    |  Architecture.UNKNOWN
 
     }
 

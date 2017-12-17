@@ -5,7 +5,6 @@ import in.ankushs.linode4j.exception.LinodeException;
 import in.ankushs.linode4j.model.account.*;
 import in.ankushs.linode4j.model.domain.Domain;
 import in.ankushs.linode4j.model.domain.DomainPageImpl;
-import in.ankushs.linode4j.model.enums.Architecture;
 import in.ankushs.linode4j.model.enums.HttpMethod;
 import in.ankushs.linode4j.model.enums.HttpStatusCode;
 import in.ankushs.linode4j.model.image.Image;
@@ -17,13 +16,15 @@ import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.region.RegionPageImpl;
+import in.ankushs.linode4j.model.volume.BlockStorageVolume;
+import in.ankushs.linode4j.model.volume.BlockStorageVolumePageImpl;
+import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeAttachRequest;
+import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeCreateRequest;
 import in.ankushs.linode4j.util.AuthorizedKeysUtils;
 import in.ankushs.linode4j.util.Json;
 import in.ankushs.linode4j.util.PreConditions;
 import in.ankushs.linode4j.util.Strings;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import okhttp3.MediaType;
@@ -37,6 +38,8 @@ import java.util.Set;
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
 /**
+ * Class to interact with Linode's REST API.
+ *
  * Created by ankushsharma on 29/11/17.
  */
 @Data
@@ -52,6 +55,13 @@ public final class LinodeApiClient implements LinodeApi {
     private final String token;
     private final OkHttpClient okHttpClient;
 
+    /**
+     * Create an instance of LinodeApiClient. Get the OAuth Token from your Linode account.
+     * As no instance of OkHttpClient is passed, this library would create a default instance itself
+     *
+     * @param token oauthToken that you generate in your Linode account
+     * @throws IllegalArgumentException if {@code token} is empty or null
+     */
     public LinodeApiClient(final String token) {
         PreConditions.notEmptyString(token, "token cannot be null or empty");
 
@@ -59,6 +69,14 @@ public final class LinodeApiClient implements LinodeApi {
         this.okHttpClient = defaultHttpClient;
     }
 
+    /**
+     * Create an instance of LinodeApiClient. Get the OAuth Token from your Linode account.
+     * Create an instance of OkHttpClient yourself by following <a href="https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html">these</a> guidelines :
+     * @param token oauthToken that you generate in your Linode account
+     * @param token okHttpClient instance of OkHttp3Client. A good practice would be to pass a static global instance
+     * @throws IllegalArgumentException if {@code token} is empty or null
+     * @throws IllegalArgumentException if {@code okHttpClient} is null
+     */
     public LinodeApiClient(final String token, final OkHttpClient okHttpClient) {
         PreConditions.notEmptyString(token, "token cannot be null or empty");
         PreConditions.notNull(okHttpClient, "okHttpClient cannot be null");
@@ -74,7 +92,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = LINODE_INSTANCES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (LinodePageImpl) executeReq(url, httpMethod, LinodePageImpl.class, null);
+        return executeReq(url, httpMethod, LinodePageImpl.class, null);
     }
 
     @Override
@@ -82,7 +100,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = LINODE_BY_ID.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethod = HttpMethod.GET;
 
-        return (Linode) executeReq(url, httpMethod, Linode.class, null);
+        return executeReq(url, httpMethod, Linode.class, null);
     }
 
     @Override
@@ -185,7 +203,6 @@ public final class LinodeApiClient implements LinodeApi {
         val reqBody = RequestBody.create(JSON, jsonReq);
 
         executeReq(url, httpMethpd, Void.TYPE, reqBody);
-
     }
 
     @Override
@@ -232,7 +249,7 @@ public final class LinodeApiClient implements LinodeApi {
 
         val reqBody = RequestBody.create(JSON, jsonReq);
 
-        return (LinodeRebuildResponse) executeReq(url, httpMethod, LinodeRebuildResponse.class, reqBody);
+        return executeReq(url, httpMethod, LinodeRebuildResponse.class, reqBody);
     }
 
     @Override
@@ -285,7 +302,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = LINODE_VOLUMES.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethod = HttpMethod.GET;
 
-        return (BlockStorageVolumePageImpl) executeReq(url, httpMethod, BlockStorageVolumePageImpl.class, null);
+        return executeReq(url, httpMethod, BlockStorageVolumePageImpl.class, null);
     }
 
     @Override
@@ -293,7 +310,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = LINODE_TYPES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (LinodeTypePageImpl) executeReq(url, httpMethod, LinodeTypePageImpl.class, null);
+        return executeReq(url, httpMethod, LinodeTypePageImpl.class, null);
     }
 
     @Override
@@ -301,7 +318,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = LINODE_TYPE_BY_ID.replace("{type_id}", linodeTypeId);
         val httpMethod = HttpMethod.GET;
 
-        return (LinodeType) executeReq(url, httpMethod, LinodeType.class, null);
+        return executeReq(url, httpMethod, LinodeType.class, null);
     }
 
     @Override
@@ -309,7 +326,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = KERNELS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (KernelPageImpl) executeReq(url, httpMethod, KernelPageImpl.class, null);
+        return executeReq(url, httpMethod, KernelPageImpl.class, null);
     }
 
     @Override
@@ -317,7 +334,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = KERNEL_BY_ID.replace("{kernel_id}", kernelId);
         val httpMethod = HttpMethod.GET;
 
-        return (Kernel) executeReq(url, httpMethod, Kernel.class, null);
+        return executeReq(url, httpMethod, Kernel.class, null);
     }
 
     //~~~ Images ~~~~~
@@ -326,7 +343,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = IMAGE_BY_ID.replace("{image_id}", String.valueOf(imageId));
         val httpMethod = HttpMethod.GET;
 
-        return (Image) executeReq(url, httpMethod, Image.class, null);
+        return executeReq(url, httpMethod, Image.class, null);
     }
 
     @Override
@@ -336,7 +353,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = IMAGES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (ImagePageImpl) executeReq(url, httpMethod, ImagePageImpl.class, null);
+        return executeReq(url, httpMethod, ImagePageImpl.class, null);
     }
 
 
@@ -353,7 +370,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = DOMAINS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (DomainPageImpl) executeReq(url, httpMethod, DomainPageImpl.class, null);
+        return executeReq(url, httpMethod, DomainPageImpl.class, null);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~
@@ -364,7 +381,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = ACCOUNTS_EVENTS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (AccountEventPageImpl) executeReq(url, httpMethod, AccountEventPageImpl.class, null);
+        return executeReq(url, httpMethod, AccountEventPageImpl.class, null);
     }
 
     @Override
@@ -372,8 +389,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = ACCOUNT_EVENT_BY_ID.replace("{account_id}", String.valueOf(accountEventId));
         val httpMethod = HttpMethod.GET;
 
-
-        return (AccountEvent) executeReq(url, httpMethod, AccountEvent.class, null);
+        return executeReq(url, httpMethod, AccountEvent.class, null);
     }
 
     @Override
@@ -405,7 +421,6 @@ public final class LinodeApiClient implements LinodeApi {
         executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
-
     @Override
     public Page<Invoice> getInvoices(final int pageNo) {
         PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
@@ -413,7 +428,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = INVOICES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (InvoicePageImpl) executeReq(url, httpMethod, InvoicePageImpl.class, null);
+        return  executeReq(url, httpMethod, InvoicePageImpl.class, null);
     }
 
     @Override
@@ -421,7 +436,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = INVOICE_BY_ID.replace("{invoice_id}", String.valueOf(invoiceId));
         val httpMethod = HttpMethod.GET;
 
-        return (Invoice) executeReq(url, httpMethod, Invoice.class, null);
+        return executeReq(url, httpMethod, Invoice.class, null);
     }
 
     @Override
@@ -429,7 +444,7 @@ public final class LinodeApiClient implements LinodeApi {
         val url = INVOICE_ITEMS_BY_ID.replace("{invoice_id}", String.valueOf(invoiceId));
         val httpMethod = HttpMethod.GET;
 
-        return (InvoiceItemPageImpl) executeReq(url, httpMethod, InvoiceItemPageImpl.class, null);
+        return executeReq(url, httpMethod, InvoiceItemPageImpl.class, null);
     }
 
     @Override
@@ -439,16 +454,17 @@ public final class LinodeApiClient implements LinodeApi {
         val url = NOTIFICATIONS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-
-        return (AccountNotificationPageImpl) executeReq(url, httpMethod, AccountNotificationPageImpl.class, null);
+        return executeReq(url, httpMethod, AccountNotificationPageImpl.class, null);
     }
 
     @Override
     public Page<Region> getRegions(final int pageNo) {
+        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+
         val url = REGIONS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
 
-        return (RegionPageImpl) executeReq(url, httpMethod, RegionPageImpl.class, null);
+        return executeReq(url, httpMethod, RegionPageImpl.class, null);
     }
 
     @Override
@@ -458,13 +474,102 @@ public final class LinodeApiClient implements LinodeApi {
         val url = REGION_BY_ID.replace("{region_id}", regionId);
         val httpMethod = HttpMethod.GET;
 
-        return (Region) executeReq(url, httpMethod, Region.class, null);
+        return executeReq(url, httpMethod, Region.class, null);
     }
 
-    private Object executeReq(
+    @Override
+    public Page<BlockStorageVolume> getVolumes(final int pageNo) {
+        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+
+        val url = VOLUMES.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return executeReq(url, httpMethod, BlockStorageVolumePageImpl.class, null);
+    }
+
+    @Override
+    public BlockStorageVolume getVolumeById(final int volumeId) {
+        val url = VOLUME_BY_ID.replace("{volume_id}", String.valueOf(volumeId));
+        val httpMethod = HttpMethod.GET;
+
+        return executeReq(url, httpMethod, BlockStorageVolume.class, null);
+    }
+
+    @Override
+    public void createVolume(final BlockStorageVolumeCreateRequest request) {
+        PreConditions.notNull(request, "BlockStorageVolumeCreateRequest request cannot be null");
+        PreConditions.notEmptyString(request.getLabel(), "label cannot be null or empty");
+        PreConditions.notEmptyString(request.getRegion(), "region cannot be null or empty");
+
+        val url = VOLUMES.replace("?page={page}", Strings.EMPTY);
+        val httpMethod = HttpMethod.POST;
+
+        val jsonReq = Json.toJson(request);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
+    }
+
+    @Override
+    public void deleteVolume(final int volumeId) {
+        val url = VOLUME_BY_ID.replace("{volume_id}", String.valueOf(volumeId));
+        val httpMethod = HttpMethod.DELETE;
+
+        executeReq(url, httpMethod, Void.TYPE, null);
+    }
+
+    @Override
+    public void attachVolumeToLinode(final int volumeId, final BlockStorageVolumeAttachRequest request) {
+        PreConditions.notNull(request, "BlockStorageVolumeAttachRequest request cannot be null");
+        PreConditions.notNull(request.getLinodeId(),"linodeId cannot be null");
+
+        val url = VOLUME_BY_ID_ATTACH.replace("{volume_id}", String.valueOf(volumeId));
+        val httpMethod = HttpMethod.POST;
+
+        val jsonReq = Json.toJson(request);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
+    }
+
+    @Override
+    public void cloneVolume(final int volumeId, final String label) {
+        PreConditions.notEmptyString(label, "label cannot be null or empty");
+
+        val url = VOLUME_BY_ID_CLONE.replace("{volume_id}", String.valueOf(volumeId));
+        val httpMethod = HttpMethod.POST;
+
+        val singletonMap = ImmutableMap.<String,String>of("label", label);
+        val jsonReq = Json.toJson(singletonMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
+    }
+
+    @Override
+    public void detachVolume(final int volumeId) {
+        val url = VOLUME_BY_ID_DETACH.replace("{volume_id}", String.valueOf(volumeId));
+        val httpMethod = HttpMethod.POST;
+
+        val emptyMap = ImmutableMap.of();
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, httpMethod, Void.TYPE, reqBody);
+    }
+
+    private <T> T executeReq(
             final String url,
             final HttpMethod httpMethod,
-            final Class<?> returnType,
+            final Class<T> returnType,
             final RequestBody requestBody
     )
     {
@@ -503,7 +608,7 @@ public final class LinodeApiClient implements LinodeApi {
         //Our values have been set. Build the request
         val request = requestBuilder.build();
 
-        Object result = null;
+        T result = null;
         try (val response = okHttpClient.newCall(request).execute()) {
             val respBody = response.body();
 
@@ -538,22 +643,18 @@ public final class LinodeApiClient implements LinodeApi {
     }
 
     public static void main(String[] args) {
-        final String oauthToken = "YOUR_TOKEN";
+        final String oauthToken = "";
         //Connect with Linode
         final LinodeApiClient api = new LinodeApiClient(oauthToken);
 
         final int pageNo = 1;
-        final Page<Kernel> pagedKernels = api.getKernels(pageNo);
-        final Set<Kernel> kernels = pagedKernels.getContent();
+        final Page<BlockStorageVolume> pagedVolumes = api.getVolumes(pageNo);
+        final Set<BlockStorageVolume> volumes = pagedVolumes.getContent();
+        volumes.forEach(volume -> {
+            System.out.println(volume);
+        });
 
-        for(final Kernel kernel : kernels){
-            final Architecture architecture = kernel.getArchitecture();
-            if(architecture == Architecture.X86_64){
-                //64 bit distribution
-            }
-            final boolean isSuitableForKvm = kernel.getIsSuitableForKvm();
-            final boolean isSuitableForXen = kernel.getIsSuitableForXen();
-            //Other fields
-        }
+        val volume = api.getVolumeById(1161);
+        System.out.println(volume);
     }
 }

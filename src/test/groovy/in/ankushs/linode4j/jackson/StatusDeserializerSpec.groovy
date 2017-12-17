@@ -31,6 +31,8 @@ class StatusDeserializerSpec extends BaseSpec{
             'offline'                     |  LinodeStatus.OFFLINE
             'booting'                     |  LinodeStatus.BOOTING
             'random_string'               |  LinodeStatus.UNKNOWN
+            ''                            |  LinodeStatus.UNKNOWN
+
     }
 
 }

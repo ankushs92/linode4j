@@ -29,6 +29,7 @@ class DomainTypeDeserializerSpec extends BaseSpec {
             'slave'                     |  DomainType.SLAVE
             'master'                    |  DomainType.MASTER
             'random_string'             |  DomainType.UNKNOWN
+            null                        |  DomainType.UNKNOWN
     }
 
 

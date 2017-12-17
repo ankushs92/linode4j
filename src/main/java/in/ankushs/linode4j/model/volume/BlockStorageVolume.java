@@ -1,4 +1,4 @@
-package in.ankushs.linode4j.model.linode;
+package in.ankushs.linode4j.model.volume;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

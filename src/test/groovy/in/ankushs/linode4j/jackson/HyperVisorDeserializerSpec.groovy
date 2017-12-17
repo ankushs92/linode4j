@@ -30,6 +30,7 @@ class HyperVisorDeserializerSpec extends BaseSpec {
             'xen'              |  HyperVisor.XEN
             'kvm'              |  HyperVisor.KVM
             'random_string'    |  HyperVisor.UNKNOWN
+            '   '              |  HyperVisor.UNKNOWN
         }
 
 }

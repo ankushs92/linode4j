@@ -31,6 +31,8 @@ class VirtualizationModeDeserializerSpec extends BaseSpec {
             'fullvirt'                 |  VirtualizationMode.FULL_VIRTUALIZATION
             'paravirt'                 |  VirtualizationMode.PARA_VIRTUALIZATION
             'random_string'            |  VirtualizationMode.UNKNOWN
+            ''                         |  VirtualizationMode.UNKNOWN
+
     }
 
 }

@@ -31,7 +31,7 @@ class DomainStatusDeserializerSpec extends BaseSpec{
             'disabled'               |  DomainStatus.DISABLED
             'edit_mode'              |  DomainStatus.EDIT_MODE
             'random_string'          |  DomainStatus.UNKNOWN
-
+            ''                       |  DomainStatus.UNKNOWN
     }
 
 }

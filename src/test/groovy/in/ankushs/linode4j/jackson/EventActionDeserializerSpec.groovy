@@ -32,7 +32,7 @@ class EventActionDeserializerSpec extends BaseSpec{
                 'domain_create'             |  EventAction.DOMAIN_CREATE
                 'stackscript_create'        |  EventAction.STACKSCRIPT_CREATE
                 'random_string'             |  EventAction.UNKNOWN
-
+                '    '                      |  EventAction.UNKNOWN
         }
 
 }

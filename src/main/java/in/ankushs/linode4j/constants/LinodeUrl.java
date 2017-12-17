@@ -28,17 +28,6 @@ public final class LinodeUrl {
     //Domain
     public static final String DOMAINS = BASE_URL_V4 + "/domains?page={page}";
 
-    //Backups
-    public static final String BACKUPS = BASE_URL_V4 + "/linode/instances/{linode_id}/backups";
-    public static final String BACKUP_RESTORE = BASE_URL_V4 + "/linode/instances/{linode_id}/backups/{backup_id}/restore";
-    public static final String BACKUP_CANCEL = BASE_URL_V4 + "/linode/instances/{linode_id}/backups/cancel";
-    public static final String BACKUP_ENABLE = BASE_URL_V4 + "/linode/instances/{linode_id}/backups/enable";
-
-    //Configs
-    public static final String CONFIGS = BASE_URL_V4 + "/linode/instances/{linode_id}/configs";
-    public static final String CONFIGS_BY_ID = BASE_URL_V4 + "/linode/instances/{linode_id}/configs/{config_id}";
-
-    //Disk
 
     //Image
     public static final String IMAGES = BASE_URL_V4 + "/images?page={page}";
@@ -54,7 +43,7 @@ public final class LinodeUrl {
     //Invoices
     public static final String INVOICES = BASE_URL_V4 + "/account/invoices?page={page}";
     public static final String INVOICE_BY_ID = BASE_URL_V4 + "/account/invoices/{invoice_id}";
-    public static final String INVOICE_ITEMS_BY_ID = BASE_URL_V4 + "/account/invoices/{invoice_id}/items";
+    public static final String INVOICE_ITEMS_BY_ID = BASE_URL_V4 + "/account/invoices/{invoice_id}/items?page={page}";
 
     //Notifications
     public static final String NOTIFICATIONS = BASE_URL_V4 + "/account/notifications?page={page}";
@@ -66,6 +55,13 @@ public final class LinodeUrl {
     //Types
     public static final String LINODE_TYPES = BASE_URL_V4 + "/linode/types?page={page}";
     public static final String LINODE_TYPE_BY_ID = BASE_URL_V4 + "/linode/types/{type_id}";
+
+    //Volumes
+    public static final String VOLUMES = BASE_URL_V4 + "/volumes?page={page} ";
+    public static final String VOLUME_BY_ID = BASE_URL_V4 + "/volumes/{volume_id}";
+    public static final String VOLUME_BY_ID_ATTACH = BASE_URL_V4 + "/volumes/{volume_id}/attach";
+    public static final String VOLUME_BY_ID_CLONE = BASE_URL_V4 + "/volumes/{volume_id}/clone";
+    public static final String VOLUME_BY_ID_DETACH = BASE_URL_V4 + "/volumes/{volume_id}/detach";
 
 
 }

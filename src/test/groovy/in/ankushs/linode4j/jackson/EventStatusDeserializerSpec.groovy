@@ -30,6 +30,7 @@ class EventStatusDeserializerSpec extends BaseSpec{
             'failed'                    |  EventStatus.FAILED
             'notification'              |  EventStatus.NOTIFICATION
             'random_string'             |  EventStatus.UNKNOWN
+            '   '                       |  EventStatus.UNKNOWN
     }
 
 }

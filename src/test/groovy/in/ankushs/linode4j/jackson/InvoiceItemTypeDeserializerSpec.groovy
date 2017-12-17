@@ -31,6 +31,8 @@ class InvoiceItemTypeDeserializerSpec extends BaseSpec{
             'misc'                       |  InvoiceItemType.MISC
             'prepay'                     |  InvoiceItemType.PREPAY
             'random_string'              |  InvoiceItemType.UNKNOWN
+             ' '                         |  InvoiceItemType.UNKNOWN
+
     }
 
 

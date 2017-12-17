@@ -31,6 +31,8 @@ class OAuthClientStatusDeserializerSpec extends BaseSpec{
             'active'                |  OAuthClientStatus.ACTIVE
             'suspended'             |  OAuthClientStatus.SUSPENDED
             'random_string'         |  OAuthClientStatus.UNKNOWN
+            ''                      |  OAuthClientStatus.UNKNOWN
+
     }
 
 }

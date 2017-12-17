@@ -32,6 +32,8 @@ class NotificationTypeDeserializerSpec extends BaseSpec {
             'abuse_ticket'                |  NotificationType.ABUSE_TICKET
             'outage'                      |  NotificationType.OUTAGE
             'random_string'               |  NotificationType.UNKNOWN
+             ''                           |  NotificationType.UNKNOWN
+
     }
 
 

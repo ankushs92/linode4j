@@ -7,12 +7,18 @@ import in.ankushs.linode4j.model.account.InvoiceItem;
 import in.ankushs.linode4j.model.domain.Domain;
 import in.ankushs.linode4j.model.image.Image;
 import in.ankushs.linode4j.model.interfaces.Page;
-import in.ankushs.linode4j.model.linode.*;
+import in.ankushs.linode4j.model.linode.Devices;
+import in.ankushs.linode4j.model.linode.Kernel;
+import in.ankushs.linode4j.model.linode.Linode;
+import in.ankushs.linode4j.model.linode.LinodeType;
 import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
 import in.ankushs.linode4j.model.region.Region;
+import in.ankushs.linode4j.model.volume.BlockStorageVolume;
+import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeAttachRequest;
+import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeCreateRequest;
 
 /**
  * Created by ankushsharma on 22/11/17.
@@ -98,5 +104,19 @@ public interface LinodeApi {
     Region getRegionById(String regionId);
 
 
+    // ~~~ Volume
+    Page<BlockStorageVolume> getVolumes(int pageNo);
+
+    BlockStorageVolume getVolumeById(int volumeId);
+
+    void createVolume(BlockStorageVolumeCreateRequest request);
+
+    void deleteVolume(int volumeId);
+
+    void attachVolumeToLinode(int volumeId, BlockStorageVolumeAttachRequest request);
+
+    void cloneVolume(int volumeId, String label);
+
+    void detachVolume(int volumeId);
 }
 

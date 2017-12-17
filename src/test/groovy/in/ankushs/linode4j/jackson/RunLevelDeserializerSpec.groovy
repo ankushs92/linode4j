@@ -31,6 +31,8 @@ class RunLevelDeserializerSpec extends BaseSpec{
             'binbash'                 |  RunLevel.BINBASH
             'default'                 |  RunLevel.DEFAULT
             'random_string'           |  RunLevel.UNKNOWN
-        }
+            ''                        |  RunLevel.UNKNOWN
+
+    }
 
 }

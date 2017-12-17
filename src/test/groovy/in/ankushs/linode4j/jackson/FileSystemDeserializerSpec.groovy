@@ -30,6 +30,7 @@ class FileSystemDeserializerSpec extends BaseSpec{
             'raw'              |  FileSystem.RAW
             'swap'             |  FileSystem.SWAP
             'random_string'    |  FileSystem.UNKNOWN
+            null               |    FileSystem.UNKNOWN
         }
 
 }

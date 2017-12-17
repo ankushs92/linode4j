@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by Ankush on 17/07/17.
  */
 @Slf4j
-public class Json {
+public final class Json {
 
     private Json(){}
 
