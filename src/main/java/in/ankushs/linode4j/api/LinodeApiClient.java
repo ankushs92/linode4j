@@ -238,7 +238,6 @@ public final class LinodeApiClient implements LinodeApi {
     @Override
     public LinodeRebuildResponse rebuildLinode(final int linodeId, final LinodeRebuildRequest request) {
         PreConditions.notNull(request, "request cannot be null");
-        PreConditions.notEmptyString(request.getDistribution(), "distribution is a required param. It cannot be null or empty");
         PreConditions.notEmptyString(request.getRootPassword(), "rootPassword is a required param. It cannot be null or empty");
 
         val url = LINODE_REBUILD.replace("{linode_id}", String.valueOf(linodeId));
@@ -642,19 +641,4 @@ public final class LinodeApiClient implements LinodeApi {
         return statusCode == HttpStatusCode.OK.getCode();
     }
 
-    public static void main(String[] args) {
-        final String oauthToken = "";
-        //Connect with Linode
-        final LinodeApiClient api = new LinodeApiClient(oauthToken);
-
-        final int pageNo = 1;
-        final Page<BlockStorageVolume> pagedVolumes = api.getVolumes(pageNo);
-        final Set<BlockStorageVolume> volumes = pagedVolumes.getContent();
-        volumes.forEach(volume -> {
-            System.out.println(volume);
-        });
-
-        val volume = api.getVolumeById(1161);
-        System.out.println(volume);
-    }
 }

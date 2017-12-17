@@ -25,7 +25,6 @@ import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeCreateRequest;
  */
 public interface LinodeApi {
 
-
     // Linodes
     Page<Linode> getLinodes(int pageNo);
 
@@ -59,15 +58,17 @@ public interface LinodeApi {
 
     Page<BlockStorageVolume> getBlockStorageVolumesByLinodeId(int linodeId);
 
+    //Linode types
     Page<LinodeType> getLinodeTypes(int pageNo);
 
     LinodeType getLinodeTypeById(String linodeTypeId);
 
+    //Kernel
     Page<Kernel> getKernels(int pageNo);
 
     Kernel getKernelById(String id);
 
-    //~~~~~ Image ~~~~~~
+    //Image
     Page<Image> getImages(int pageNo);
 
     Image getImageById(int imageId);
@@ -93,7 +94,6 @@ public interface LinodeApi {
     Invoice getInvoiceById(int invoiceId);
 
     Page<InvoiceItem> getInvoiceItemsByInvoiceId(int invoiceId);
-
 
     Page<AccountNotification> getAccountNotifications(int pageNo);
 

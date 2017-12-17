@@ -35,9 +35,6 @@ public final class Linode  {
     @JsonProperty("region")
     private final String region;
 
-    @JsonProperty("distribution")
-    private final String distribution;
-
     @JsonProperty("display")
     private final String displayGroup;
 

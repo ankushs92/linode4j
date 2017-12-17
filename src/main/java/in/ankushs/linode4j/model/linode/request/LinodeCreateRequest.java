@@ -25,9 +25,6 @@ public final class LinodeCreateRequest {
     @JsonProperty(value = "group")
     private final String group;
 
-    @JsonProperty(value = "distribution")
-    private final String distribution;
-
     @JsonProperty(value = "root_pass")
     private final String rootPass;
 

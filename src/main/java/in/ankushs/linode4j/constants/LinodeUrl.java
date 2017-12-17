@@ -63,5 +63,4 @@ public final class LinodeUrl {
     public static final String VOLUME_BY_ID_CLONE = BASE_URL_V4 + "/volumes/{volume_id}/clone";
     public static final String VOLUME_BY_ID_DETACH = BASE_URL_V4 + "/volumes/{volume_id}/detach";
 
-
 }

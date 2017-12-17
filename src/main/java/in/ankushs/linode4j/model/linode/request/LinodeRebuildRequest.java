@@ -13,9 +13,6 @@ import java.util.Set;
 @Builder
 public class LinodeRebuildRequest {
 
-    @JsonProperty(value = "distribution", required = true)
-    private final String distribution;
-
     @JsonProperty("image")
     private final Integer image;
 
