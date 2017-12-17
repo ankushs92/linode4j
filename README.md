@@ -212,25 +212,25 @@ Page<BlockStorageVolume> getBlockStorageVolumesByLinodeId(int linodeId);
 ```
 
 2. Linode Types
+
 ```java
 Page<LinodeType> getLinodeTypes(int pageNo);
 LinodeType getLinodeTypeById(String linodeTypeId);
-
 ```
 
 3. Kernel
+
 ```java
 Page<LinodeType> getLinodeTypes(int pageNo);
 LinodeType getLinodeTypeById(String linodeTypeId);
-
 ```
 
 4. Image
+
 ```java
 Page<Image> getImages(int pageNo);
 Image getImageById(int imageId);
 void deleteImage(int imageId);
-
 ```
 
 5. Account, Invoice, Notifications
@@ -276,3 +276,12 @@ and `@Data` for getters, equals, hashcode and toString
 annotate the enum with this class
 
 3. Model classes **must** be immutable
+
+# Changelog
+
+* v1.1
+    
+    * endpoints for Volume
+    * Javadocs
+    * very initial documentation
+    * Removed distribution from few objects as per [linode's changelogs](https://developers.linode.com/v4/changelogs)
