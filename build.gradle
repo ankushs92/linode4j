@@ -8,7 +8,7 @@ buildscript {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3"
     }
 }
-final String PHASE = "PRODUCTION"
+final String PHASE = "TEST"
 group 'in.ankushs'
 version '1.1'
 

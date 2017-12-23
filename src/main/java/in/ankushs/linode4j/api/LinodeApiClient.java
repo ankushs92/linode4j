@@ -604,11 +604,11 @@ public final class LinodeApiClient implements LinodeApi {
 
         if (httpMethod.isPost() || httpMethod.isPut()) {
             Assert.notNull(requestBody, "requestBody cannot be null for POST and PUT request");
-            Assert.isTrue(returnType.isAssignableFrom(Void.TYPE), "returnType must be of type Void");
+            Assert.isTrue(Objects.equals(returnType, Void.TYPE), "returnType must be of type Void");
         }
 
         if(httpMethod.isGet()){
-            Assert.notNull(returnType, "There must be a return type for GET requests"); //Otherwise, what class are you going to map your JSON to?
+            Assert.notNull(returnType, "There must be a return type for GET requests");
         }
 
         log.debug("Request details : Http Method : {} ; URL : {}, Req Body : {}", httpMethod, url, requestBody);
