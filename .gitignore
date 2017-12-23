@@ -14,7 +14,7 @@ WEB-INF/
 /WEB-INF/
 .gpg
 
-
+gradle.properties
 *.rdb
 
 # ini files Â£

@@ -672,11 +672,4 @@ public final class LinodeApiClient implements LinodeApi {
         return statusCode == HttpStatusCode.OK.getCode();
     }
 
-//    public static void main(String[] args) {
-//        val api = new LinodeApiClient("8065b87fb31a52083273bd0015ac6b5ff06b475b7d7c366bc466527156a2078c");
-//        for (AuthorizedApp authorizedApps : api.getAuthorizedApps(1).getContent()) {
-//            System.out.println(authorizedApps);
-//        }
-////        System.out.println(api.getContacts(1));
-//    }
 }
