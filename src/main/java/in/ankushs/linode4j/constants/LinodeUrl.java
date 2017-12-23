@@ -63,4 +63,9 @@ public final class LinodeUrl {
     public static final String VOLUME_BY_ID_CLONE = BASE_URL_V4 + "/volumes/{volume_id}/clone";
     public static final String VOLUME_BY_ID_DETACH = BASE_URL_V4 + "/volumes/{volume_id}/detach";
 
+    //Authorized Apps
+    public static final String AUTHORIZED_APPS = BASE_URL_V4 + "/profile/apps?page={page}";
+    public static final String AUTHORIZED_APP_BY_ID = BASE_URL_V4 + "/profile/apps/{app_id}";
+
+
 }

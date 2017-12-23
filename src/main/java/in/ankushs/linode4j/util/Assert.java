@@ -5,9 +5,9 @@ import java.util.Objects;
 /**
  * Created by Ankush on 17/07/17.
  */
-public final class PreConditions {
+public final class Assert {
 
-    private PreConditions(){}
+    private Assert(){}
 
     public static void isPositive(final int num, final String errorMsg){
         if(num < 0){
@@ -23,6 +23,12 @@ public final class PreConditions {
 
     public static void notEmptyString(final String string, final String errorMsg){
         if(!Strings.hasText(string)){
+            throw new IllegalArgumentException(errorMsg);
+        }
+    }
+
+    public static void isTrue(final boolean bool, final String errorMsg){
+        if(!bool){
             throw new IllegalArgumentException(errorMsg);
         }
     }

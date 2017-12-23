@@ -11,7 +11,11 @@ public enum HttpMethod {
     DELETE;
 
     public boolean isNotGet(){
-        return !(this == GET);
+        return !isGet();
+    }
+
+    public boolean isGet(){
+        return this == GET;
     }
 
     public boolean isPost(){

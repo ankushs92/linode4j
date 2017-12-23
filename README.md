@@ -12,13 +12,13 @@ Maven :
 <dependency>
   <groupId>in.ankushs</groupId>
   <artifactId>linode4j</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
 </dependency>
 ```
 
 Gradle :
 ```groovy
-compile('in.ankushs:linode4j:1.0')
+compile('in.ankushs:linode4j:1.1')
 ```
 
 # Get Token #
@@ -48,10 +48,11 @@ Linode4j uses OkHttp3 underneath. You can pass your instance of `OkHttpClient` i
 ```java
        
 final String oauthToken = "YOUR_TOKEN";
-final OkHttpClient okHttpClient =  new OkHttpClient().newBuilder()
-                                                          .readTimeout(5, TimeUnit.SECONDS)
-                                                          .connectionPool(new ConnectionPool(5,5,TimeUnit.MINUTES))
-                                                    .build();
+final OkHttpClient okHttpClient =  new OkHttpClient()
+                                        .newBuilder()
+                                              .readTimeout(5, TimeUnit.SECONDS)
+                                              .connectionPool(new ConnectionPool(5,5,TimeUnit.MINUTES))
+                                        .build();
 final LinodeApiClient api = new LinodeApiClient(oauthToken,okHttpClient);
 
 ```

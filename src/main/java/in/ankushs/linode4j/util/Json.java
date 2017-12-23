@@ -24,7 +24,7 @@ public final class Json {
     }
 
     public static <T> T toObject(final String json, final Class<T> clazz ) {
-        PreConditions.notNull(clazz, "clazz cannot be null");
+        Assert.notNull(clazz, "clazz cannot be null");
         try {
             return objectMapper.readValue(json,clazz);
         }
@@ -35,7 +35,7 @@ public final class Json {
     }
 
     public static String toJson(final Object object)  {
-        PreConditions.notNull(object, "object cannot be null");
+        Assert.notNull(object, "object cannot be null");
 
         try {
             return objectMapper.writer().writeValueAsString(object);

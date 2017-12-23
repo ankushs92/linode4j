@@ -9,7 +9,7 @@ class PreConditionsSpec extends BaseSpec{
 
     def "throw exception when null is passed"(){
         when :
-            PreConditions.notNull(null , "this shouldn't be null")
+            Assert.notNull(null , "this shouldn't be null")
 
         then :
             thrown(IllegalArgumentException)
@@ -17,7 +17,7 @@ class PreConditionsSpec extends BaseSpec{
 
     def "throw exception when a string is null or empty(post trimming)"(){
         when :
-            PreConditions.notEmptyString(Strings.EMPTY + "  ", "string cannot be null or empty")
+            Assert.notEmptyString(Strings.EMPTY + "  ", "string cannot be null or empty")
 
         then :
             thrown(IllegalArgumentException)
@@ -25,7 +25,7 @@ class PreConditionsSpec extends BaseSpec{
 
     def "throw exception when a negative int is passed"(){
         when :
-            PreConditions.isPositive(-1 , "int cannot be 0 or negative")
+            Assert.isPositive(-1 , "int cannot be 0 or negative")
 
         then :
             thrown(IllegalArgumentException)

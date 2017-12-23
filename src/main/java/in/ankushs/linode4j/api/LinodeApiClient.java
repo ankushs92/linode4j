@@ -14,6 +14,8 @@ import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
+import in.ankushs.linode4j.model.profile.AuthorizedApp;
+import in.ankushs.linode4j.model.profile.AuthorizedAppsPageImpl;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.region.RegionPageImpl;
 import in.ankushs.linode4j.model.volume.BlockStorageVolume;
@@ -22,7 +24,7 @@ import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeAttachRequest;
 import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeCreateRequest;
 import in.ankushs.linode4j.util.AuthorizedKeysUtils;
 import in.ankushs.linode4j.util.Json;
-import in.ankushs.linode4j.util.PreConditions;
+import in.ankushs.linode4j.util.Assert;
 import in.ankushs.linode4j.util.Strings;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +35,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.util.Objects;
-import java.util.Set;
 
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
@@ -63,7 +64,7 @@ public final class LinodeApiClient implements LinodeApi {
      * @throws IllegalArgumentException if {@code token} is empty or null
      */
     public LinodeApiClient(final String token) {
-        PreConditions.notEmptyString(token, "token cannot be null or empty");
+        Assert.notEmptyString(token, "token cannot be null or empty");
 
         this.token = token;
         this.okHttpClient = defaultHttpClient;
@@ -78,8 +79,8 @@ public final class LinodeApiClient implements LinodeApi {
      * @throws IllegalArgumentException if {@code okHttpClient} is null
      */
     public LinodeApiClient(final String token, final OkHttpClient okHttpClient) {
-        PreConditions.notEmptyString(token, "token cannot be null or empty");
-        PreConditions.notNull(okHttpClient, "okHttpClient cannot be null");
+        Assert.notEmptyString(token, "token cannot be null or empty");
+        Assert.notNull(okHttpClient, "okHttpClient cannot be null");
 
         this.token = token;
         this.okHttpClient = okHttpClient;
@@ -87,7 +88,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public Page<Linode> getLinodes(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
         val url = LINODE_INSTANCES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
@@ -105,13 +106,13 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void createLinode(final LinodeCreateRequest request) {
-        PreConditions.notNull(request, "LinodeCreateRequest cannot be null");
+        Assert.notNull(request, "LinodeCreateRequest cannot be null");
 
         val sshKeys = request.getAuthKeys();
         AuthorizedKeysUtils.validate(sshKeys);
 
-        PreConditions.notEmptyString(request.getRegion(), "region is a required field for creating linode. It cannot be null or empty");
-        PreConditions.notEmptyString(request.getType(), "type is a required field for creating linode. It cannot be null or empty");
+        Assert.notEmptyString(request.getRegion(), "region is a required field for creating linode. It cannot be null or empty");
+        Assert.notEmptyString(request.getType(), "type is a required field for creating linode. It cannot be null or empty");
 
         //We're making a POST request. No need for paging params
         val url = LINODE_INSTANCES.replace("?page={page}", Strings.EMPTY);
@@ -148,7 +149,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void bootLinode(final int linodeId, final Integer configId) {
-        PreConditions.notNull(configId, "configId cannot be null");
+        Assert.notNull(configId, "configId cannot be null");
 
         val url = LINODE_BOOT.replace("{linode_id}", String.valueOf(linodeId));
         val singletonMap = ImmutableMap.<String,String>of("config_id", String.valueOf(configId));
@@ -164,7 +165,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void cloneLinode(final int linodeId, final LinodeCloneRequest request) {
-        PreConditions.notNull(request, "request cannot be null");
+        Assert.notNull(request, "request cannot be null");
 
         val url = LINODE_CLONE.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethpd = HttpMethod.POST;
@@ -221,7 +222,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void rebootLinode(final int linodeId, final Integer configId) {
-        PreConditions.notNull(configId, "configId cannot be null");
+        Assert.notNull(configId, "configId cannot be null");
 
         val url = LINODE_REBOOT.replace("{linode_id}", String.valueOf(linodeId));
         val singletonMap = ImmutableMap.<String,String>of("config_id", String.valueOf(configId));
@@ -237,8 +238,8 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public LinodeRebuildResponse rebuildLinode(final int linodeId, final LinodeRebuildRequest request) {
-        PreConditions.notNull(request, "request cannot be null");
-        PreConditions.notEmptyString(request.getRootPassword(), "rootPassword is a required param. It cannot be null or empty");
+        Assert.notNull(request, "request cannot be null");
+        Assert.notEmptyString(request.getRootPassword(), "rootPassword is a required param. It cannot be null or empty");
 
         val url = LINODE_REBUILD.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethod = HttpMethod.POST;
@@ -253,7 +254,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void rescueLinode(final int linodeId, final Devices devices) {
-        PreConditions.notNull(devices, "devices cannot be null");
+        Assert.notNull(devices, "devices cannot be null");
 
         val url = LINODE_RESCUE.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethod = HttpMethod.POST;
@@ -268,7 +269,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void resizeLinode(final int linodeId, final String linodeType) {
-        PreConditions.notEmptyString(linodeType, "linodeType cannot be null");
+        Assert.notEmptyString(linodeType, "linodeType cannot be null");
 
         val url = LINODE_RESIZE.replace("{linode_id}", String.valueOf(linodeId));
         val httpMethod = HttpMethod.POST;
@@ -347,7 +348,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public Page<Image> getImages(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
         val url = IMAGES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
@@ -375,7 +376,7 @@ public final class LinodeApiClient implements LinodeApi {
     // ~~~~~~~~~~~~~~~~~~~~~
     @Override
     public Page<AccountEvent> getAccountEvents(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
         val url = ACCOUNTS_EVENTS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
@@ -422,7 +423,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public Page<Invoice> getInvoices(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
         val url = INVOICES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
@@ -448,7 +449,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public Page<AccountNotification> getAccountNotifications(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
         val url = NOTIFICATIONS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
@@ -458,7 +459,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public Page<Region> getRegions(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
         val url = REGIONS.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
@@ -468,7 +469,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public Region getRegionById(final String regionId) {
-        PreConditions.notEmptyString(regionId, "regionId cannot be null");
+        Assert.notEmptyString(regionId, "regionId cannot be null");
 
         val url = REGION_BY_ID.replace("{region_id}", regionId);
         val httpMethod = HttpMethod.GET;
@@ -478,7 +479,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public Page<BlockStorageVolume> getVolumes(final int pageNo) {
-        PreConditions.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
 
         val url = VOLUMES.replace("{page}", String.valueOf(pageNo));
         val httpMethod = HttpMethod.GET;
@@ -496,9 +497,9 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void createVolume(final BlockStorageVolumeCreateRequest request) {
-        PreConditions.notNull(request, "BlockStorageVolumeCreateRequest request cannot be null");
-        PreConditions.notEmptyString(request.getLabel(), "label cannot be null or empty");
-        PreConditions.notEmptyString(request.getRegion(), "region cannot be null or empty");
+        Assert.notNull(request, "BlockStorageVolumeCreateRequest request cannot be null");
+        Assert.notEmptyString(request.getLabel(), "label cannot be null or empty");
+        Assert.notEmptyString(request.getRegion(), "region cannot be null or empty");
 
         val url = VOLUMES.replace("?page={page}", Strings.EMPTY);
         val httpMethod = HttpMethod.POST;
@@ -521,8 +522,8 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void attachVolumeToLinode(final int volumeId, final BlockStorageVolumeAttachRequest request) {
-        PreConditions.notNull(request, "BlockStorageVolumeAttachRequest request cannot be null");
-        PreConditions.notNull(request.getLinodeId(),"linodeId cannot be null");
+        Assert.notNull(request, "BlockStorageVolumeAttachRequest request cannot be null");
+        Assert.notNull(request.getLinodeId(),"linodeId cannot be null");
 
         val url = VOLUME_BY_ID_ATTACH.replace("{volume_id}", String.valueOf(volumeId));
         val httpMethod = HttpMethod.POST;
@@ -537,7 +538,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public void cloneVolume(final int volumeId, final String label) {
-        PreConditions.notEmptyString(label, "label cannot be null or empty");
+        Assert.notEmptyString(label, "label cannot be null or empty");
 
         val url = VOLUME_BY_ID_CLONE.replace("{volume_id}", String.valueOf(volumeId));
         val httpMethod = HttpMethod.POST;
@@ -565,6 +566,31 @@ public final class LinodeApiClient implements LinodeApi {
         executeReq(url, httpMethod, Void.TYPE, reqBody);
     }
 
+    @Override
+    public Page<AuthorizedApp> getAuthorizedApps(final int pageNo) {
+        val url = AUTHORIZED_APPS.replace("{page}", String.valueOf(pageNo));
+        val httpMethod = HttpMethod.GET;
+
+        return executeReq(url, httpMethod, AuthorizedAppsPageImpl.class, null);
+    }
+
+    @Override
+    public AuthorizedApp getAuthorizedAppById(final int authorizedAppId) {
+        val url = AUTHORIZED_APP_BY_ID.replace("{app_id}", String.valueOf(authorizedAppId));
+        val httpMethod = HttpMethod.GET;
+
+        return executeReq(url, HttpMethod.GET, AuthorizedApp.class, null);
+    }
+
+    @Override
+    public void deleteAuthorizedApp(final int authorizedAppId) {
+        val url = AUTHORIZED_APP_BY_ID.replace("{app_id}", String.valueOf(authorizedAppId));
+        val httpMethod = HttpMethod.DELETE;
+
+        executeReq(url, httpMethod, Void.TYPE, null);
+    }
+
+
     private <T> T executeReq(
             final String url,
             final HttpMethod httpMethod,
@@ -572,12 +598,17 @@ public final class LinodeApiClient implements LinodeApi {
             final RequestBody requestBody
     )
     {
-        PreConditions.notEmptyString(url, "url cannot be null or empty");
-        PreConditions.notNull(httpMethod, "httpMethod cannot be null");
-        PreConditions.notNull(returnType, "returnType cannot be null or empty");
+        Assert.notEmptyString(url, "url cannot be null or empty");
+        Assert.notNull(httpMethod, "httpMethod cannot be null");
+        Assert.notNull(returnType, "returnType cannot be null or empty");
 
         if (httpMethod.isPost() || httpMethod.isPut()) {
-            PreConditions.notNull(requestBody, "requestBody cannot be null");
+            Assert.notNull(requestBody, "requestBody cannot be null for POST and PUT request");
+            Assert.isTrue(returnType.isAssignableFrom(Void.TYPE), "returnType must be of type Void");
+        }
+
+        if(httpMethod.isGet()){
+            Assert.notNull(returnType, "There must be a return type for GET requests"); //Otherwise, what class are you going to map your JSON to?
         }
 
         log.debug("Request details : Http Method : {} ; URL : {}, Req Body : {}", httpMethod, url, requestBody);
@@ -641,4 +672,11 @@ public final class LinodeApiClient implements LinodeApi {
         return statusCode == HttpStatusCode.OK.getCode();
     }
 
+//    public static void main(String[] args) {
+//        val api = new LinodeApiClient("8065b87fb31a52083273bd0015ac6b5ff06b475b7d7c366bc466527156a2078c");
+//        for (AuthorizedApp authorizedApps : api.getAuthorizedApps(1).getContent()) {
+//            System.out.println(authorizedApps);
+//        }
+////        System.out.println(api.getContacts(1));
+//    }
 }
