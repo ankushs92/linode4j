@@ -16,6 +16,7 @@ import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
 import in.ankushs.linode4j.model.profile.AuthorizedApp;
 import in.ankushs.linode4j.model.profile.AuthorizedAppsPageImpl;
+import in.ankushs.linode4j.model.profile.Profile;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.region.RegionPageImpl;
 import in.ankushs.linode4j.model.volume.BlockStorageVolume;
@@ -590,6 +591,14 @@ public final class LinodeApiClient implements LinodeApi {
         executeReq(url, httpMethod, Void.TYPE, null);
     }
 
+    @Override
+    public Profile getProfile() {
+        val url = PROFILE;
+        val httpMethod = HttpMethod.GET;
+
+        return executeReq(url, httpMethod, Profile.class, null);
+    }
+
 
     private <T> T executeReq(
             final String url,
@@ -609,6 +618,8 @@ public final class LinodeApiClient implements LinodeApi {
 
         if(httpMethod.isGet()){
             Assert.notNull(returnType, "There must be a return type for GET requests");
+            Assert.isTrue(!Objects.equals(returnType, Void.TYPE), "Return type for GET request cannot be Void");
+
         }
 
         log.debug("Request details : Http Method : {} ; URL : {}, Req Body : {}", httpMethod, url, requestBody);
@@ -672,4 +683,10 @@ public final class LinodeApiClient implements LinodeApi {
         return statusCode == HttpStatusCode.OK.getCode();
     }
 
+//    public static void main(String[] args) {
+//        val token = "8065b87fb31a52083273bd0015ac6b5ff06b475b7d7c366bc466527156a2078c";
+//        val api = new LinodeApiClient(token);
+//
+//        System.out.println(api.getProfile());
+//    }
 }

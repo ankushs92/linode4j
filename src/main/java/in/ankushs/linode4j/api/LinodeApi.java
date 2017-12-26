@@ -16,6 +16,7 @@ import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
 import in.ankushs.linode4j.model.profile.AuthorizedApp;
+import in.ankushs.linode4j.model.profile.Profile;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.volume.BlockStorageVolume;
 import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeAttachRequest;
@@ -126,5 +127,8 @@ public interface LinodeApi {
     AuthorizedApp getAuthorizedAppById(int authorizedAppId);
 
     void deleteAuthorizedApp(int authorizedAppId);
+
+    //Profile
+    Profile getProfile();
 }
 

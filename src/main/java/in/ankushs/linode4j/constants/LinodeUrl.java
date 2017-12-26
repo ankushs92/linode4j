@@ -67,5 +67,7 @@ public final class LinodeUrl {
     public static final String AUTHORIZED_APPS = BASE_URL_V4 + "/profile/apps?page={page}";
     public static final String AUTHORIZED_APP_BY_ID = BASE_URL_V4 + "/profile/apps/{app_id}";
 
+    //Profile
+    public static final String PROFILE = BASE_URL_V4 + "/profile";
 
 }
