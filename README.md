@@ -22,7 +22,7 @@ compile('in.ankushs:linode4j:1.2')
 ```
 
 
-# Node #
+# Note #
 Linode's own V4 API is currently in beta. I will try my very best to keep linode4j up to date. Still, I would suggest you work with Linode's V3 for the time being, till the time V4 is promoted to alpha or production ready.
 
 # Get Token #
