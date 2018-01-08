@@ -302,6 +302,7 @@ annotate the enum with this class
     * endpoints for Profile, Authorized Apps, Token
     * Minor code cleaning
     * Added some enums, with their JacksonDeserializer and Spock specs
+    
 * v1.1
     
     * endpoints for Volume
