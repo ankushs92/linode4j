@@ -2,7 +2,6 @@ package in.ankushs.linode4j.model.profile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.model.enums.LishAuthMethod;
 import lombok.Data;
 

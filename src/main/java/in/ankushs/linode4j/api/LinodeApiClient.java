@@ -14,18 +14,16 @@ import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
-import in.ankushs.linode4j.model.profile.AuthorizedApp;
-import in.ankushs.linode4j.model.profile.AuthorizedAppsPageImpl;
-import in.ankushs.linode4j.model.profile.Profile;
+import in.ankushs.linode4j.model.profile.*;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.region.RegionPageImpl;
 import in.ankushs.linode4j.model.volume.BlockStorageVolume;
 import in.ankushs.linode4j.model.volume.BlockStorageVolumePageImpl;
 import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeAttachRequest;
 import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeCreateRequest;
+import in.ankushs.linode4j.util.Assert;
 import in.ankushs.linode4j.util.AuthorizedKeysUtils;
 import in.ankushs.linode4j.util.Json;
-import in.ankushs.linode4j.util.Assert;
 import in.ankushs.linode4j.util.Strings;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +38,7 @@ import java.util.Objects;
 import static in.ankushs.linode4j.constants.LinodeUrl.*;
 
 /**
- * Class to interact with Linode's REST API.
- *
+ * Class to interact with Linode's REST API
  * Created by ankushsharma on 29/11/17.
  */
 @Data
@@ -200,7 +197,7 @@ public final class LinodeApiClient implements LinodeApi {
         Assert.notNull(configId, "configId cannot be null");
 
         val url = LINODE_REBOOT.replace("{linode_id}", String.valueOf(linodeId));
-        val singletonMap = ImmutableMap.<String,String>of("config_id", String.valueOf(configId));
+        val singletonMap = ImmutableMap.of("config_id", String.valueOf(configId));
         val jsonReq = Json.toJson(singletonMap);
         log.trace("JSON request {}", jsonReq);
         val reqBody = RequestBody.create(JSON, jsonReq);
@@ -461,7 +458,7 @@ public final class LinodeApiClient implements LinodeApi {
         Assert.notEmptyString(label, "label cannot be null or empty");
 
         val url = VOLUME_BY_ID_CLONE.replace("{volume_id}", String.valueOf(volumeId));
-        val singletonMap = ImmutableMap.<String,String>of("label", label);
+        val singletonMap = ImmutableMap.of("label", label);
         val jsonReq = Json.toJson(singletonMap);
         log.trace("JSON request {}", jsonReq);
         val reqBody = RequestBody.create(JSON, jsonReq);
@@ -504,6 +501,38 @@ public final class LinodeApiClient implements LinodeApi {
     @Override
     public Profile getProfile() {
         return executeReq(PROFILE, HttpMethod.GET, Profile.class, null);
+    }
+
+    @Override
+    public ProfileGrants getProfileGrants() {
+        return executeReq(PROFILE_GRANTS, HttpMethod.GET, ProfileGrants.class, null);
+    }
+
+    @Override
+    public void changeProfilePassword(String password) {
+        Assert.notEmptyString(password, "password cannot be null or empty");
+
+        val singletonMap = ImmutableMap.of("password", password);
+        val jsonReq = Json.toJson(singletonMap);
+        log.trace("JSON request {}", jsonReq);
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(PROFILE_PASSWORD, HttpMethod.POST, Void.TYPE, reqBody);
+    }
+
+    @Override
+    public Page<ProfileToken> getProfileTokens(final int pageNo) {
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        val url = PROFILE_TOKENS.replace("{page}", String.valueOf(pageNo));
+
+        return executeReq(url, HttpMethod.GET, ProfileTokenPageImpl.class, null);
+    }
+
+    @Override
+    public ProfileToken getProfileTokenById(final int tokenId) {
+        val url = PROFILE_TOKEN_BY_ID.replace("{tokenId}", String.valueOf(tokenId));
+
+        return executeReq(url, HttpMethod.GET, ProfileToken.class, null);
     }
 
 
@@ -587,5 +616,23 @@ public final class LinodeApiClient implements LinodeApi {
     }
     private static boolean okResponse(final int statusCode) {
         return statusCode == HttpStatusCode.OK.getCode();
+    }
+
+    public static void main(String[] args) {
+        val token = "078d8a68c1012d139f943a6e42190d0e1d24681e27897e7922c9b751673c028b";
+
+        val api = new LinodeApiClient(token);
+
+//
+        System.out.println(api.getProfileTokens(1));
+        System.out.println(api.getProfileTokenById(118912));
+//        System.out.println(api.getProfile());
+        val singletonMap = ImmutableMap.of("password", "ankush");
+
+        val jsonReq = Json.toJson(singletonMap);
+
+        System.out.println(jsonReq);
+
+
     }
 }

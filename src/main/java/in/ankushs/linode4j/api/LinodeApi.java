@@ -17,6 +17,8 @@ import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
 import in.ankushs.linode4j.model.profile.AuthorizedApp;
 import in.ankushs.linode4j.model.profile.Profile;
+import in.ankushs.linode4j.model.profile.ProfileGrants;
+import in.ankushs.linode4j.model.profile.ProfileToken;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.volume.BlockStorageVolume;
 import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeAttachRequest;
@@ -130,5 +132,13 @@ public interface LinodeApi {
 
     //Profile
     Profile getProfile();
+
+    ProfileGrants getProfileGrants();
+
+    void changeProfilePassword(String password);
+
+    Page<ProfileToken> getProfileTokens(int pageNo);
+
+    ProfileToken getProfileTokenById(int tokenId);
 }
 

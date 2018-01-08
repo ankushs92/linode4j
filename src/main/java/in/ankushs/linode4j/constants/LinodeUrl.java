@@ -69,5 +69,11 @@ public final class LinodeUrl {
 
     //Profile
     public static final String PROFILE = BASE_URL_V4 + "/profile";
+    public static final String PROFILE_GRANTS = BASE_URL_V4 + "/profile/grants";
+    public static final String PROFILE_PASSWORD = BASE_URL_V4 + "/profile/password";
+
+    //Token
+    public static final String PROFILE_TOKENS = BASE_URL_V4 + "/profile/tokens?page={page}";
+    public static final String PROFILE_TOKEN_BY_ID = BASE_URL_V4 + "/profile/tokens/{tokenId}";
 
 }

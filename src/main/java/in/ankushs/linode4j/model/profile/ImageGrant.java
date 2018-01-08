@@ -7,11 +7,11 @@ import in.ankushs.linode4j.model.interfaces.IndividualGrant;
 import lombok.Data;
 
 /**
- * Created by ankushsharma on 24/12/17.
+ * Created by ankushsharma on 01/01/18.
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class StackscriptGrant implements IndividualGrant {
+public final class ImageGrant implements IndividualGrant {
 
     @JsonProperty("id")
     private final Integer id;
@@ -22,3 +22,4 @@ public final class StackscriptGrant implements IndividualGrant {
     @JsonProperty("permissions")
     private final GrantPermission permissions;
 }
+

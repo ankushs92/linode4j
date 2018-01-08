@@ -28,16 +28,18 @@ public final class GlobalGrants {
     private final Boolean addStackscripts;
 
     @JsonProperty("longview_subscription")
-    private final Boolean addLongviewSubscriptions;
+    private final Boolean longviewSubscriptions;
 
     @JsonProperty("add_images")
     private final Boolean addImages;
+
+    @JsonProperty("add_volumes")
+    private final Boolean addVolumes;
 
     @JsonProperty("cancel_account")
     private final Boolean cancelAccount;
 
     @JsonProperty("account_access")
     private final GrantPermission accountAccess;
-
 
 }

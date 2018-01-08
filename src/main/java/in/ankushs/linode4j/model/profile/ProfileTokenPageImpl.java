@@ -1,4 +1,4 @@
-package in.ankushs.linode4j.model.managed;
+package in.ankushs.linode4j.model.profile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,11 +8,11 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * Created by ankushsharma on 21/12/17.
+ * Created by ankushsharma on 08/01/18.
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class PageContactImpl implements Page<Contact> {
+public final class ProfileTokenPageImpl implements Page<ProfileToken> {
 
     @JsonProperty("pages")
     private final Integer totalPages;
@@ -24,6 +24,6 @@ public final class PageContactImpl implements Page<Contact> {
     private final Integer totalResults;
 
     @JsonProperty("data")
-    private final Set<Contact> content;
+    private final Set<ProfileToken> content;
 
 }

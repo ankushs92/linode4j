@@ -3,7 +3,7 @@
 ![travis!](https://travis-ci.org/ankushs92/linode4j.svg?branch=master "travis")
 
 linode4j is a Java library for [Linode's V4 REST API](https://developers.linode.com/v4). 
-
+ 
 # Links
 
 Maven : 
@@ -20,6 +20,10 @@ Gradle :
 ```groovy
 compile('in.ankushs:linode4j:1.1')
 ```
+
+
+# Node #
+Linode's own V4 API is currently in beta. I will try my very best to keep up to date with their progress. Still, use it at your own risk!
 
 # Get Token #
 
@@ -222,8 +226,8 @@ LinodeType getLinodeTypeById(String linodeTypeId);
 3. Kernel
 
 ```java
-Page<LinodeType> getLinodeTypes(int pageNo);
-LinodeType getLinodeTypeById(String linodeTypeId);
+Page<Kernel> getKernels(int pageNo);
+Kernel getKernelById(String id);
 ```
 
 4. Image

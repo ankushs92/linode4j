@@ -55,5 +55,4 @@ public final class AccountEvent {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private final LocalDateTime updated;
 
-
 }

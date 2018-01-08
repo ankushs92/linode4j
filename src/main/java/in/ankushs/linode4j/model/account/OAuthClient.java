@@ -27,5 +27,4 @@ public final class OAuthClient {
     @JsonProperty("status")
     private final OAuthClientStatus status;
 
-
 }
