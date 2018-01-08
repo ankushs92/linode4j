@@ -10,7 +10,7 @@ buildscript {
 }
 final String PHASE = "TEST"
 group 'in.ankushs'
-version '1.1'
+version '1.2'
 
 apply plugin: 'groovy'
 apply plugin: 'java'

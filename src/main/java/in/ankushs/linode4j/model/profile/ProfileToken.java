@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
 import in.ankushs.linode4j.model.account.OAuthClient;
-import in.ankushs.linode4j.model.enums.OAuthScope;
 import in.ankushs.linode4j.model.enums.TokenType;
 import lombok.Data;
 

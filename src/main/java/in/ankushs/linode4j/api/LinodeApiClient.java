@@ -617,22 +617,4 @@ public final class LinodeApiClient implements LinodeApi {
     private static boolean okResponse(final int statusCode) {
         return statusCode == HttpStatusCode.OK.getCode();
     }
-
-    public static void main(String[] args) {
-        val token = "078d8a68c1012d139f943a6e42190d0e1d24681e27897e7922c9b751673c028b";
-
-        val api = new LinodeApiClient(token);
-
-//
-        System.out.println(api.getProfileTokens(1));
-        System.out.println(api.getProfileTokenById(118912));
-//        System.out.println(api.getProfile());
-        val singletonMap = ImmutableMap.of("password", "ankush");
-
-        val jsonReq = Json.toJson(singletonMap);
-
-        System.out.println(jsonReq);
-
-
-    }
 }

@@ -12,18 +12,18 @@ Maven :
 <dependency>
   <groupId>in.ankushs</groupId>
   <artifactId>linode4j</artifactId>
-  <version>1.1</version>
+  <version>1.2</version>
 </dependency>
 ```
 
 Gradle :
 ```groovy
-compile('in.ankushs:linode4j:1.1')
+compile('in.ankushs:linode4j:1.2')
 ```
 
 
 # Node #
-Linode's own V4 API is currently in beta. I will try my very best to keep up to date with their progress. Still, use it at your own risk!
+Linode's own V4 API is currently in beta. I will try my very best to keep linode4j up to date. Still, I would suggest you work with Linode's V3 for the time being, till the time V4 is promoted to alpha or production ready.
 
 # Get Token #
 
@@ -268,6 +268,20 @@ void deleteVolume(int volumeId);
 void attachVolumeToLinode(int volumeId, BlockStorageVolumeAttachRequest request);
 void cloneVolume(int volumeId, String label);
 void detachVolume(int volumeId);
+```
+
+8. Profile, Grants, Authorized Apps, Tokens 
+```java
+
+Page<AuthorizedApp> getAuthorizedApps(int pageNo);
+AuthorizedApp getAuthorizedAppById(int authorizedAppId);
+void deleteAuthorizedApp(int authorizedAppId);
+Profile getProfile();
+ProfileGrants getProfileGrants();
+void changeProfilePassword(String password);
+Page<ProfileToken> getProfileTokens(int pageNo);
+ProfileToken getProfileTokenById(int tokenId);
+
 ```
 
 # Contribute #

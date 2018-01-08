@@ -2,7 +2,6 @@ package in.ankushs.linode4j.jackson
 
 import groovy.json.JsonBuilder
 import in.ankushs.BaseSpec
-import in.ankushs.linode4j.model.enums.Plan
 import in.ankushs.linode4j.model.enums.TokenType
 
 /**
