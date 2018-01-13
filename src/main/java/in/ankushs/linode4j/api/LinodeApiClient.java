@@ -535,6 +535,42 @@ public final class LinodeApiClient implements LinodeApi {
         return executeReq(url, HttpMethod.GET, ProfileToken.class, null);
     }
 
+    @Override
+    public void disableTwoFactorAuthentication() {
+        val emptyMap = ImmutableMap.of();
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(TFA_DISABLE, HttpMethod.POST, Void.TYPE, reqBody);
+    }
+
+    @Override
+    public Page<IpWhitelist> getIpWhitelists(final int pageNo) {
+        Assert.isPositive(pageNo, "pageNo has to be greater than 0. If unsure, start with pageNo = 1");
+        val url = IP_WHITELIST.replace("{page}", String.valueOf(pageNo));
+
+        return executeReq(url, HttpMethod.GET, IpWhitelistPageImpl.class, null);
+    }
+
+    @Override
+    public IpWhitelist getIpWhitelistById(final int ipWhitelistId) {
+        val url = IP_WHITELIST_BY_ID.replace("{ip_whitelist_id}", String.valueOf(ipWhitelistId));
+
+        return executeReq(url, HttpMethod.GET, IpWhitelist.class, null);
+    }
+
+    @Override
+    public void removeIpWhitelist(final int ipWhitelistId) {
+        val url = IP_WHITELIST_BY_ID.replace("{ip_whitelist_id}", String.valueOf(ipWhitelistId));
+
+        val emptyMap = ImmutableMap.of();
+        val jsonReq = Json.toJson(emptyMap);
+        log.trace("JSON request {}", jsonReq);
+        val reqBody = RequestBody.create(JSON, jsonReq);
+
+        executeReq(url, HttpMethod.DELETE, Void.TYPE, reqBody);
+    }
 
     private <T> T executeReq(
             final String url,
@@ -559,7 +595,7 @@ public final class LinodeApiClient implements LinodeApi {
 
         log.debug("Request details : Http Method : {} ; URL : {}, Req Body : {}", httpMethod, url, requestBody);
 
-        //default method is GET
+        //Default method is GET
         val requestBuilder = new Request
                                     .Builder()
                                         .addHeader("Connection", "Keep-Alive")
@@ -617,4 +653,5 @@ public final class LinodeApiClient implements LinodeApi {
     private static boolean okResponse(final int statusCode) {
         return statusCode == HttpStatusCode.OK.getCode();
     }
+
 }

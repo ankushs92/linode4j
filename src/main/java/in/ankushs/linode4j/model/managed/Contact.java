@@ -11,6 +11,9 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Contact {
 
+    @JsonProperty("id")
+    private final Integer id;
+
     @JsonProperty("name")
     private final String name;
 

@@ -15,10 +15,7 @@ import in.ankushs.linode4j.model.linode.request.LinodeCloneRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeCreateRequest;
 import in.ankushs.linode4j.model.linode.request.LinodeRebuildRequest;
 import in.ankushs.linode4j.model.linode.response.LinodeRebuildResponse;
-import in.ankushs.linode4j.model.profile.AuthorizedApp;
-import in.ankushs.linode4j.model.profile.Profile;
-import in.ankushs.linode4j.model.profile.ProfileGrants;
-import in.ankushs.linode4j.model.profile.ProfileToken;
+import in.ankushs.linode4j.model.profile.*;
 import in.ankushs.linode4j.model.region.Region;
 import in.ankushs.linode4j.model.volume.BlockStorageVolume;
 import in.ankushs.linode4j.model.volume.request.BlockStorageVolumeAttachRequest;
@@ -140,5 +137,16 @@ public interface LinodeApi {
     Page<ProfileToken> getProfileTokens(int pageNo);
 
     ProfileToken getProfileTokenById(int tokenId);
+
+    //Two-Factor Authentication
+    void disableTwoFactorAuthentication();
+
+
+    //Ip Whitelist
+    Page<IpWhitelist> getIpWhitelists(int pageNo);
+
+    IpWhitelist getIpWhitelistById(int ipWhitelistId);
+
+    void removeIpWhitelist(int ipWhitelistId);
 }
 

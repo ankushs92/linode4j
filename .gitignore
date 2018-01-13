@@ -91,4 +91,3 @@ local.properties
 # PDT-specific
 .buildpath
 gradle/
-!/src/main/java/in/ankushs/linode4j/model/profile/StackscriptGrant.java

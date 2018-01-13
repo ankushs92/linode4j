@@ -72,8 +72,20 @@ public final class LinodeUrl {
     public static final String PROFILE_GRANTS = BASE_URL_V4 + "/profile/grants";
     public static final String PROFILE_PASSWORD = BASE_URL_V4 + "/profile/password";
 
+    //Ip Whitelist
+    public static final String IP_WHITELIST = BASE_URL_V4 + "/profile/whitelist?page={page}";
+    public static final String IP_WHITELIST_BY_ID = BASE_URL_V4 + "/profile/whitelist/{ip_whitelist_id}";
+
+
     //Token
     public static final String PROFILE_TOKENS = BASE_URL_V4 + "/profile/tokens?page={page}";
     public static final String PROFILE_TOKEN_BY_ID = BASE_URL_V4 + "/profile/tokens/{tokenId}";
+
+    //Two-Factor Authentication
+    public static final String TFA_DISABLE = BASE_URL_V4 + "/profile/tfa-disable";
+
+    //Managed
+    public static final String CONTACTS = BASE_URL_V4 + "/managed/contacts";
+
 
 }

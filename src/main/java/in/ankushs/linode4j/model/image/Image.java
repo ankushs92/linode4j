@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import in.ankushs.linode4j.jackson.LocalDateTimeDeserializer;
+import in.ankushs.linode4j.model.enums.ImageType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -24,13 +25,6 @@ public final class Image {
     @JsonProperty("description")
     private final String description;
 
-    //NOTE : This should be an enum. Linode's documentation is missing these enum types.
-    @JsonProperty("status")
-    private final String status;
-
-    @JsonProperty("filesystem")
-    private final String filesystem;
-
     @JsonProperty("created")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private final LocalDateTime created;
@@ -39,15 +33,16 @@ public final class Image {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private final LocalDateTime updated;
 
-    //NOTE : This should be an enum. Linode's documentation is missing these enum types.
     @JsonProperty("type")
-    private final String type;
+    private final ImageType type;
 
     @JsonProperty("is_public")
     private final Boolean isPublic;
 
-    @JsonProperty("last_used")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private final LocalDateTime lastUsed;
+    @JsonProperty("created_by")
+    private final String createdBy;
+
+    @JsonProperty("size")
+    private final int size;
 
 }
