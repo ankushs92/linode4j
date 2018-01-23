@@ -71,8 +71,9 @@ public final class LinodeApiClient implements LinodeApi {
     /**
      * Create an instance of LinodeApiClient. Get the OAuth Token from your Linode account.
      * Create an instance of OkHttpClient yourself by following <a href="https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html">these</a> guidelines :
+     *
      * @param token oauthToken that you generate in your Linode account
-     * @param token okHttpClient instance of OkHttp3Client. A good practice would be to pass a static global instance
+     * @param okHttpClient okHttpClient instance of OkHttp3Client. A good practice would be to pass a static global instance
      * @throws IllegalArgumentException if {@code token} is empty or null
      * @throws IllegalArgumentException if {@code okHttpClient} is null
      */
@@ -140,7 +141,7 @@ public final class LinodeApiClient implements LinodeApi {
     public void bootLinode(final int linodeId, final Integer configId) {
         Assert.notNull(configId, "configId cannot be null");
         val url = LINODE_BOOT.replace("{linode_id}", String.valueOf(linodeId));
-        val singletonMap = ImmutableMap.<String,String>of("config_id", String.valueOf(configId));
+        val singletonMap = ImmutableMap.of("config_id", String.valueOf(configId));
         val jsonReq = Json.toJson(singletonMap);
         log.trace("JSON request {}", jsonReq);
         val reqBody = RequestBody.create(JSON, jsonReq);
@@ -530,7 +531,7 @@ public final class LinodeApiClient implements LinodeApi {
 
     @Override
     public ProfileToken getProfileTokenById(final int tokenId) {
-        val url = PROFILE_TOKEN_BY_ID.replace("{tokenId}", String.valueOf(tokenId));
+        val url = PROFILE_TOKEN_BY_ID.replace("{token_id}", String.valueOf(tokenId));
 
         return executeReq(url, HttpMethod.GET, ProfileToken.class, null);
     }
@@ -583,14 +584,13 @@ public final class LinodeApiClient implements LinodeApi {
         Assert.notNull(httpMethod, "httpMethod cannot be null");
         Assert.notNull(returnType, "returnType cannot be null or empty");
 
-        if (httpMethod.isPost() || httpMethod.isPut()) {
-            Assert.notNull(requestBody, "requestBody cannot be null for POST and PUT request");
-            Assert.isTrue(Objects.equals(returnType, Void.TYPE), "returnType must be of type Void for POST and PUT request");
-        }
 
-        if(httpMethod.isGet()){
-            Assert.notNull(returnType, "There must be a return type for GET requests");
+        if(httpMethod.isGet()) {
             Assert.isTrue(!Objects.equals(returnType, Void.TYPE), "Return type for GET request cannot be Void");
+        }
+        else{
+            //For POST, PUT and DELETE request
+            Assert.notNull(requestBody, "requestBody cannot be null for POST, PUT and DELETE requests. At the very least, an instance of RequestBody with an empty JSON is expected");
         }
 
         log.debug("Request details : Http Method : {} ; URL : {}, Req Body : {}", httpMethod, url, requestBody);
@@ -621,7 +621,7 @@ public final class LinodeApiClient implements LinodeApi {
         val request = requestBuilder.build();
 
         T result = null;
-        try (val response = okHttpClient.newCall(request).execute()) {
+        try(val response = okHttpClient.newCall(request).execute()) {
             val respBody = response.body();
 
             log.trace("Headers returned {}", response.headers());
@@ -653,5 +653,4 @@ public final class LinodeApiClient implements LinodeApi {
     private static boolean okResponse(final int statusCode) {
         return statusCode == HttpStatusCode.OK.getCode();
     }
-
 }

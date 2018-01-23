@@ -79,7 +79,7 @@ public final class LinodeUrl {
 
     //Token
     public static final String PROFILE_TOKENS = BASE_URL_V4 + "/profile/tokens?page={page}";
-    public static final String PROFILE_TOKEN_BY_ID = BASE_URL_V4 + "/profile/tokens/{tokenId}";
+    public static final String PROFILE_TOKEN_BY_ID = BASE_URL_V4 + "/profile/tokens/{token_id}";
 
     //Two-Factor Authentication
     public static final String TFA_DISABLE = BASE_URL_V4 + "/profile/tfa-disable";

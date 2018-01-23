@@ -17,11 +17,11 @@ public final class AuthorizedKeysUtils {
     //Declared protected so that it can be used in test classes in /src/main/test
     protected static final Set<String> ACCEPTABLE_TYPES = ImmutableSet.of("ssh-dss", "ssh-rsa", "ecdsa-sha2-nistp", "ssh-ed25519");
 
-    public static void validate(final Set<String> keys){
-        if(Objects.nonNull(keys) && !keys.isEmpty()){
-            for(val key : keys){
-                for(val acceptableType : ACCEPTABLE_TYPES){
-                    if(!key.startsWith(acceptableType)){
+    public static void validate(final Set<String> keys) {
+        if(Objects.nonNull(keys) && !keys.isEmpty()) {
+            for(val key : keys) {
+                for(val acceptableType : ACCEPTABLE_TYPES) {
+                    if(!key.startsWith(acceptableType)) {
                         throw new LinodeException("Invalid Key. Key must be from one of the types : " + ACCEPTABLE_TYPES);
                     }
                 }

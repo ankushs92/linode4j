@@ -28,8 +28,8 @@ public final class Json {
         try {
             return objectMapper.readValue(json,clazz);
         }
-        catch (final IOException e) {
-            log.error("", e);
+        catch (final IOException ex) {
+            log.error("", ex);
             return null;
         }
     }
@@ -40,8 +40,8 @@ public final class Json {
         try {
             return objectMapper.writer().writeValueAsString(object);
         }
-        catch (final JsonProcessingException e) {
-            log.error("", e);
+        catch (final JsonProcessingException ex) {
+            log.error("", ex);
             return Strings.EMPTY;
         }
     }

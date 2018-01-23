@@ -25,9 +25,4 @@ public enum HttpMethod {
     public boolean isPut(){
         return this == PUT;
     }
-
-    public boolean isDelete(){
-        return this == DELETE;
-    }
-
 }
